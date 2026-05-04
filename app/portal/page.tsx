@@ -103,4 +103,44 @@ export default function CustomerPortal() {
           <div className="bg-[#0A2E1D] p-6 rounded border-2 border-[#D4AF37]">
             <p className="text-gray-400 text-sm font-montserrat uppercase font-bold">NEXT M120 DUE</p>
             <p className="text-3xl font-black text-white uppercase">{daysLeft} DAYS</p>
-            <p
+            <p className="text-xs text-gray-500 font-montserrat font-medium">{nextDue.toLocaleDateString('en-GB')}</p>
+          </div>
+        </div>
+
+        <div className="bg-[#0A2E1D] p-6 rounded border-2 border-[#1B4332] mb-6">
+          <h2 className="text-2xl font-black text-[#D4AF37] mb-4 uppercase tracking-tight">ZAP SAUCE ORIGINAL RECIPE</h2>
+          <div className="space-y-2 text-gray-300 font-montserrat text-sm font-medium">
+            <p><strong className="text-white">1.</strong> Raw honey: 1 tablespoon</p>
+            <p><strong className="text-white">2.</strong> Organic turmeric: 1 teaspoon</p>
+            <p><strong className="text-white">3.</strong> Black pepper: Pinch</p>
+            <p><strong className="text-white">4.</strong> Warm water: 200ml</p>
+            <p className="text-[#D4AF37] pt-2 font-bold">Mix. Drink every morning. Heal in 30 days.</p>
+          </div>
+        </div>
+
+        <div className="bg-[#0A2E1D] p-6 rounded border-2 border-[#1B4332] mb-6">
+          <h2 className="text-2xl font-black text-[#D4AF37] mb-4 uppercase tracking-tight">PAYMENT HISTORY</h2>
+          {orders.map(o => (
+            <div key={o.id} className="border-t border-[#1B4332] py-3 flex justify-between">
+              <div>
+                <p className="text-white font-montserrat text-sm font-semibold">{new Date(o.paid_at).toLocaleDateString('en-GB')}</p>
+                <p className="text-gray-500 text-xs font-montserrat">Mpesa: {o.mpesa_code}</p>
+              </div>
+              <p className="text-emerald-400 font-black uppercase">M{o.amount_maloti}</p>
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={cancelSubscription}
+          className="w-full bg-red-600 hover:bg-red-500 py-3 rounded font-black uppercase tracking-wider transition-colors"
+        >
+          CANCEL SUBSCRIPTION
+        </button>
+        <p className="text-xs text-gray-600 mt-4 text-center font-montserrat">
+          Questions? WhatsApp +266 57031600
+        </p>
+      </div>
+    </main>
+  );
+}
