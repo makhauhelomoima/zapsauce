@@ -1,9 +1,17 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [showFree, setShowFree] = useState(false);
   const [showEFT, setShowEFT] = useState<string | null>(null);
+  const [views, setViews] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch('https://api.countapi.xyz/hit/zapsauce/visits')
+      .then(res => res.json())
+      .then(data => setViews(data.value))
+      .catch(() => setViews(0));
+  }, []);
 
   const products = [
     {
@@ -290,7 +298,7 @@ export default function Home() {
                 )}
               </div>
 
-              {/* EFT DETAILS MODAL - YOUR BANK */}
+              {/* EFT DETAILS MODAL */}
               {showEFT === product.id && (
                 <div className="mt-3 p-3 bg-[#051B11] border border-[#D4AF37]/40 rounded text-xs">
                   <p className="text-[#D4AF37] font-bebas mb-1">EFT DETAILS:</p>
@@ -325,8 +333,13 @@ export default function Home() {
           </p>
         </div>
 
+        {/* VISITOR COUNTER */}
+        <div className="text-center mt-8 text-gray-600 text-xs font-montserrat">
+          <p>Eyes on healing: {views === null ? '...' : views.toLocaleString()}</p>
+        </div>
+
         {/* FOOTER */}
-        <div className="text-center mt-12 text-gray-500 text-xs font-montserrat">
+        <div className="text-center mt-6 text-gray-500 text-xs font-montserrat">
           <p>© 2026 Zap Sauce. Lesotho 🇱🇸</p>
           <p className="mt-2">Sweet + Savory Healing • Mpesa: 57031600 • EFT: Lesotho Post Bank</p>
           <p className="mt-1 text-[#D4AF37]/70">Green = Healing. Gold = Yield. Brown = Earth. 💰</p>
@@ -335,4 +348,4 @@ export default function Home() {
       </div>
     </main>
   );
-        }
+    }
