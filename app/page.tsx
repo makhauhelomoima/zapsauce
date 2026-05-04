@@ -22,78 +22,78 @@ export default function Home() {
     {
       ref: 'ZAP',
       name: 'ORIGINAL',
-      subtitle: 'Turmeric Gold',
+      subtitle: 'Daily immunity 2+',
       price: 120,
       color: '#D4AF37',
       cures: [
+        'Daily immunity for 2+',
         'Chronic inflammation',
         'Joint stiffness & arthritis pain',
-        'Low immunity & frequent colds',
-        'Digestive bloating'
+        'Low immunity & frequent colds'
       ],
       desc: 'The classic. 4,000 years of Ayurvedic relief. M120 unlocks full recipe + dosage.'
     },
     {
-      ref: 'CIT',
+      ref: 'CITRUS',
       name: 'CITRUS',
-      subtitle: 'Lemon Zest',
-      price: 120,
+      subtitle: 'Flu killer. FRIDGE ONLY',
+      price: 140,
       color: '#F4B400',
       cures: [
+        'Flu killer. FRIDGE ONLY',
         'Vitamin C deficiency',
         'Seasonal flu & congestion',
-        'Sluggish metabolism',
-        'Skin breakouts from toxins'
+        'Sluggish metabolism'
       ],
-      desc: 'Immunity in a jar. Citrus fire meets turmeric gold. M120 for complete formula.'
+      desc: 'Immunity in a jar. Citrus fire meets turmeric gold. M140 for complete formula.'
     },
     {
       ref: 'PRO',
       name: 'WARRIOR PRO',
-      subtitle: 'Black Pepper Boost',
-      price: 140,
+      subtitle: 'Men 18+ Blood flow + stamina',
+      price: 197,
       color: '#1B4332',
       cures: [
+        'Men 18+ Blood flow + stamina',
         'Poor nutrient absorption',
         'Post-workout inflammation',
-        'Brain fog & low focus',
-        'Chronic fatigue'
+        'Brain fog & low focus'
       ],
-      desc: '2000% absorption. For fighters. M140 unlocks warrior-grade ratios + timing.'
+      desc: '2000% absorption. For fighters. M197 unlocks warrior-grade ratios + timing.'
     },
     {
       ref: 'QUEEN',
-      name: 'QUEEN',
-      subtitle: 'Cinnamon Royal',
-      price: 130,
+      name: 'QUEEN EDITION',
+      subtitle: 'Women 40+ Hormone peace',
+      price: 197,
       color: '#B8860B',
       cures: [
+        'Women 40+ Hormone peace',
         'Blood sugar spikes',
-        'Hormonal imbalance',
         'PMS & menstrual cramps',
         'Sugar cravings'
       ],
-      desc: 'Regal relief. Balances body. M130 reveals royal ratios + evening ritual.'
+      desc: 'Regal relief. Balances body. M197 reveals royal ratios + evening ritual.'
     },
     {
       ref: 'BONE',
-      name: 'BONE',
-      subtitle: 'Ginger Joint',
-      price: 120,
+      name: 'BONE EDITION',
+      subtitle: 'Adults 30+ Joint pain',
+      price: 157,
       color: '#8B4513',
       cures: [
+        'Adults 30+ Joint pain',
         'Knee & hip joint pain',
         'Osteoarthritis flare-ups',
-        'Morning stiffness',
-        'Cartilage wear'
+        'Morning stiffness'
       ],
-      desc: 'Ancient bone tonic. Ginger + turmeric synergy. M120 for joint-specific dosing.'
+      desc: 'Ancient bone tonic. Ginger + turmeric synergy. M157 for joint-specific dosing.'
     },
     {
       ref: 'HERB',
       name: 'HERB FIRE',
       subtitle: 'Garlic Rosemary',
-      price: 140,
+      price: 157,
       color: '#2D5016',
       cures: [
         'High blood pressure & cholesterol',
@@ -101,7 +101,7 @@ export default function Home() {
         'Antibiotic resistance',
         'Cognitive decline'
       ],
-      desc: 'Mediterranean medicine. Savory healing. M140 for heart + brain protocol.',
+      desc: 'Mediterranean medicine. Savory healing. M157 for heart + brain protocol.',
       tag: 'SAVORY'
     }
   ];
@@ -130,7 +130,7 @@ export default function Home() {
             What hurts? We have a recipe for that.
           </p>
           <p className="text-sm text-gray-500 font-montserrat">
-            Sweet + Savory Healing. Start free. Lesotho → World 🇱🇸🌍
+            1 teaspoon daily = Your immune system on guard.
           </p>
         </div>
 
@@ -183,7 +183,6 @@ export default function Home() {
                 </h2>
                 <p className="text-sm text-gray-400 font-montserrat">Auto-Restock Plan</p>
               </div>
-            </div>
             <div className="mb-4">
               <p className="text-xs text-[#D4AF37] font-montserrat mb-2">CURES:</p>
               <ul className="space-y-1 text-sm text-gray-300 font-montserrat">
@@ -212,6 +211,34 @@ export default function Home() {
           </div>
         </div>
 
+        <div className="bg-[#0A2E1D] border-2 border-[#D4AF37] rounded-lg p-6 mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <p className="text-xs text-gray-500 font-montserrat mb-1">BUNDLE</p>
+              <h2 className="text-3xl font-black text-[#D4AF37]" style={{fontFamily: 'Bebas Neue, cursive'}}>
+                PACK - ALL 5
+              </h2>
+              <p className="text-sm text-gray-400 font-montserrat">Full arsenal. Save M164</p>
+            </div>
+            <span className="bg-[#D4AF37] text-[#051B11] text-xs font-bold px-3 py-1 rounded font-bebas">
+              BEST VALUE
+            </span>
+          </div>
+          <div className="bg-[#051B11] p-3 rounded mb-4 text-xs text-gray-400 font-montserrat">
+            Get ORIGINAL + CITRUS + PRO + QUEEN + BONE. M811 value. Pay M647. Save M164. Full family protection.
+          </div>
+          <div className="flex justify-between items-end">
+            <div>
+              <p className="text-3xl font-black text-white font-bebas">M647</p>
+              <p className="text-xs text-gray-500 font-montserrat line-through">M811</p>
+              <p className="text-xs text-emerald-400 font-montserrat">Save M164</p>
+            </div>
+            <button onClick={() => handleMpesa(647, 'PACK')} className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-bold px-6 py-3 rounded font-bebas text-lg tracking-wider transition-colors">
+              MPESA PACK 🔒
+            </button>
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((p) => (
             <div key={p.ref} className="bg-[#0A2E1D] border-2 border-[#1B4332] rounded-lg p-6 relative">
@@ -221,14 +248,14 @@ export default function Home() {
                 </span>
               )}
               <div className="mb-4">
-                <p className="text-xs text-gray-500 font-montserrat mb-1">SWEET</p>
+                <p className="text-xs text-gray-500 font-montserrat mb-1">RECIPE</p>
                 <h3 className="text-2xl font-black" style={{fontFamily: 'Bebas Neue, cursive', color: p.color}}>
                   {p.name}
                 </h3>
                 <p className="text-sm text-gray-400 font-montserrat">{p.subtitle}</p>
               </div>
               <div className="mb-4">
-                <p className="text-xs text-[#D4AF37] font-montserrat mb-2">CURES:</p>
+                <p className="text-xs text-[#D4AF37] font-montserrat mb-2">FOR:</p>
                 <ul className="space-y-1 text-sm text-gray-300 font-montserrat">
                   {p.cures.map((c, i) => (
                     <li key={i}>✓ {c}</li>
@@ -241,7 +268,7 @@ export default function Home() {
               <div className="flex justify-between items-end">
                 <div>
                   <p className="text-3xl font-black text-white font-bebas">M{p.price}</p>
-                  <p className="text-xs text-gray-600 font-montserrat">Outside Lesotho? EFT →</p>
+                  <p className="text-xs text-gray-600 font-montserrat">Ref: {p.ref}</p>
                 </div>
                 <button 
                   onClick={() => handleMpesa(p.price, p.ref)} 
