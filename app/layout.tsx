@@ -1,15 +1,14 @@
 import './globals.css'
-import { Analytics } from '@vercel/analytics/react'
- 
+
 export const metadata = {
-  title: 'Zap Sauce',
-  description: 'Sweet + Savory Healing',
+  title: 'Zap Sauce - Sweet + Savory Healing',
+  description: 'What hurts? We have a recipe for that.',
 }
  
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}<Analytics /></body>
+      <body>{children}</body>
     </html>
   )
 }
