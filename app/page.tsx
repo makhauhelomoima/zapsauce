@@ -132,6 +132,10 @@ export default function Home() {
           <p className="text-sm text-gray-500 font-montserrat">
             1 teaspoon daily = Your immune system on guard.
           </p>
+          
+          <p className="text-center text-xs text-emerald-400 mt-4 font-montserrat font-bold">
+            47 healers joined this week. 3 spots left at M120.
+          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 mb-12">
@@ -183,7 +187,6 @@ export default function Home() {
                 </h2>
                 <p className="text-sm text-gray-400 font-montserrat font-semibold">Auto-Restock Plan</p>
               </div>
-            </div>
             <div className="mb-4">
               <p className="text-xs text-[#D4AF37] font-montserrat mb-2 uppercase font-bold">CURES:</p>
               <ul className="space-y-1 text-sm text-gray-300 font-montserrat font-medium">
@@ -290,6 +293,13 @@ export default function Home() {
             USSD COPIED ✓
           </div>
         )}
+
+        <a 
+          href="https://wa.me/26657031600?text=I%20need%20ZAP%20SAUCE%20⚡%20Help%20me%20heal" 
+          className="fixed bottom-4 left-4 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-3 rounded-full font-black text-sm shadow-lg z-50 transition-colors flex items-center gap-2"
+        >
+          WHATSAPP US ⚡
+        </a>
 
         <footer className="text-center mt-16 pb-8">
           <p className="text-xs text-gray-600 font-montserrat">
