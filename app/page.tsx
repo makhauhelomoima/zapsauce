@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 export default function Home() {
   const [copied, setCopied] = useState(false);
-  
+
   const handleSubscribe = () => {
     window.location.href = 'tel:*777*57031600*120%23';
   };
@@ -113,7 +113,7 @@ export default function Home() {
           <h1 className="text-5xl md:text-7xl font-black text-[#D4AF37] mb-4" style={{fontFamily: 'Bebas Neue, cursive'}}>
             ZAP SAUCE
           </h1>
-          
+
           <div className="flex gap-3 justify-center mb-6 text-sm flex-wrap">
             <a href="/track" className="text-[#D4AF37] hover:text-white border border-[#D4AF37] px-4 py-2 rounded font-bebas tracking-wider transition-colors">
               FREE RECIPE
@@ -183,6 +183,7 @@ export default function Home() {
                 </h2>
                 <p className="text-sm text-gray-400 font-montserrat">Auto-Restock Plan</p>
               </div>
+            </div>
             <div className="mb-4">
               <p className="text-xs text-[#D4AF37] font-montserrat mb-2">CURES:</p>
               <ul className="space-y-1 text-sm text-gray-300 font-montserrat">
@@ -270,8 +271,8 @@ export default function Home() {
                   <p className="text-3xl font-black text-white font-bebas">M{p.price}</p>
                   <p className="text-xs text-gray-600 font-montserrat">Ref: {p.ref}</p>
                 </div>
-                <button 
-                  onClick={() => handleMpesa(p.price, p.ref)} 
+                <button
+                  onClick={() => handleMpesa(p.price, p.ref)}
                   className="bg-gray-700 hover:bg-gray-600 text-white font-bold px-6 py-3 rounded font-bebas text-lg tracking-wider transition-colors flex items-center gap-2"
                 >
                   MPESA 🔒
