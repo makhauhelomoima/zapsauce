@@ -1,32 +1,20 @@
 'use client';
-import { useState } from 'react';
 
 export default function Home() {
-  const [expanded, setExpanded] = useState<string | null>(null);
-
-  const recipes = [
+  const products = [
     {
       id: 'original',
       name: 'ORIGINAL',
       subtitle: 'Turmeric Gold',
       price: 120,
       ussd: '*200*1*1*57031600*120#',
-      time: 'Ready in 5 minutes',
-      serves: 'Makes 1 jar',
-      ingredients: [
-        'Raw honey 250ml',
-        'Organic turmeric powder 3 tbsp',
-        'Black pepper pinch',
-        'Ceylon cinnamon 1/2 tsp'
+      cures: [
+        'Chronic inflammation',
+        'Joint stiffness & arthritis pain',
+        'Low immunity & frequent colds',
+        'Digestive bloating'
       ],
-      prep: [
-        'Warm honey gently - do not boil',
-        'Whisk in turmeric until smooth',
-        'Add black pepper + cinnamon',
-        'Pour into sterilized jar',
-        'Cool before sealing'
-      ],
-      tips: 'Take 1 tsp daily on empty stomach. Store in cool dark place. Lasts 6 months.'
+      teaser: 'The classic. 4,000 years of Ayurvedic relief. M120 unlocks full recipe + dosage.'
     },
     {
       id: 'citrus',
@@ -34,22 +22,13 @@ export default function Home() {
       subtitle: 'Lemon Zest',
       price: 120,
       ussd: '*200*1*1*57031600*120#',
-      time: 'Ready in 8 minutes',
-      serves: 'Makes 1 jar',
-      ingredients: [
-        'Raw honey 250ml',
-        'Organic turmeric 3 tbsp',
-        'Lemon zest 1 tbsp',
-        'Lemon juice 1 tsp'
+      cures: [
+        'Vitamin C deficiency',
+        'Seasonal flu & congestion',
+        'Sluggish metabolism',
+        'Skin breakouts from toxins'
       ],
-      prep: [
-        'Zest lemon, avoid white pith',
-        'Warm honey gently',
-        'Whisk in turmeric + zest',
-        'Add lemon juice last',
-        'Jar while warm'
-      ],
-      tips: 'Best for morning immunity. Vitamin C boost. Shake before use.'
+      teaser: 'Immunity in a jar. Citrus fire meets turmeric gold. M120 for complete formula.'
     },
     {
       id: 'warrior',
@@ -57,22 +36,13 @@ export default function Home() {
       subtitle: 'Black Pepper Boost',
       price: 140,
       ussd: '*200*1*1*57031600*140#',
-      time: 'Ready in 6 minutes',
-      serves: 'Makes 1 jar',
-      ingredients: [
-        'Raw honey 250ml',
-        'Organic turmeric 4 tbsp',
-        'Fresh ground black pepper 1 tsp',
-        'Coconut oil 1 tsp'
+      cures: [
+        'Poor nutrient absorption',
+        'Post-workout inflammation',
+        'Brain fog & low focus',
+        'Chronic fatigue'
       ],
-      prep: [
-        'Warm honey + coconut oil',
-        'Add turmeric gradually',
-        'Grind pepper fresh - key step',
-        'Whisk 2 minutes vigorously',
-        'Jar immediately'
-      ],
-      tips: 'Piperine increases absorption 2000%. For post-workout. Intense heat.'
+      teaser: '2000% absorption. For fighters. M140 unlocks warrior-grade ratios + timing.'
     },
     {
       id: 'queen',
@@ -80,22 +50,13 @@ export default function Home() {
       subtitle: 'Cinnamon Royal',
       price: 130,
       ussd: '*200*1*1*57031600*130#',
-      time: 'Ready in 7 minutes',
-      serves: 'Makes 1 jar',
-      ingredients: [
-        'Raw honey 250ml',
-        'Organic turmeric 3 tbsp',
-        'Ceylon cinnamon 2 tsp',
-        'Cardamom pinch'
+      cures: [
+        'Blood sugar spikes',
+        'Hormonal imbalance',
+        'PMS & menstrual cramps',
+        'Sugar cravings'
       ],
-      prep: [
-        'Warm honey slowly',
-        'Sift turmeric + cinnamon',
-        'Whisk dry into honey',
-        'Add cardamom at end',
-        'Cool completely before lid'
-      ],
-      tips: 'Balances blood sugar. Evening ritual. Pairs with warm milk.'
+      teaser: 'Regal relief. Balances body. M130 reveals royal ratios + evening ritual.'
     },
     {
       id: 'bone',
@@ -103,22 +64,13 @@ export default function Home() {
       subtitle: 'Ginger Joint',
       price: 130,
       ussd: '*200*1*1*57031600*130#',
-      time: 'Ready in 10 minutes',
-      serves: 'Makes 1 jar',
-      ingredients: [
-        'Raw honey 250ml',
-        'Organic turmeric 3 tbsp',
-        'Fresh ginger grated 2 tbsp',
-        'Black pepper pinch'
+      cures: [
+        'Knee & hip joint pain',
+        'Morning stiffness',
+        'Rheumatoid arthritis flare-ups',
+        'Limited mobility'
       ],
-      prep: [
-        'Grate ginger, squeeze juice',
-        'Warm honey gently',
-        'Whisk in turmeric first',
-        'Add ginger + juice',
-        'Black pepper last'
-      ],
-      tips: 'For joint mobility. Take with warm water. Morning + night for 30 days.'
+      teaser: 'Mobility in a spoon. Ginger + turmeric synergy. M130 unlocks 30-day protocol.'
     },
     {
       id: 'pack',
@@ -126,22 +78,13 @@ export default function Home() {
       subtitle: 'All 5 Recipes',
       price: 500,
       ussd: '*200*1*1*57031600*500#',
-      time: 'Full Arsenal',
-      serves: '5 jars total',
-      ingredients: [
-        '1x ORIGINAL jar',
-        '1x CITRUS jar',
-        '1x WARRIOR PRO jar',
-        '1x QUEEN jar',
-        '1x BONE jar'
+      cures: [
+        'All of the above',
+        'Save M120 vs buying singles',
+        '30-day full system reset',
+        'Find your perfect recipe'
       ],
-      prep: [
-        'All recipes included above',
-        'Mix + match daily',
-        '30 day supply',
-        'Save M120 vs buying single'
-      ],
-      tips: 'Best value. Try all 5. Find your favorite. Reorder singles after.',
+      teaser: 'Complete arsenal. 5 cures. 1 payment. M500 unlocks all 5 formulas instantly.',
       best: true
     },
     {
@@ -150,23 +93,13 @@ export default function Home() {
       subtitle: 'The Zap Sauce Code',
       price: 2500,
       ussd: '*200*1*1*57031600*2500#',
-      time: 'Business in a box',
-      serves: 'Unlimited revenue',
-      ingredients: [
-        'All 5 master recipes + exact ratios',
-        'Wholesale supplier contacts Lesotho',
-        'Cost calculator + M120 profit breakdown',
-        'Label design files + printer specs',
-        'Mpesa business till setup guide'
+      cures: [
+        'No income? Start M10,000/month business',
+        'No suppliers? Get wholesale contacts',
+        'No marketing? Get scripts + funnels',
+        'No legal? Get compliance checklist'
       ],
-      prep: [
-        'Pay M2500 via *200# BUY NOW',
-        'Screenshot Mpesa confirmation',
-        'WhatsApp screenshot to 57031600',
-        'Receive "The Zap Sauce Code" PDF instantly',
-        '30min onboarding call booked'
-      ],
-      tips: 'This PDF contains our full business model. Sections: Sourcing, Costing, Scaling, Marketing, Legal. Serious entrepreneurs only. Territory protected.',
+      teaser: 'Own the business. "The Zap Sauce Code" PDF + suppliers + pricing + Mpesa setup. M2500 unlocks lifetime access.',
       franchise: true
     }
   ];
@@ -175,106 +108,106 @@ export default function Home() {
     <main className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 py-8">
 
-        {/* HEADER */}
-        <div className="text-center mb-8">
-          <h1 className="font-bebas text-5xl md:text-7xl text-gold-500 mb-2 tracking-wider">
+        {/* HEADER - NO RECIPE LEAKS */}
+        <div className="text-center mb-10">
+          <h1 className="font-bebas text-5xl md:text-7xl text-gold-500 mb-3 tracking-wider">
             ZAP SAUCE
           </h1>
-          <p className="text-base text-gray-400 font-montserrat">
-            5 Recipes • 1 Pack • 1 Franchise
+          <p className="text-base md:text-lg text-gray-400 font-montserrat mb-2">
+            What hurts? We have a recipe for that.
+          </p>
+          <p className="text-xs text-gray-600 font-montserrat">
+            Pay to unlock ingredients + preparation + dosage
           </p>
         </div>
 
-        {/* RECIPE GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {recipes.map((recipe) => (
+        {/* PRODUCT CARDS - CURES ONLY */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {products.map((product) => (
             <div
-              key={recipe.id}
-              className={`bg-zinc-900 rounded-lg border-2 p-6 ${
-                recipe.best ? 'border-gold-500' : recipe.franchise ? 'border-red-500' : 'border-zinc-800'
+              key={product.id}
+              className={`bg-zinc-900 rounded-lg border-2 p-6 flex flex-col ${
+                product.best ? 'border-gold-500 ring-1 ring-gold-500/30' : 
+                product.franchise ? 'border-red-500' : 'border-zinc-800'
               }`}
             >
-              {/* HEADER */}
-              <div className="flex justify-between items-start mb-4">
+              {/* BADGES */}
+              <div className="flex justify-between items-start mb-3">
                 <div>
-                  <p className="text-xs text-gray-500 font-montserrat uppercase">RECIPE</p>
-                  <h2 className={`font-bebas text-3xl ${recipe.franchise ? 'text-red-500' : 'text-gold-500'}`}>
-                    {recipe.name}
+                  <p className="text-xs text-gray-500 font-montserrat uppercase mb-1">
+                    {product.franchise ? 'BUSINESS' : 'RECIPE'}
+                  </p>
+                  <h2 className={`font-bebas text-3xl ${product.franchise ? 'text-red-500' : 'text-gold-500'}`}>
+                    {product.name}
                   </h2>
-                  <p className="text-gray-400 font-montserrat text-sm">{recipe.subtitle}</p>
+                  <p className="text-gray-400 font-montserrat text-sm">{product.subtitle}</p>
                 </div>
-                {recipe.best && (
+                {product.best && (
                   <span className="bg-gold-500 text-black text-xs font-bebas px-2 py-1 rounded">BEST VALUE</span>
                 )}
-                {recipe.franchise && (
-                  <span className="bg-red-500 text-white text-xs font-bebas px-2 py-1 rounded">BUSINESS</span>
+                {product.franchise && (
+                  <span className="bg-red-500 text-white text-xs font-bebas px-2 py-1 rounded">M2500</span>
                 )}
               </div>
 
-              {/* STATS */}
-              <div className="grid grid-cols-2 gap-4 mb-4 text-xs text-gray-500 font-montserrat">
-                <p>{recipe.time}</p>
-                <p>{recipe.serves}</p>
+              {/* CURES - THIS IS THE HOOK */}
+              <div className="mb-5 flex-grow">
+                <h3 className="text-gold-500 font-bebas text-lg mb-3">CURES:</h3>
+                <ul className="space-y-2">
+                  {product.cures.map((cure, i) => (
+                    <li key={i} className="text-gray-300 text-sm font-montserrat flex items-start">
+                      <span className="text-gold-500 mr-2">✓</span>
+                      {cure}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              {/* TOGGLE BUTTON */}
-              <button
-                onClick={() => setExpanded(expanded === recipe.id ? null : recipe.id)}
-                className="w-full text-left text-gold-500 font-montserrat text-sm mb-4 hover:text-gold-400"
-              >
-                {expanded === recipe.id ? '▲ Hide Details' : '▼ View Recipe'}
-              </button>
+              {/* TEASER */}
+              <p className="text-gray-500 text-xs font-montserrat mb-4 italic border-l-2 border-gold-500/30 pl-3">
+                {product.teaser}
+              </p>
 
-              {/* EXPANDED DETAILS */}
-              {expanded === recipe.id && (
-                <div className="space-y-4 mb-4">
-                  <div>
-                    <h3 className="text-gold-500 font-bebas text-lg mb-2">Ingredients</h3>
-                    <ul className="space-y-1">
-                      {recipe.ingredients.map((item, i) => (
-                        <li key={i} className="text-gray-300 text-sm font-montserrat">• {item}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h3 className="text-gold-500 font-bebas text-lg mb-2">Preparation</h3>
-                    <ol className="space-y-1">
-                      {recipe.prep.map((step, i) => (
-                        <li key={i} className="text-gray-300 text-sm font-montserrat">{i + 1}. {step}</li>
-                      ))}
-                    </ol>
-                  </div>
-
-                  <div>
-                    <h3 className="text-gold-500 font-bebas text-lg mb-2">Tips</h3>
-                    <p className="text-gray-300 text-sm font-montserrat">{recipe.tips}</p>
-                  </div>
-                </div>
-              )}
-
-              {/* PRICE + BUY */}
+              {/* PRICE + PAYGATE BUTTON */}
               <div className="flex items-center justify-between pt-4 border-t border-zinc-800">
-                <span className="text-3xl font-bebas text-white">M{recipe.price}</span>
+                <span className="text-3xl font-bebas text-white">M{product.price}</span>
                 <a
-                  href={`tel:${recipe.ussd}`}
-                  className={`px-6 py-3 rounded-lg font-bebas text-lg tracking-wider transition active:scale-95 ${
-                    recipe.franchise 
+                  href={`tel:${product.ussd}`}
+                  className={`px-5 py-3 rounded-lg font-bebas text-lg tracking-wider transition active:scale-95 text-center ${
+                    product.franchise 
                       ? 'bg-red-500 text-white hover:bg-red-400' 
                       : 'bg-gold-500 text-black hover:bg-gold-400'
                   }`}
                 >
-                  *200# BUY NOW 🔓
+                  GET RECIPE 🔓
                 </a>
               </div>
+              <p className="text-center text-gray-600 text-xs mt-2 font-montserrat">
+                Tap → Pay via Mpesa → Screenshot recipe
+              </p>
             </div>
           ))}
+        </div>
+
+        {/* INSTRUCTIONS */}
+        <div className="bg-zinc-900/50 p-6 rounded-lg border border-gold-500/20 mt-10 text-center">
+          <h3 className="font-bebas text-2xl text-gold-500 mb-3">HOW IT WORKS</h3>
+          <ol className="text-gray-300 font-montserrat space-y-2 text-sm max-w-md mx-auto">
+            <li>1. Find your ailment above</li>
+            <li>2. Tap GET RECIPE 🔓</li>
+            <li>3. Confirm Mpesa payment</li>
+            <li>4. Screenshot the unlocked recipe page</li>
+            <li>5. WhatsApp 57031600 to order jar OR keep recipe</li>
+          </ol>
+          <p className="text-gold-500 text-xs mt-4 font-montserrat">
+            M2500 Franchise buyers: PDF "The Zap Sauce Code" sent via WhatsApp after payment
+          </p>
         </div>
 
         {/* FOOTER */}
         <div className="text-center mt-12 text-gray-600 text-xs font-montserrat">
           <p>© 2026 Zap Sauce. Lesotho 🇱🇸</p>
-          <p className="mt-2">Tap *200# BUY NOW • Screenshot confirmation • WhatsApp 57031600 for delivery</p>
+          <p className="mt-2">Recipes unlock after Mpesa payment to 57031600</p>
         </div>
 
       </div>
