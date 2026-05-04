@@ -147,26 +147,26 @@ export default function Home() {
     {
       id: 'franchise',
       name: 'FRANCHISE',
-      subtitle: 'Own The Recipe',
+      subtitle: 'The Zap Sauce Code',
       price: 2500,
       ussd: '*200*1*1*57031600*2500#',
       time: 'Business in a box',
-      serves: 'Unlimited batches',
+      serves: 'Unlimited revenue',
       ingredients: [
-        'All 5 master recipes',
-        'Supplier list Lesotho',
-        'Pricing calculator',
-        'Label templates',
-        'Mpesa setup guide'
+        'All 5 master recipes + exact ratios',
+        'Wholesale supplier contacts Lesotho',
+        'Cost calculator + M120 profit breakdown',
+        'Label design files + printer specs',
+        'Mpesa business till setup guide'
       ],
       prep: [
-        'Payment confirms order',
-        'PDF sent via WhatsApp',
-        '1 hour call included',
-        'Lifetime updates',
-        'Territory protection'
+        'Pay M2500 via *200# BUY NOW',
+        'Screenshot Mpesa confirmation',
+        'WhatsApp screenshot to 57031600',
+        'Receive "The Zap Sauce Code" PDF instantly',
+        '30min onboarding call booked'
       ],
-      tips: 'Start your own Zap Sauce. M2500 = Make M10,000/month. Serious inquiries only.',
+      tips: 'This PDF contains our full business model. Sections: Sourcing, Costing, Scaling, Marketing, Legal. Serious entrepreneurs only. Territory protected.',
       franchise: true
     }
   ];
@@ -175,7 +175,7 @@ export default function Home() {
     <main className="min-h-screen bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 py-8">
 
-        {/* HEADER - NO MANIFESTO */}
+        {/* HEADER */}
         <div className="text-center mb-8">
           <h1 className="font-bebas text-5xl md:text-7xl text-gold-500 mb-2 tracking-wider">
             ZAP SAUCE
@@ -271,7 +271,7 @@ export default function Home() {
           ))}
         </div>
 
-        {/* FOOTER - NO MANIFESTO */}
+        {/* FOOTER */}
         <div className="text-center mt-12 text-gray-600 text-xs font-montserrat">
           <p>© 2026 Zap Sauce. Lesotho 🇱🇸</p>
           <p className="mt-2">Tap *200# BUY NOW • Screenshot confirmation • WhatsApp 57031600 for delivery</p>
