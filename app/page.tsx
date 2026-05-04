@@ -1,68 +1,90 @@
-'use client'
+'use client';
+import { useState } from 'react';
 
-const PRODUCTS = [
-  { id: 'zap-original', name: 'ZAP SAUCE ORIGINAL', price: 120, ref: 'ZAP', desc: 'Daily immunity for everyone 2+. Turmeric + Ginger + Honey.', file: 'https://drive.google.com/uc?export=download&id=1pTliR0d9x2uFOUtmuXBXyz2iHFgz1pUp' },
-  { id: 'zap-citrus', name: 'ZAP SAUCE CITRUS', price: 140, ref: 'CITRUS', desc: 'Flu killer. Lemon + Orange zest. 2x faster. FRIDGE ONLY.', file: 'https://drive.google.com/uc?export=download&id=1VxPs9JEE83Q9fZkM4hZ4YaT-DtDptJc6' },
-  { id: 'zap-warrior', name: 'ZAP SAUCE WARRIOR PRO', price: 197, ref: 'PRO', desc: 'Blood flow + stamina. Men 18+. Cayenne + Maca + Pumpkin.', file: 'https://drive.google.com/uc?export=download&id=1Ro1SMn3GzbwnkjeXNQxcu_ZviFOzYIoL' },
-  { id: 'zap-queen', name: 'ZAP SAUCE QUEEN EDITION', price: 197, ref: 'QUEEN', desc: 'Hormone peace. Women 40+. Flax + Sage + Cacao.', file: 'https://drive.google.com/uc?export=download&id=10BZEMiArqPz4ksXZ0PB70FYYIYp-AB62' },
-  { id: 'zap-bone', name: 'ZAP SAUCE BONE EDITION', price: 157, ref: 'BONE', desc: 'Winter armor. Joint pain killer. Sesame + Moringa + Eggshell.', file: 'https://drive.google.com/uc?export=download&id=1WnzlS2hbWJbFrY-C2Jm6JbN2i8nF0UCN' },
-  { id: 'zap-pack', name: 'ZAP SAUCE PACK - ALL 5', price: 647, ref: 'PACK', desc: 'Full arsenal. Save M164. One purchase, winter covered.', file: '#' }
-]
-
-const MPESA_NUMBER = "57031600"
-const MPESA_NAME = "Makhauhelo Moima"
-const WHATSAPP_NUMBER = "26657031600"
-const EMAIL = "zapsauce.ls@gmail.com"
-
-export default function ZapSauce() {
-  const whatsappLink = (product: typeof PRODUCTS[0]) => {
-    const text = `Hi! I paid M${product.price} for ${product.name}. Ref: ${product.ref}. My Mpesa names: [Your Name]. Please send PDF.`
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`
-  }
+export default function Home() {
+  const [quantity, setQuantity] = useState(1);
+  const price = 120;
+  const total = quantity * price;
 
   return (
-    <div className="min-h-screen bg-black text-white" style={{fontFamily: 'Montserrat, sans-serif'}}>
-      <div className="max-w-6xl mx-auto px-4">
-        <header className="text-center py-10">
-          <h1 className="text-7xl font-black text-yellow-400 mb-4" style={{fontFamily: 'Bebas Neue, cursive'}}>ZAP SAUCE ⚡</h1>
-          <p className="text-xl mb-2">By Makhauhelo Moima | Product of Lesotho 🇱🇸</p>
-          <p className="text-yellow-300 text-lg mb-8">1 tsp daily keeps pharmacy away</p>
-          <div className="relative w-full max-w-2xl mx-auto mb-8 rounded-lg overflow-hidden border-4 border-yellow-500">
-            <img src="/zap-sauce-hero.jpg" alt="Zap Sauce - Turmeric Ginger Honey Immunity" className="w-full h-auto"/>
-          </div>
-          <div className="bg-red-900 border-2 border-red-500 rounded-lg p-4 max-w-2xl mx-auto">
-            <p className="text-xl font-bold">NO PAYPAL. NO STRIPE. NO CARD DECLINES.</p>
-            <p className="text-lg">Mpesa only. You control the bank. I control the PDF.</p>
-          </div>
-        </header>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 py-12">
-          {PRODUCTS.map((p) => (
-            <div key={p.id} className="border-2 border-yellow-500 rounded-lg p-6 bg-gray-900">
-              <h2 className="text-2xl font-bold text-yellow-300 mb-2" style={{fontFamily: 'Bebas Neue, cursive'}}>{p.name}</h2>
-              <p className="text-gray-300 mb-4 text-sm">{p.desc}</p>
-              <div className="text-5xl font-black text-white mb-4">M{p.price}</div>
-              <div className="bg-gray-800 p-4 rounded mb-4">
-                <p className="text-yellow-400 font-bold mb-2">PAY MPESA:</p>
-                <p className="text-lg">1. Number: <span className="text-white font-bold">{MPESA_NUMBER}</span></p>
-                <p className="text-lg">2. Name: <span className="text-white font-bold">{MPESA_NAME}</span></p>
-                <p className="text-lg">3. Ref: <span className="text-white font-bold">{p.ref}</span></p>
-              </div>
-              <a href={whatsappLink(p)} target="_blank" className="block w-full bg-green-600 text-white text-center py-4 rounded font-bold text-lg hover:bg-green-500">
-                STEP 4: SEND PROOF ON WHATSAPP →
-              </a>
-              <a href="/track" className="block w-full text-center py-2 text-yellow-400 text-sm mt-2">Track Order Status →</a>
-            </div>
-          ))}
+    <main className="min-h-screen bg-black text-white">
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        
+        {/* HERO SECTION */}
+        <div className="text-center mb-12">
+          <h1 className="font-bebas text-6xl md:text-8xl text-gold-500 mb-4 tracking-wider">
+            ZAP SAUCE
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 font-montserrat">
+            Turmeric Gold • Honey Heat • Royal Relief
+          </p>
         </div>
 
-        <footer className="text-center py-10 border-t-2 border-yellow-500 text-gray-400">
-          <p className="text-yellow-400 font-bold text-lg mb-2">BUSINESS ORDERS 10+ JARS:</p>
-          <p className="text-white mb-6">{EMAIL}</p>
-          <p className="mt-6">© 2026 Zap Sauce ⚡ | Made at 00:58 in Maseru</p>
-          <p className="text-xs mt-2">Traditional food. Not medical advice. Not a cure. Consult clinic if sick. Honey never for babies under 1.</p>
-        </footer>
+        {/* PRODUCT IMAGE - PLACEHOLDER WORKS */}
+        <div className="mb-12 rounded-lg overflow-hidden border-2 border-gold-500/30">
+          <img 
+            src="https://i.imgur.com/8QmYQZL.jpg" 
+            alt="Zap Sauce Turmeric Honey" 
+            className="w-full h-auto"
+          />
+        </div>
+
+        {/* STORY */}
+        <div className="bg-zinc-900/50 p-8 rounded-lg border border-gold-500/20 mb-12">
+          <h2 className="font-bebas text-4xl text-gold-500 mb-4">THE STORY</h2>
+          <p className="text-gray-300 font-montserrat leading-relaxed mb-4">
+            Born at 00:58 in Maseru. Stirred with intention. Crafted for queens who demand relief without compromise.
+          </p>
+          <p className="text-gray-300 font-montserrat leading-relaxed">
+            Raw honey meets organic turmeric. Anti-inflammatory. Immunity boosting. Joint soothing. 
+            <span className="text-gold-500 font-bold"> This is not medicine. This is royalty.</span>
+          </p>
+        </div>
+
+        {/* ORDER SECTION */}
+        <div className="bg-gradient-to-br from-zinc-900 to-black p-8 rounded-lg border-2 border-gold-500">
+          <h2 className="font-bebas text-4xl text-gold-500 mb-6 text-center">ORDER NOW</h2>
+          
+          <div className="mb-6">
+            <label className="block text-gray-400 font-montserrat mb-2">Quantity</label>
+            <div className="flex items-center justify-center gap-4">
+              <button 
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="bg-zinc-800 text-gold-500 w-12 h-12 rounded-lg text-2xl font-bold hover:bg-zinc-700"
+              >-</button>
+              <span className="text-4xl font-bebas text-white w-16 text-center">{quantity}</span>
+              <button 
+                onClick={() => setQuantity(quantity + 1)}
+                className="bg-zinc-800 text-gold-500 w-12 h-12 rounded-lg text-2xl font-bold hover:bg-zinc-700"
+              >+</button>
+            </div>
+          </div>
+
+          <div className="text-center mb-6">
+            <p className="text-gray-400 font-montserrat">Total</p>
+            <p className="text-5xl font-bebas text-gold-500">M{total}</p>
+            <p className="text-sm text-gray-500 font-montserrat">M{price} per jar</p>
+          </div>
+
+          <a 
+            href={`https://wa.me/26657031600?text=I%20want%20to%20order%20${quantity}%20x%20Zap%20Sauce%20Total%20M${total}`}
+            className="block w-full bg-gold-500 text-black text-center py-4 rounded-lg font-bebas text-2xl tracking-wider hover:bg-gold-400 transition"
+          >
+            ORDER VIA WHATSAPP
+          </a>
+          
+          <p className="text-center text-gray-500 text-xs mt-4 font-montserrat">
+            Pay via Mpesa. Delivery in Maseru. T&C Apply.
+          </p>
+        </div>
+
+        {/* FOOTER */}
+        <div className="text-center mt-12 text-gray-600 text-sm font-montserrat">
+          <p>© 2026 Zap Sauce. Crafted in Lesotho 🇱🇸</p>
+          <p className="mt-2">For considered queens. With considered ingredients.</p>
+        </div>
+
       </div>
-    </div>
-  )
-    }
+    </main>
+  );
+        }
