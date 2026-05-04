@@ -16,12 +16,12 @@ export default function CustomerPortal() {
   const login = async () => {
     setLoading(true);
     const { data, error } = await supabase
-    .from('zap_orders')
-    .select('*')
-    .eq('customer_whatsapp', whatsapp)
-    .eq('mpesa_code', mpesaCode)
-    .eq('payment_status', 'verified')
-    .order('paid_at', { ascending: false });
+   .from('zap_orders')
+   .select('*')
+   .eq('customer_whatsapp', whatsapp)
+   .eq('mpesa_code', mpesaCode)
+   .eq('payment_status', 'verified')
+   .order('paid_at', { ascending: false });
 
     if (error ||!data || data.length === 0) {
       alert('No subscription found. Check WhatsApp + Mpesa code.');
@@ -107,4 +107,33 @@ export default function CustomerPortal() {
             <p><strong className="text-white">2.</strong> Organic turmeric: 1 teaspoon</p>
             <p><strong className="text-white">3.</strong> Black pepper: Pinch</p>
             <p><strong className="text-white">4.</strong> Warm water: 200ml</p>
-            <p className="text-[#D4AF37] pt-2">Mix. Drink every morning. Heal in 30 days.</
+            <p className="text-[#D4AF37] pt-2">Mix. Drink every morning. Heal in 30 days.</p>
+          </div>
+        </div>
+
+        <div className="bg-[#0A2E1D] p-6 rounded border-2 border-[#1B4332] mb-6">
+          <h2 className="text-2xl font-bold text-[#D4AF37] mb-4 font-bebas">PAYMENT HISTORY</h2>
+          {orders.map(o => (
+            <div key={o.id} className="border-t border-[#1B4332] py-3 flex justify-between">
+              <div>
+                <p className="text-white font-montserrat text-sm">{new Date(o.paid_at).toLocaleDateString('en-GB')}</p>
+                <p className="text-gray-500 text-xs font-montserrat">Mpesa: {o.mpesa_code}</p>
+              </div>
+              <p className="text-emerald-400 font-bold font-bebas">M{o.amount_maloti}</p>
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={cancelSubscription}
+          className="w-full bg-red-600 hover:bg-red-500 py-3 rounded font-bebas text-lg tracking-wider"
+        >
+          CANCEL SUBSCRIPTION
+        </button>
+        <p className="text-xs text-gray-600 mt-4 text-center font-montserrat">
+          Questions? WhatsApp +266 57031600
+        </p>
+      </div>
+    </main>
+  );
+}
