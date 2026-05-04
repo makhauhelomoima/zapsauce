@@ -187,6 +187,7 @@ export default function Home() {
                 </h2>
                 <p className="text-sm text-gray-400 font-montserrat font-semibold">Auto-Restock Plan</p>
               </div>
+            </div>
             <div className="mb-4">
               <p className="text-xs text-[#D4AF37] font-montserrat mb-2 uppercase font-bold">CURES:</p>
               <ul className="space-y-1 text-sm text-gray-300 font-montserrat font-medium">
