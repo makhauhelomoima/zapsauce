@@ -16,12 +16,12 @@ export default function CustomerPortal() {
   const login = async () => {
     setLoading(true);
     const { data, error } = await supabase
-  .from('zap_orders')
-  .select('*')
-  .eq('customer_whatsapp', whatsapp)
-  .eq('mpesa_code', mpesaCode)
-  .eq('payment_status', 'verified')
-  .order('paid_at', { ascending: false });
+ .from('zap_orders')
+ .select('*')
+ .eq('customer_whatsapp', whatsapp)
+ .eq('mpesa_code', mpesaCode)
+ .eq('payment_status', 'verified')
+ .order('paid_at', { ascending: false });
 
     if (error ||!data || data.length === 0) {
       alert('No subscription found. Check WhatsApp + Mpesa code.');
@@ -44,7 +44,7 @@ export default function CustomerPortal() {
     return (
       <main className="min-h-screen bg-[#051B11] text-white flex items-center justify-center p-4" style={{fontFamily: 'Montserrat, sans-serif'}}>
         <div className="bg-[#0A2E1D] p-8 rounded-lg border-2 border-[#D4AF37] w-full max-w-sm">
-          <h1 className="text-3xl font-black text-[#D4AF37] mb-6 text-center" style={{fontFamily: 'Bebas Neue, cursive'}}>
+          <h1 className="text-3xl font-black text-[#D4AF37] mb-6 text-center uppercase" style={{fontFamily: 'Montserrat, sans-serif'}}>
             ZAP SAUCE PORTAL ⚡
           </h1>
           <p className="text-sm text-gray-400 mb-4 text-center font-montserrat">
@@ -67,7 +67,7 @@ export default function CustomerPortal() {
           <button
             onClick={login}
             disabled={loading}
-            className="w-full bg-[#D4AF37] text-[#051B11] font-bold p-3 rounded font-bebas text-lg tracking-wider disabled:opacity-50"
+            className="w-full bg-[#D4AF37] text-[#051B11] font-black p-3 rounded uppercase tracking-wider disabled:opacity-50"
           >
             {loading? 'CHECKING...' : 'VIEW MY HEAL'}
           </button>
@@ -83,50 +83,50 @@ export default function CustomerPortal() {
   return (
     <main className="min-h-screen bg-[#051B11] text-white p-4" style={{fontFamily: 'Montserrat, sans-serif'}}>
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl font-black text-[#D4AF37] mb-2" style={{fontFamily: 'Bebas Neue, cursive'}}>
+        <h1 className="text-4xl font-black text-[#D4AF37] mb-2 uppercase" style={{fontFamily: 'Montserrat, sans-serif'}}>
           HELLO {customer.customer_name} ⚡
         </h1>
-        <p className="text-gray-400 mb-8 font-montserrat">Your MONTHLY HEAL dashboard</p>
+        <p className="text-gray-400 mb-8 font-montserrat font-semibold">Your MONTHLY HEAL dashboard</p>
 
         <div className="grid md:grid-cols-2 gap-4 mb-8">
           <div className="bg-[#0A2E1D] p-6 rounded border-2 border-emerald-500">
-            <p className="text-gray-400 text-sm font-montserrat">STATUS</p>
-            <p className="text-3xl font-black text-emerald-400 font-bebas">ACTIVE</p>
+            <p className="text-gray-400 text-sm font-montserrat uppercase font-bold">STATUS</p>
+            <p className="text-3xl font-black text-emerald-400 uppercase">ACTIVE</p>
           </div>
           <div className="bg-[#0A2E1D] p-6 rounded border-2 border-[#D4AF37]">
-            <p className="text-gray-400 text-sm font-montserrat">NEXT M120 DUE</p>
-            <p className="text-3xl font-black text-white font-bebas">{daysLeft} DAYS</p>
+            <p className="text-gray-400 text-sm font-montserrat uppercase font-bold">NEXT M120 DUE</p>
+            <p className="text-3xl font-black text-white uppercase">{daysLeft} DAYS</p>
             <p className="text-xs text-gray-500 font-montserrat">{nextDue.toLocaleDateString('en-GB')}</p>
           </div>
         </div>
 
         <div className="bg-[#0A2E1D] p-6 rounded border-2 border-[#1B4332] mb-6">
-          <h2 className="text-2xl font-bold text-[#D4AF37] mb-4 font-bebas">ZAP SAUCE ORIGINAL RECIPE</h2>
-          <div className="space-y-2 text-gray-300 font-montserrat text-sm">
+          <h2 className="text-2xl font-black text-[#D4AF37] mb-4 uppercase">ZAP SAUCE ORIGINAL RECIPE</h2>
+          <div className="space-y-2 text-gray-300 font-montserrat text-sm font-medium">
             <p><strong className="text-white">1.</strong> Raw honey: 1 tablespoon</p>
             <p><strong className="text-white">2.</strong> Organic turmeric: 1 teaspoon</p>
             <p><strong className="text-white">3.</strong> Black pepper: Pinch</p>
             <p><strong className="text-white">4.</strong> Warm water: 200ml</p>
-            <p className="text-[#D4AF37] pt-2">Mix. Drink every morning. Heal in 30 days.</p>
+            <p className="text-[#D4AF37] pt-2 font-bold">Mix. Drink every morning. Heal in 30 days.</p>
           </div>
         </div>
 
         <div className="bg-[#0A2E1D] p-6 rounded border-2 border-[#1B4332] mb-6">
-          <h2 className="text-2xl font-bold text-[#D4AF37] mb-4 font-bebas">PAYMENT HISTORY</h2>
+          <h2 className="text-2xl font-black text-[#D4AF37] mb-4 uppercase">PAYMENT HISTORY</h2>
           {orders.map(o => (
             <div key={o.id} className="border-t border-[#1B4332] py-3 flex justify-between">
               <div>
-                <p className="text-white font-montserrat text-sm">{new Date(o.paid_at).toLocaleDateString('en-GB')}</p>
+                <p className="text-white font-montserrat text-sm font-semibold">{new Date(o.paid_at).toLocaleDateString('en-GB')}</p>
                 <p className="text-gray-500 text-xs font-montserrat">Mpesa: {o.mpesa_code}</p>
               </div>
-              <p className="text-emerald-400 font-bold font-bebas">M{o.amount_maloti}</p>
+              <p className="text-emerald-400 font-black uppercase">M{o.amount_maloti}</p>
             </div>
           ))}
         </div>
 
         <button
           onClick={cancelSubscription}
-          className="w-full bg-red-600 hover:bg-red-500 py-3 rounded font-bebas text-lg tracking-wider"
+          className="w-full bg-red-600 hover:bg-red-500 py-3 rounded font-black uppercase tracking-wider"
         >
           CANCEL SUBSCRIPTION
         </button>
