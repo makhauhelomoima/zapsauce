@@ -91,7 +91,11 @@ export default function CustomerPortal() {
         </h1>
         <p className="text-gray-400 mb-8 font-montserrat font-semibold">Your MONTHLY HEAL dashboard</p>
 
-        <a href="/monthly-heal.pdf" download className="w-full bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black p-4 rounded uppercase tracking-wider text-center block mb-6 transition-colors">
+        <a
+          href="https://drive.google.com/uc?export=download&id=1YA8Ge-KOyff-eI3691sOATuGnIxcO6u9"
+          target="_blank"
+          className="w-full bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black p-4 rounded uppercase tracking-wider text-center block mb-6 transition-colors"
+        >
           DOWNLOAD WELCOME KIT PDF 📄⚡
         </a>
 
@@ -143,4 +147,4 @@ export default function CustomerPortal() {
       </div>
     </main>
   );
-}
+  }
