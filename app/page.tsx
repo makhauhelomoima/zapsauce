@@ -135,7 +135,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#0A2E1D] text-white">
+    <main className="min-h-screen bg-[#051B11] text-white">
       <div className="max-w-7xl mx-auto px-4 py-8">
 
         {/* HEADER */}
@@ -156,10 +156,10 @@ export default function Home() {
           {products.map((product) => (
             <div
               key={product.id}
-              className={`bg-[#0F3D28] rounded-lg border-2 p-6 flex flex-col ${
+              className={`bg-[#0A2E1D] rounded-lg border-2 p-6 flex flex-col ${
                 product.best ? 'border-[#D4AF37] ring-1 ring-[#D4AF37]/30' : 
                 product.franchise ? 'border-red-500' : 
-                product.free ? 'border-emerald-400' : 'border-[#1B5E3A]'
+                product.free ? 'border-emerald-400' : 'border-[#1B4332]'
               }`}
             >
               {/* BADGES */}
@@ -177,13 +177,13 @@ export default function Home() {
                   <p className="text-gray-300 font-montserrat text-sm">{product.subtitle}</p>
                 </div>
                 {product.best && (
-                  <span className="bg-[#D4AF37] text-[#0A2E1D] text-xs font-bebas px-2 py-1 rounded">BEST VALUE</span>
+                  <span className="bg-[#D4AF37] text-[#051B11] text-xs font-bebas px-2 py-1 rounded">BEST VALUE</span>
                 )}
                 {product.franchise && (
                   <span className="bg-red-500 text-white text-xs font-bebas px-2 py-1 rounded">M2500</span>
                 )}
                 {product.free && (
-                  <span className="bg-emerald-400 text-[#0A2E1D] text-xs font-bebas px-2 py-1 rounded">FREE</span>
+                  <span className="bg-emerald-400 text-[#051B11] text-xs font-bebas px-2 py-1 rounded">FREE</span>
                 )}
               </div>
 
@@ -204,7 +204,7 @@ export default function Home() {
 
               {/* FREE RECIPE DETAILS */}
               {product.free && showFree && (
-                <div className="mb-4 space-y-3 bg-[#0A2E1D] p-4 rounded border border-emerald-400/30">
+                <div className="mb-4 space-y-3 bg-[#051B11] p-4 rounded border border-emerald-400/30">
                   <div>
                     <h4 className="text-emerald-400 font-bebas text-sm mb-1">INGREDIENTS:</h4>
                     <ul className="space-y-1">
@@ -231,14 +231,14 @@ export default function Home() {
               </p>
 
               {/* PRICE + BUTTONS */}
-              <div className="flex items-center justify-between pt-4 border-t border-[#1B5E3A]">
+              <div className="flex items-center justify-between pt-4 border-t border-[#1B4332]">
                 <span className="text-3xl font-bebas text-white">
                   {product.free ? 'FREE' : `M${product.price}`}
                 </span>
                 {product.free ? (
                   <button
                     onClick={() => setShowFree(!showFree)}
-                    className="px-5 py-3 rounded-lg font-bebas text-lg tracking-wider transition active:scale-95 text-center bg-emerald-400 text-[#0A2E1D] hover:bg-emerald-300"
+                    className="px-5 py-3 rounded-lg font-bebas text-lg tracking-wider transition active:scale-95 text-center bg-emerald-400 text-[#051B11] hover:bg-emerald-300"
                   >
                     {showFree ? 'HIDE RECIPE' : 'GET FREE 🔓'}
                   </button>
@@ -249,7 +249,7 @@ export default function Home() {
                       className={`px-5 py-3 rounded-lg font-bebas text-lg tracking-wider transition active:scale-95 text-center ${
                         product.franchise 
                           ? 'bg-red-500 text-white hover:bg-red-400' 
-                          : 'bg-[#1B5E3A] text-white hover:bg-[#247347]'
+                          : 'bg-[#1B4332] text-white hover:bg-[#2D5A42]'
                       }`}
                     >
                       MPESA 🔓
@@ -266,7 +266,7 @@ export default function Home() {
 
               {/* EFT DETAILS MODAL - YOUR BANK */}
               {showEFT === product.id && (
-                <div className="mt-3 p-3 bg-[#0A2E1D] border border-[#D4AF37]/40 rounded text-xs">
+                <div className="mt-3 p-3 bg-[#051B11] border border-[#D4AF37]/40 rounded text-xs">
                   <p className="text-[#D4AF37] font-bebas mb-1">EFT DETAILS:</p>
                   <p className="text-gray-300 font-montserrat">Bank: Lesotho Post Bank</p>
                   <p className="text-gray-300 font-montserrat">Account: 1036202900018</p>
@@ -286,7 +286,7 @@ export default function Home() {
         </div>
 
         {/* INSTRUCTIONS */}
-        <div className="bg-[#0F3D28]/50 p-6 rounded-lg border border-[#D4AF37]/20 mt-10 text-center">
+        <div className="bg-[#0A2E1D]/50 p-6 rounded-lg border border-[#D4AF37]/20 mt-10 text-center">
           <h3 className="font-bebas text-2xl text-[#D4AF37] mb-3">HOW IT WORKS</h3>
           <ol className="text-gray-200 font-montserrat space-y-2 text-sm max-w-md mx-auto">
             <li>1. Try FREE SAMPLE first - no payment</li>
@@ -309,4 +309,4 @@ export default function Home() {
       </div>
     </main>
   );
-      }
+        }
