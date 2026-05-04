@@ -110,23 +110,23 @@ export default function Home() {
     <main className="min-h-screen bg-[#051B11] text-white" style={{fontFamily: 'Montserrat, sans-serif'}}>
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-5xl md:text-7xl font-black text-[#D4AF37] mb-4" style={{fontFamily: 'Bebas Neue, cursive'}}>
+          <h1 className="text-5xl md:text-7xl font-black text-[#D4AF37] mb-4 uppercase tracking-tight" style={{fontFamily: 'Montserrat, sans-serif'}}>
             ZAP SAUCE
           </h1>
 
           <div className="flex gap-3 justify-center mb-6 text-sm flex-wrap">
-            <a href="/track" className="text-[#D4AF37] hover:text-white border border-[#D4AF37] px-4 py-2 rounded font-bebas tracking-wider transition-colors">
+            <a href="/track" className="text-[#D4AF37] hover:text-white border border-[#D4AF37] px-4 py-2 rounded font-black uppercase tracking-wider transition-colors">
               FREE RECIPE
             </a>
-            <a href="/portal" className="text-emerald-400 hover:text-white border border-emerald-400 px-4 py-2 rounded font-bebas tracking-wider transition-colors">
+            <a href="/portal" className="text-emerald-400 hover:text-white border border-emerald-400 px-4 py-2 rounded font-black uppercase tracking-wider transition-colors">
               MY HEAL ⚡
             </a>
-            <a href="/admin" className="text-gray-600 hover:text-[#D4AF37] px-4 py-2 rounded font-bebas tracking-wider transition-colors">
+            <a href="/admin" className="text-gray-600 hover:text-[#D4AF37] px-4 py-2 rounded font-black uppercase tracking-wider transition-colors">
               VAULT
             </a>
           </div>
 
-          <p className="text-lg text-gray-300 mb-2 font-montserrat">
+          <p className="text-lg text-gray-300 mb-2 font-montserrat font-semibold">
             What hurts? We have a recipe for that.
           </p>
           <p className="text-sm text-gray-500 font-montserrat">
@@ -138,19 +138,19 @@ export default function Home() {
           <div className="bg-[#0A2E1D] border-2 border-[#1B4332] rounded-lg p-6">
             <div className="flex justify-between items-start mb-4">
               <div>
-                <p className="text-xs text-gray-500 font-montserrat mb-1">FREE</p>
-                <h2 className="text-3xl font-black text-emerald-400" style={{fontFamily: 'Bebas Neue, cursive'}}>
+                <p className="text-xs text-gray-500 font-montserrat mb-1 uppercase font-bold">FREE</p>
+                <h2 className="text-3xl font-black text-emerald-400 uppercase tracking-tight" style={{fontFamily: 'Montserrat, sans-serif'}}>
                   FREE SAMPLE
                 </h2>
-                <p className="text-sm text-gray-400 font-montserrat">Turmeric Starter</p>
+                <p className="text-sm text-gray-400 font-montserrat font-semibold">Turmeric Starter</p>
               </div>
-              <span className="bg-emerald-500 text-[#051B11] text-xs font-bold px-3 py-1 rounded font-bebas">
+              <span className="bg-emerald-500 text-[#051B11] text-xs font-black px-3 py-1 rounded uppercase">
                 FREE
               </span>
             </div>
             <div className="mb-4">
-              <p className="text-xs text-[#D4AF37] font-montserrat mb-2">CURES:</p>
-              <ul className="space-y-1 text-sm text-gray-300 font-montserrat">
+              <p className="text-xs text-[#D4AF37] font-montserrat mb-2 uppercase font-bold">CURES:</p>
+              <ul className="space-y-1 text-sm text-gray-300 font-montserrat font-medium">
                 <li>✓ First-time inflammation test</li>
                 <li>✓ Morning energy boost</li>
                 <li>✓ Beginner-friendly intro</li>
@@ -162,31 +162,31 @@ export default function Home() {
             </div>
             <div className="flex justify-between items-end">
               <div>
-                <p className="text-3xl font-black text-white font-bebas">FREE</p>
+                <p className="text-3xl font-black text-white uppercase">FREE</p>
                 <p className="text-xs text-gray-500 font-montserrat">Tap to view instantly</p>
               </div>
-              <a href="/track" className="bg-emerald-500 hover:bg-emerald-400 text-[#051B11] font-bold px-6 py-3 rounded font-bebas text-lg tracking-wider transition-colors">
+              <a href="/track" className="bg-emerald-500 hover:bg-emerald-400 text-[#051B11] font-black px-6 py-3 rounded uppercase tracking-wider transition-colors">
                 GET FREE 🔓
               </a>
             </div>
           </div>
 
           <div className="bg-[#0A2E1D] border-2 border-[#D4AF37] rounded-lg p-6 relative">
-            <div className="absolute -top-3 -right-3 bg-[#D4AF37] text-[#051B11] text-xs font-bold px-3 py-1 rounded font-bebas">
+            <div className="absolute -top-3 -right-3 bg-[#D4AF37] text-[#051B11] text-xs font-black px-3 py-1 rounded uppercase">
               AUTO
             </div>
             <div className="flex justify-between items-start mb-4">
               <div>
-                <p className="text-xs text-gray-500 font-montserrat mb-1">MONTHLY</p>
-                <h2 className="text-3xl font-black text-[#D4AF37]" style={{fontFamily: 'Bebas Neue, cursive'}}>
+                <p className="text-xs text-gray-500 font-montserrat mb-1 uppercase font-bold">MONTHLY</p>
+                <h2 className="text-3xl font-black text-[#D4AF37] uppercase tracking-tight" style={{fontFamily: 'Montserrat, sans-serif'}}>
                   MONTHLY HEAL
                 </h2>
-                <p className="text-sm text-gray-400 font-montserrat">Auto-Restock Plan</p>
+                <p className="text-sm text-gray-400 font-montserrat font-semibold">Auto-Restock Plan</p>
               </div>
             </div>
             <div className="mb-4">
-              <p className="text-xs text-[#D4AF37] font-montserrat mb-2">CURES:</p>
-              <ul className="space-y-1 text-sm text-gray-300 font-montserrat">
+              <p className="text-xs text-[#D4AF37] font-montserrat mb-2 uppercase font-bold">CURES:</p>
+              <ul className="space-y-1 text-sm text-gray-300 font-montserrat font-medium">
                 <li>✓ Never run out of Zap Sauce</li>
                 <li>✓ Save M20 vs buying single monthly</li>
                 <li>✓ Priority WhatsApp support</li>
@@ -198,11 +198,11 @@ export default function Home() {
             </div>
             <div className="flex justify-between items-end">
               <div>
-                <p className="text-3xl font-black text-white font-bebas">M120</p>
+                <p className="text-3xl font-black text-white uppercase">M120</p>
                 <p className="text-xs text-gray-500 font-montserrat">M120/month · Cancel anytime</p>
                 <p className="text-xs text-gray-600 font-montserrat">Outside Lesotho? EFT →</p>
               </div>
-              <button onClick={handleSubscribe} className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-bold px-6 py-3 rounded font-bebas text-lg tracking-wider transition-colors">
+              <button onClick={handleSubscribe} className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black px-6 py-3 rounded uppercase tracking-wider transition-colors">
                 SUBSCRIBE 🔓
               </button>
             </div>
@@ -215,13 +215,13 @@ export default function Home() {
         <div className="bg-[#0A2E1D] border-2 border-[#D4AF37] rounded-lg p-6 mb-8">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <p className="text-xs text-gray-500 font-montserrat mb-1">BUNDLE</p>
-              <h2 className="text-3xl font-black text-[#D4AF37]" style={{fontFamily: 'Bebas Neue, cursive'}}>
+              <p className="text-xs text-gray-500 font-montserrat mb-1 uppercase font-bold">BUNDLE</p>
+              <h2 className="text-3xl font-black text-[#D4AF37] uppercase tracking-tight" style={{fontFamily: 'Montserrat, sans-serif'}}>
                 PACK - ALL 5
               </h2>
-              <p className="text-sm text-gray-400 font-montserrat">Full arsenal. Save M164</p>
+              <p className="text-sm text-gray-400 font-montserrat font-semibold">Full arsenal. Save M164</p>
             </div>
-            <span className="bg-[#D4AF37] text-[#051B11] text-xs font-bold px-3 py-1 rounded font-bebas">
+            <span className="bg-[#D4AF37] text-[#051B11] text-xs font-black px-3 py-1 rounded uppercase">
               BEST VALUE
             </span>
           </div>
@@ -230,11 +230,11 @@ export default function Home() {
           </div>
           <div className="flex justify-between items-end">
             <div>
-              <p className="text-3xl font-black text-white font-bebas">M647</p>
+              <p className="text-3xl font-black text-white uppercase">M647</p>
               <p className="text-xs text-gray-500 font-montserrat line-through">M811</p>
-              <p className="text-xs text-emerald-400 font-montserrat">Save M164</p>
+              <p className="text-xs text-emerald-400 font-montserrat font-bold">Save M164</p>
             </div>
-            <button onClick={() => handleMpesa(647, 'PACK')} className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-bold px-6 py-3 rounded font-bebas text-lg tracking-wider transition-colors">
+            <button onClick={() => handleMpesa(647, 'PACK')} className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black px-6 py-3 rounded uppercase tracking-wider transition-colors">
               MPESA PACK 🔒
             </button>
           </div>
@@ -244,20 +244,20 @@ export default function Home() {
           {products.map((p) => (
             <div key={p.ref} className="bg-[#0A2E1D] border-2 border-[#1B4332] rounded-lg p-6 relative">
               {p.tag && (
-                <span className="absolute -top-3 -right-3 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded font-bebas">
+                <span className="absolute -top-3 -right-3 bg-orange-500 text-white text-xs font-black px-3 py-1 rounded uppercase">
                   {p.tag}
                 </span>
               )}
               <div className="mb-4">
-                <p className="text-xs text-gray-500 font-montserrat mb-1">RECIPE</p>
-                <h3 className="text-2xl font-black" style={{fontFamily: 'Bebas Neue, cursive', color: p.color}}>
+                <p className="text-xs text-gray-500 font-montserrat mb-1 uppercase font-bold">RECIPE</p>
+                <h3 className="text-2xl font-black uppercase tracking-tight" style={{fontFamily: 'Montserrat, sans-serif', color: p.color}}>
                   {p.name}
                 </h3>
-                <p className="text-sm text-gray-400 font-montserrat">{p.subtitle}</p>
+                <p className="text-sm text-gray-400 font-montserrat font-semibold">{p.subtitle}</p>
               </div>
               <div className="mb-4">
-                <p className="text-xs text-[#D4AF37] font-montserrat mb-2">FOR:</p>
-                <ul className="space-y-1 text-sm text-gray-300 font-montserrat">
+                <p className="text-xs text-[#D4AF37] font-montserrat mb-2 uppercase font-bold">FOR:</p>
+                <ul className="space-y-1 text-sm text-gray-300 font-montserrat font-medium">
                   {p.cures.map((c, i) => (
                     <li key={i}>✓ {c}</li>
                   ))}
@@ -268,12 +268,12 @@ export default function Home() {
               </div>
               <div className="flex justify-between items-end">
                 <div>
-                  <p className="text-3xl font-black text-white font-bebas">M{p.price}</p>
+                  <p className="text-3xl font-black text-white uppercase">M{p.price}</p>
                   <p className="text-xs text-gray-600 font-montserrat">Ref: {p.ref}</p>
                 </div>
                 <button
                   onClick={() => handleMpesa(p.price, p.ref)}
-                  className="bg-gray-700 hover:bg-gray-600 text-white font-bold px-6 py-3 rounded font-bebas text-lg tracking-wider transition-colors flex items-center gap-2"
+                  className="bg-gray-700 hover:bg-gray-600 text-white font-black px-6 py-3 rounded uppercase tracking-wider transition-colors flex items-center gap-2"
                 >
                   MPESA 🔒
                 </button>
@@ -286,7 +286,7 @@ export default function Home() {
         </div>
 
         {copied && (
-          <div className="fixed bottom-4 right-4 bg-emerald-500 text-white px-4 py-2 rounded font-bebas">
+          <div className="fixed bottom-4 right-4 bg-emerald-500 text-white px-4 py-2 rounded font-black uppercase">
             USSD COPIED ✓
           </div>
         )}
