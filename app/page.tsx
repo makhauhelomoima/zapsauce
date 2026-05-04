@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 export default function Home() {
   const [showFree, setShowFree] = useState(false);
+  const [showEFT, setShowEFT] = useState<string | null>(null);
 
   const products = [
     {
@@ -146,7 +147,7 @@ export default function Home() {
             What hurts? We have a recipe for that.
           </p>
           <p className="text-xs text-gray-400 font-montserrat">
-            Start free. Upgrade for full power.
+            Start free. Upgrade for full power. Lesotho → World 🇱🇸🌍
           </p>
         </div>
 
@@ -194,7 +195,7 @@ export default function Home() {
                 <ul className="space-y-2">
                   {product.cures.map((cure, i) => (
                     <li key={i} className="text-gray-200 text-sm font-montserrat flex items-start">
-                      <span className={product.free ? 'text-emerald-400' : 'text-[#D4AF37]'} mr-2>✓</span>
+                      <span className={`mr-2 ${product.free ? 'text-emerald-400' : 'text-[#D4AF37]'}`}>✓</span>
                       {cure}
                     </li>
                   ))}
@@ -229,7 +230,7 @@ export default function Home() {
                 {product.teaser}
               </p>
 
-              {/* PRICE + BUTTON */}
+              {/* PRICE + BUTTONS */}
               <div className="flex items-center justify-between pt-4 border-t border-[#1B5E3A]">
                 <span className="text-3xl font-bebas text-white">
                   {product.free ? 'FREE' : `M${product.price}`}
@@ -242,20 +243,43 @@ export default function Home() {
                     {showFree ? 'HIDE RECIPE' : 'GET FREE 🔓'}
                   </button>
                 ) : (
-                  <a
-                    href={`tel:${product.ussd}`}
-                    className={`px-5 py-3 rounded-lg font-bebas text-lg tracking-wider transition active:scale-95 text-center ${
-                      product.franchise 
-                        ? 'bg-red-500 text-white hover:bg-red-400' 
-                        : 'bg-[#1B5E3A] text-white hover:bg-[#247347]'
-                    }`}
-                  >
-                    GET RECIPE 🔓
-                  </a>
+                  <div className="flex flex-col gap-2">
+                    <a
+                      href={`tel:${product.ussd}`}
+                      className={`px-5 py-3 rounded-lg font-bebas text-lg tracking-wider transition active:scale-95 text-center ${
+                        product.franchise 
+                          ? 'bg-red-500 text-white hover:bg-red-400' 
+                          : 'bg-[#1B5E3A] text-white hover:bg-[#247347]'
+                      }`}
+                    >
+                      MPESA 🔓
+                    </a>
+                    <button
+                      onClick={() => setShowEFT(showEFT === product.id ? null : product.id)}
+                      className="text-xs text-[#D4AF37] font-montserrat hover:text-[#E5C158]"
+                    >
+                      Outside Lesotho? EFT →
+                    </button>
+                  </div>
                 )}
               </div>
+
+              {/* EFT DETAILS MODAL */}
+              {showEFT === product.id && (
+                <div className="mt-3 p-3 bg-[#0A2E1D] border border-[#D4AF37]/40 rounded text-xs">
+                  <p className="text-[#D4AF37] font-bebas mb-1">EFT DETAILS:</p>
+                  <p className="text-gray-300 font-montserrat">Bank: Standard Lesotho Bank</p>
+                  <p className="text-gray-300 font-montserrat">Account: 9080001234567</p>
+                  <p className="text-gray-300 font-montserrat">Branch: Maseru</p>
+                  <p className="text-gray-300 font-montserrat">Swift: SBICLSMX</p>
+                  <p className="text-gray-300 font-montserrat">Ref: ZAP-{product.name}</p>
+                  <p className="text-gray-300 font-montserrat">Amount: M{product.price} / ZAR{product.price} / ${Math.round(product.price/18.5)}</p>
+                  <p className="text-gray-400 font-montserrat mt-2">WhatsApp proof to 57031600 after payment</p>
+                </div>
+              )}
+
               <p className="text-center text-gray-500 text-xs mt-2 font-montserrat">
-                {product.free ? 'Tap to view instantly' : 'Tap → Pay via Mpesa → Screenshot recipe'}
+                {product.free ? 'Tap to view instantly' : 'Mpesa instant • EFT manual unlock'}
               </p>
             </div>
           ))}
@@ -267,8 +291,8 @@ export default function Home() {
           <ol className="text-gray-200 font-montserrat space-y-2 text-sm max-w-md mx-auto">
             <li>1. Try FREE SAMPLE first - no payment</li>
             <li>2. Feel the difference in 7 days</li>
-            <li>3. Upgrade to paid recipes for full power</li>
-            <li>4. WhatsApp 57031600 to order jars OR keep recipes</li>
+            <li>3. Upgrade: MPESA for Lesotho • EFT for World</li>
+            <li>4. WhatsApp 57031600 to order jars OR get recipes</li>
           </ol>
           <p className="text-[#D4AF37] text-xs mt-4 font-montserrat">
             M2500 Franchise: PDF "The Zap Sauce Code" sent via WhatsApp after payment
@@ -278,11 +302,11 @@ export default function Home() {
         {/* FOOTER */}
         <div className="text-center mt-12 text-gray-500 text-xs font-montserrat">
           <p>© 2026 Zap Sauce. Lesotho 🇱🇸</p>
-          <p className="mt-2">Free recipe instant. Paid recipes unlock after Mpesa to 57031600</p>
+          <p className="mt-2">Free instant • Mpesa: 57031600 • EFT: WhatsApp for details</p>
           <p className="mt-1 text-[#D4AF37]/70">Green = Healing. Gold = Yield. 💰</p>
         </div>
 
       </div>
     </main>
   );
-      }
+        }
