@@ -37,7 +37,7 @@ export default function Home() {
       name: 'ORIGINAL',
       subtitle: 'Turmeric Gold',
       price: 120,
-      ussd: '*200*1*1*57031600*120#',
+      ussd: '*200*1*1*57031600*120%23',
       cures: [
         'Chronic inflammation',
         'Joint stiffness & arthritis pain',
@@ -51,7 +51,7 @@ export default function Home() {
       name: 'CITRUS',
       subtitle: 'Lemon Zest',
       price: 120,
-      ussd: '*200*1*1*57031600*120#',
+      ussd: '*200*1*1*57031600*120%23',
       cures: [
         'Vitamin C deficiency',
         'Seasonal flu & congestion',
@@ -65,7 +65,7 @@ export default function Home() {
       name: 'WARRIOR PRO',
       subtitle: 'Black Pepper Boost',
       price: 140,
-      ussd: '*200*1*1*57031600*140#',
+      ussd: '*200*1*1*57031600*140%23',
       cures: [
         'Poor nutrient absorption',
         'Post-workout inflammation',
@@ -79,7 +79,7 @@ export default function Home() {
       name: 'QUEEN',
       subtitle: 'Cinnamon Royal',
       price: 130,
-      ussd: '*200*1*1*57031600*130#',
+      ussd: '*200*1*1*57031600*130%23',
       cures: [
         'Blood sugar spikes',
         'Hormonal imbalance',
@@ -93,7 +93,7 @@ export default function Home() {
       name: 'BONE',
       subtitle: 'Ginger Joint',
       price: 130,
-      ussd: '*200*1*1*57031600*130#',
+      ussd: '*200*1*1*57031600*130%23',
       cures: [
         'Knee & hip joint pain',
         'Morning stiffness',
@@ -107,7 +107,7 @@ export default function Home() {
       name: 'ROYAL PACK',
       subtitle: 'All 5 Recipes',
       price: 500,
-      ussd: '*200*1*1*57031600*500#',
+      ussd: '*200*1*1*57031600*500%23',
       cures: [
         'All of the above',
         'Save M120 vs buying singles',
@@ -122,7 +122,7 @@ export default function Home() {
       name: 'FRANCHISE',
       subtitle: 'The Zap Sauce Code',
       price: 2500,
-      ussd: '*200*1*1*57031600*2500#',
+      ussd: '*200*1*1*57031600*2500%23',
       cures: [
         'No income? Start M10,000/month business',
         'No suppliers? Get wholesale contacts',
