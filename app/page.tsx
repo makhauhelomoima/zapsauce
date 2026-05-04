@@ -264,14 +264,14 @@ export default function Home() {
                 )}
               </div>
 
-              {/* EFT DETAILS MODAL */}
+              {/* EFT DETAILS MODAL - YOUR BANK */}
               {showEFT === product.id && (
                 <div className="mt-3 p-3 bg-[#0A2E1D] border border-[#D4AF37]/40 rounded text-xs">
                   <p className="text-[#D4AF37] font-bebas mb-1">EFT DETAILS:</p>
-                  <p className="text-gray-300 font-montserrat">Bank: Standard Lesotho Bank</p>
-                  <p className="text-gray-300 font-montserrat">Account: 9080001234567</p>
-                  <p className="text-gray-300 font-montserrat">Branch: Maseru</p>
-                  <p className="text-gray-300 font-montserrat">Swift: SBICLSMX</p>
+                  <p className="text-gray-300 font-montserrat">Bank: Lesotho Post Bank</p>
+                  <p className="text-gray-300 font-montserrat">Account: 1036202900018</p>
+                  <p className="text-gray-300 font-montserrat">Branch: BONHOMME, MASERU</p>
+                  <p className="text-gray-300 font-montserrat">Swift: LESHLSMMXXX</p>
                   <p className="text-gray-300 font-montserrat">Ref: ZAP-{product.name}</p>
                   <p className="text-gray-300 font-montserrat">Amount: M{product.price} / ZAR{product.price} / ${Math.round(product.price/18.5)}</p>
                   <p className="text-gray-400 font-montserrat mt-2">WhatsApp proof to 57031600 after payment</p>
@@ -302,11 +302,11 @@ export default function Home() {
         {/* FOOTER */}
         <div className="text-center mt-12 text-gray-500 text-xs font-montserrat">
           <p>© 2026 Zap Sauce. Lesotho 🇱🇸</p>
-          <p className="mt-2">Free instant • Mpesa: 57031600 • EFT: WhatsApp for details</p>
+          <p className="mt-2">Free instant • Mpesa: 57031600 • EFT: Lesotho Post Bank</p>
           <p className="mt-1 text-[#D4AF37]/70">Green = Healing. Gold = Yield. 💰</p>
         </div>
 
       </div>
     </main>
   );
-        }
+      }
