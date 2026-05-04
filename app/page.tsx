@@ -114,7 +114,7 @@ export default function Home() {
             ZAP SAUCE
           </h1>
           
-          <div className="flex gap-3 justify-center mb-6 text-sm">
+          <div className="flex gap-3 justify-center mb-6 text-sm flex-wrap">
             <a href="/track" className="text-[#D4AF37] hover:text-white border border-[#D4AF37] px-4 py-2 rounded font-bebas tracking-wider transition-colors">
               FREE RECIPE
             </a>
@@ -183,6 +183,7 @@ export default function Home() {
                 </h2>
                 <p className="text-sm text-gray-400 font-montserrat">Auto-Restock Plan</p>
               </div>
+            </div>
             <div className="mb-4">
               <p className="text-xs text-[#D4AF37] font-montserrat mb-2">CURES:</p>
               <ul className="space-y-1 text-sm text-gray-300 font-montserrat">
