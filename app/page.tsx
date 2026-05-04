@@ -103,18 +103,33 @@ export default function Home() {
       teaser: 'Mobility in a spoon. Ginger + turmeric synergy. M130 unlocks 30-day protocol.'
     },
     {
+      id: 'herb',
+      name: 'HERB FIRE',
+      subtitle: 'Garlic Rosemary',
+      price: 130,
+      ussd: '*200*1*1*57031600*130%23',
+      cures: [
+        'High blood pressure & cholesterol',
+        'Chest congestion & coughs',
+        'Brain fog & memory issues',
+        'Blood sugar regulation'
+      ],
+      teaser: 'Savory medicine. Garlic + thyme + okra + rosemary paste. For bread, meat, or spoon. M130 unlocks full formula.',
+      savory: true
+    },
+    {
       id: 'pack',
       name: 'ROYAL PACK',
-      subtitle: 'All 5 Recipes',
-      price: 500,
-      ussd: '*200*1*1*57031600*500%23',
+      subtitle: 'All 6 Recipes',
+      price: 600,
+      ussd: '*200*1*1*57031600*600%23',
       cures: [
         'All of the above',
-        'Save M120 vs buying singles',
+        'Save M160 vs buying singles',
         '30-day full system reset',
-        'Find your perfect recipe'
+        'Sweet + Savory coverage'
       ],
-      teaser: 'Complete arsenal. 5 cures. 1 payment. M500 unlocks all 5 formulas instantly.',
+      teaser: 'Complete arsenal. 6 cures. Sweet + Savory. 1 payment. M600 unlocks all formulas instantly.',
       best: true
     },
     {
@@ -129,7 +144,7 @@ export default function Home() {
         'No marketing? Get scripts + funnels',
         'No legal? Get compliance checklist'
       ],
-      teaser: 'Own the business. "The Zap Sauce Code" PDF + suppliers + pricing + Mpesa setup. M2500 unlocks lifetime access.',
+      teaser: 'Own the business. "The Zap Sauce Code" PDF + all 6 recipes + suppliers + pricing + Mpesa setup. M2500 unlocks lifetime access.',
       franchise: true
     }
   ];
@@ -147,7 +162,7 @@ export default function Home() {
             What hurts? We have a recipe for that.
           </p>
           <p className="text-xs text-gray-400 font-montserrat">
-            Start free. Upgrade for full power. Lesotho → World 🇱🇸🌍
+            Sweet + Savory Healing. Start free. Lesotho → World 🇱🇸🌍
           </p>
         </div>
 
@@ -159,18 +174,20 @@ export default function Home() {
               className={`bg-[#0A2E1D] rounded-lg border-2 p-6 flex flex-col ${
                 product.best ? 'border-[#D4AF37] ring-1 ring-[#D4AF37]/30' : 
                 product.franchise ? 'border-red-500' : 
-                product.free ? 'border-emerald-400' : 'border-[#1B4332]'
+                product.free ? 'border-emerald-400' : 
+                product.savory ? 'border-[#8B4513]' : 'border-[#1B4332]'
               }`}
             >
               {/* BADGES */}
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <p className="text-xs text-gray-400 font-montserrat uppercase mb-1">
-                    {product.franchise ? 'BUSINESS' : product.free ? 'FREE' : 'RECIPE'}
+                    {product.franchise ? 'BUSINESS' : product.free ? 'FREE' : product.savory ? 'SAVORY' : 'SWEET'}
                   </p>
                   <h2 className={`font-bebas text-3xl ${
                     product.franchise ? 'text-red-400' : 
-                    product.free ? 'text-emerald-400' : 'text-[#D4AF37]'
+                    product.free ? 'text-emerald-400' : 
+                    product.savory ? 'text-[#D2691E]' : 'text-[#D4AF37]'
                   }`}>
                     {product.name}
                   </h2>
@@ -185,17 +202,24 @@ export default function Home() {
                 {product.free && (
                   <span className="bg-emerald-400 text-[#051B11] text-xs font-bebas px-2 py-1 rounded">FREE</span>
                 )}
+                {product.savory && (
+                  <span className="bg-[#8B4513] text-white text-xs font-bebas px-2 py-1 rounded">SAVORY</span>
+                )}
               </div>
 
               {/* CURES */}
               <div className="mb-5 flex-grow">
                 <h3 className={`font-bebas text-lg mb-3 ${
-                  product.free ? 'text-emerald-400' : 'text-[#D4AF37]'
+                  product.free ? 'text-emerald-400' : 
+                  product.savory ? 'text-[#D2691E]' : 'text-[#D4AF37]'
                 }`}>CURES:</h3>
                 <ul className="space-y-2">
                   {product.cures.map((cure, i) => (
                     <li key={i} className="text-gray-200 text-sm font-montserrat flex items-start">
-                      <span className={`mr-2 ${product.free ? 'text-emerald-400' : 'text-[#D4AF37]'}`}>✓</span>
+                      <span className={`mr-2 ${
+                        product.free ? 'text-emerald-400' : 
+                        product.savory ? 'text-[#D2691E]' : 'text-[#D4AF37]'
+                      }`}>✓</span>
                       {cure}
                     </li>
                   ))}
@@ -249,6 +273,8 @@ export default function Home() {
                       className={`px-5 py-3 rounded-lg font-bebas text-lg tracking-wider transition active:scale-95 text-center ${
                         product.franchise 
                           ? 'bg-red-500 text-white hover:bg-red-400' 
+                          : product.savory
+                          ? 'bg-[#8B4513] text-white hover:bg-[#A0522D]'
                           : 'bg-[#1B4332] text-white hover:bg-[#2D5A42]'
                       }`}
                     >
@@ -279,7 +305,7 @@ export default function Home() {
               )}
 
               <p className="text-center text-gray-500 text-xs mt-2 font-montserrat">
-                {product.free ? 'Tap to view instantly' : 'Mpesa instant • EFT manual unlock'}
+                {product.free ? 'Tap to view instantly' : product.savory ? 'Spread on bread • Rub on meat' : 'Mpesa instant • EFT manual unlock'}
               </p>
             </div>
           ))}
@@ -291,19 +317,19 @@ export default function Home() {
           <ol className="text-gray-200 font-montserrat space-y-2 text-sm max-w-md mx-auto">
             <li>1. Try FREE SAMPLE first - no payment</li>
             <li>2. Feel the difference in 7 days</li>
-            <li>3. Upgrade: MPESA for Lesotho • EFT for World</li>
+            <li>3. Upgrade: Sweet recipes for morning. Savory for evening.</li>
             <li>4. WhatsApp 57031600 to order jars OR get recipes</li>
           </ol>
           <p className="text-[#D4AF37] text-xs mt-4 font-montserrat">
-            M2500 Franchise: PDF "The Zap Sauce Code" sent via WhatsApp after payment
+            M2500 Franchise: PDF "The Zap Sauce Code" with all 6 recipes sent via WhatsApp
           </p>
         </div>
 
         {/* FOOTER */}
         <div className="text-center mt-12 text-gray-500 text-xs font-montserrat">
           <p>© 2026 Zap Sauce. Lesotho 🇱🇸</p>
-          <p className="mt-2">Free instant • Mpesa: 57031600 • EFT: Lesotho Post Bank</p>
-          <p className="mt-1 text-[#D4AF37]/70">Green = Healing. Gold = Yield. 💰</p>
+          <p className="mt-2">Sweet + Savory Healing • Mpesa: 57031600 • EFT: Lesotho Post Bank</p>
+          <p className="mt-1 text-[#D4AF37]/70">Green = Healing. Gold = Yield. Brown = Earth. 💰</p>
         </div>
 
       </div>
