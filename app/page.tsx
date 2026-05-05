@@ -37,45 +37,71 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#051B11] text-white" style={{fontFamily: 'Montserrat, sans-serif'}}>
-      <div className="relative w-full">
-        <img src={HERO_URL} alt="Zap Sauce" className="w-full h-auto object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#051B11] via-transparent to-transparent"></div>
-        <div className="absolute bottom-0 left-0 right-0 text-center pb-8 px-4">
-          <h1 className="text-6xl md:text-8xl font-black text-[#D4AF37] mb-2 uppercase tracking-tight drop-shadow-lg">
+      {/* HEADER NAV - MONEY BUTTONS BACK */}
+      <header className="bg-[#0A2E1D] border-b border-[#D4AF37] p-4 sticky top-0 z-40">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-black text-[#D4AF37]">ZAP SAUCE ⚡</h1>
+          <div className="flex gap-2">
+            <a href="/portal" className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-black px-4 py-2 rounded text-sm uppercase">
+              PORTAL
+            </a>
+            <a href="/admin" className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black px-4 py-2 rounded text-sm uppercase">
+              ADMIN
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* HERO SECTION - FIXED + VISIBLE */}
+      <div className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden">
+        <img
+          src={HERO_URL}
+          alt="Zap Sauce"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#051B11] via-[#051B11]/40 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 text-center pb-12 px-4">
+          <h2 className="text-5xl md:text-7xl font-black text-[#D4AF37] mb-3 uppercase tracking-tight drop-shadow-2xl">
             ZAP SAUCE
-          </h1>
-          <p className="text-2xl md:text-3xl font-black text-white font-montserrat drop-shadow-lg">
+          </h2>
+          <p className="text-2xl md:text-4xl font-black text-white font-montserrat drop-shadow-2xl">
             'Immunity in a jar!'
+          </p>
+          <p className="text-lg text-gray-200 mt-4 font-montserrat drop-shadow-lg">
+            Product of Lesotho 🇱🇸 | By Makhauhelo Moima
           </p>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto p-4">
-        <h2 className="text-2xl font-black text-emerald-400 mb-4 mt-8 uppercase">Free Teasers ⚡</h2>
+        {/* TEASERS */}
+        <h2 className="text-3xl font-black text-emerald-400 mb-4 mt-8 uppercase">FREE TEASERS ⚡</h2>
         <div className="grid md:grid-cols-2 gap-4 mb-8">
           {freeRecipes.map(([key, recipe]) => (
-            <div key={key} className="bg-[#0A2E1D] p-6 rounded-lg border-2 border-emerald-500">
+            <div key={key} className="bg-[#0A2E1D] p-6 rounded-lg border-2 border-emerald-500 shadow-lg">
               <h3 className="text-xl font-black text-emerald-400 mb-3">{recipe.name}</h3>
-              <button onClick={() => handleFree(key)} className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black p-3 rounded uppercase">
+              <button onClick={() => handleFree(key)} className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black p-4 rounded uppercase tracking-wider">
                 VIEW FREE
               </button>
             </div>
           ))}
         </div>
 
+        {/* MONEY BUTTONS */}
         <div className="grid md:grid-cols-2 gap-4 mb-8">
-          <button onClick={() => setShowExplore(true)} className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black p-6 rounded-lg uppercase text-xl tracking-wider">
+          <button onClick={() => setShowExplore(true)} className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black p-6 rounded-lg uppercase text-xl tracking-wider shadow-xl">
             EXPLORE RECIPES 📋
           </button>
-          <button onClick={() => setShowPdfMenu(true)} className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-black p-6 rounded-lg uppercase text-xl tracking-wider">
-            REQUEST PDF 📄
+          <button onClick={() => setShowPdfMenu(true)} className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-black p-6 rounded-lg uppercase text-xl tracking-wider shadow-xl border-2 border-[#D4AF37]">
+            REQUEST PDF 📄 M197
           </button>
         </div>
 
-        <div className="text-center mb-8">
-          <a href="/portal" className="text-[#D4AF37] underline font-montserrat font-bold">
-            M120 Subscribers: Customer Portal →
-          </a>
+        {/* TRUST BAR */}
+        <div className="bg-[#0A2E1D] p-4 rounded-lg border border-[#D4AF37] mb-8 text-center">
+          <p className="text-[#D4AF37] font-black font-montserrat">
+            M120 = 28 Days Healing | M197 = Full Protocols | 0MB Data Popups
+          </p>
         </div>
 
         {showExplore && (
@@ -119,9 +145,6 @@ export default function Home() {
               <button onClick={() => setShowPdfMenu(false)} className="w-full bg-gray-600 text-white font-black p-3 rounded uppercase mt-6">
                 CLOSE
               </button>
-              <p className="text-xs text-gray-500 mt-4 text-center font-montserrat">
-                Tap recipe → WhatsApp opens → Pay M197 → PDF sent same day
-              </p>
             </div>
           </div>
         )}
