@@ -121,7 +121,9 @@ export default function AdminPage() {
                 </div>
                 <div className="text-right font-black text-white">M{recipe.cost}</div>
                 <div className="text-center text-gray-400 text-xs">{recipe._ref}</div>
-                <div className="text-center text-gray-400 text-xs">{recipe._ussd || 'N/A'}</div>
+                <div className="text-center text-[#00E06D] font-black text-xs">
+                  {recipe._ussd || 'N/A'}
+                </div>
               </div>
             ))}
           </div>
@@ -129,6 +131,7 @@ export default function AdminPage() {
 
         <div className="text-center mt-8 mb-6">
           <p className="text-xs text-gray-600">© 2026 Zap Sauce Admin | By Makhauhelo Moima | Password Protected 🔒</p>
+          <p className="text-sm text-[#00E06D] font-black mt-2">20 Products Locked ⚡</p>
         </div>
       </div>
     </div>
