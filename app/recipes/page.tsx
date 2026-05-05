@@ -1,324 +1,171 @@
-export interface Recipe {
-  id: string
-  name: string
-  subtitle?: string
-  prepTime: string
-  cost: number
-  servings: string
-  ingredients: string[]
-  preparations: string[]
-  benefits: string
-  storageTips: string[]
-  _ref: string
-  _ussd: string | null
-  _type: 'FREE' | 'PAID' | 'SUBSCRIPTION' | 'EXCLUSIVE'
-  _math?: string
-  _cures?: string[]
-  _warning?: string
-  _cogs?: number
-  _disclaimer: string
-}
+'use client'
+import { RECIPES } from '../../data/recipes'
+import Link from 'next/link'
+import { useState } from 'react'
 
-export const RECIPES: Record<string, Recipe> = {
-  'free-001': {
-    id: 'free-001',
-    name: 'FREE TEASER SHOT',
-    subtitle: 'Ginger + Lemon + Cayenne Starter',
-    prepTime: '2 minutes',
-    cost: 0,
-    servings: '1 shot',
-    ingredients: ['Fresh ginger','Lemon','Cayenne pepper','Raw honey','Warm water'],
-    preparations: ['1. Grate ginger into glass','2. Add lemon juice, cayenne, honey','3. Top with warm water and stir','4. Drink immediately'],
-    benefits: 'Traditional morning wellness tonic from Lesotho',
-    storageTips: ['Make fresh','Drink immediately'],
-    _ref: 'FREE-001', _ussd: null, _type: 'FREE',
-    _math: 'Ginger 10g + Lemon 15ml + Cayenne 0.5g + Honey 15g = 40.5g total',
-    _cures: ['Morning sluggishness','Congestion','Low appetite'],
-    _disclaimer: 'Traditional tonic. Not medical advice.'
-  },
-  'free-002': {
-    id: 'free-002',
-    name: 'IMMUNITY TEASER',
-    subtitle: 'Turmeric + Black Pepper + Honey',
-    prepTime: '3 minutes',
-    cost: 0,
-    servings: '1 cup',
-    ingredients: ['Turmeric powder','Black pepper','Raw honey','Warm water or milk'],
-    preparations: ['1. Mix turmeric and pepper in mug','2. Add honey to make paste','3. Pour warm water or milk and stir','4. Drink before bed'],
-    benefits: 'Traditional bedtime wellness tonic from Lesotho',
-    storageTips: ['Best fresh','Stains - use carefully'],
-    _ref: 'FREE-002', _ussd: null, _type: 'FREE',
-    _math: 'Piperine increases curcumin absorption 2000%',
-    _cures: ['General immunity','Joint comfort','Sleep support'],
-    _disclaimer: 'Traditional tonic. Not medical advice.'
-  },
-  'original': {
-    id: 'original',
-    name: 'ORIGINAL - Turmeric Gold',
-    subtitle: 'Turmeric + Ginger + Black Pepper + Honey',
-    prepTime: '15 minutes',
-    cost: 120,
-    servings: '2 cups',
-    ingredients: ['Fresh turmeric','Fresh ginger','Black pepper','Raw honey','Water','Lemon'],
-    preparations: ['1. Simmer turmeric and ginger in water 10 minutes','2. Strain into mug','3. Add pepper, honey, and lemon','4. Stir until honey dissolves','5. Drink warm'],
-    benefits: 'Traditional family wellness tonic from Lesotho',
-    storageTips: ['Make fresh daily for best taste','Store in fridge up to 3 days','Reheat gently, do not boil'],
-    _ref: 'ZAP-001', _ussd: '*200#', _type: 'PAID',
-    _math: '1g curcumin + 5mg piperine = 2000% absorption boost',
-    _cures: ['Joint comfort','General wellness','Digestive support'],
-    _warning: 'Consult doctor if on blood thinners, diabetic meds, or pre-surgery',
-    _cogs: 15,
-    _disclaimer: 'Traditional remedy. Not FDA approved. Not medical advice.'
-  },
-  'savory': {
-    id: 'savory',
-    name: 'SAVORY HEAL',
-    subtitle: 'Garlic + Onion + ACV + Honey',
-    prepTime: '1 hour 15 minutes',
-    cost: 150,
-    servings: '8 doses',
-    ingredients: ['Fresh garlic','Red onion','Apple cider vinegar','Raw honey','Warm water','Cayenne pepper'],
-    preparations: ['1. Crush garlic and let sit 10 minutes','2. Mix ACV, honey, and warm water in jar','3. Add garlic, onion, and cayenne','4. Shake and infuse 1 hour minimum','5. Strain before use'],
-    benefits: 'Traditional seasonal wellness tonic from Lesotho',
-    storageTips: ['Keeps 2 weeks refrigerated','Shake before each use','Take 2 tablespoons as needed'],
-    _ref: 'ZAP-002', _ussd: '*200#', _type: 'PAID',
-    _math: 'Allicin peaks 10min after crushing. ACV 5% acidity',
-    _cures: ['Seasonal comfort','Throat support','Immune support'],
-    _warning: 'Can irritate stomach. Dilute if sensitive. Avoid with blood thinners',
-    _cogs: 18,
-    _disclaimer: 'Traditional tonic. Not medical advice.'
-  },
-  'monthly': {
-    id: 'monthly',
-    name: 'MONTHLY HEAL',
-    subtitle: '30-Day Wellness Protocol',
-    prepTime: 'Varies',
-    cost: 120,
-    servings: '30 days access',
-    ingredients: ['Access to all 14 Zap Sauce recipes','Daily preparation guide','Batch prep calendar'],
-    preparations: ['1. Subscribe to unlock portal','2. Follow 30-day calendar','3. Prepare 3 recipes weekly as guided','4. Includes EXCLUSIVE TANGY FUSION recipe'],
-    benefits: 'Complete traditional wellness system from Lesotho',
-    storageTips: ['Subscription renews monthly','Cancel anytime','Recipes accessible online 24/7'],
-    _ref: 'SUB-001', _ussd: '*200#', _type: 'SUBSCRIPTION',
-    _math: '14 recipes M2170 value for M120 = 94% savings',
-    _cures: ['Full system support','Consistent wellness routine'],
-    _cogs: 0,
-    _disclaimer: 'Subscription service. Not medical treatment.'
-  },
-  'fire-cider': {
-    id: 'fire-cider',
-    name: 'FIRE CIDER',
-    subtitle: 'Horseradish + Garlic + Onion + Ginger + ACV',
-    prepTime: '4 weeks + 10 min',
-    cost: 130,
-    servings: '32 doses',
-    ingredients: ['Horseradish root','Fresh ginger','Onion','Fresh garlic','Jalapeños','Apple cider vinegar','Raw honey'],
-    preparations: ['1. Pack all roots and veg in jar','2. Cover with ACV completely','3. Seal, shake daily, infuse 4 weeks','4. Strain, add honey to taste','5. Take 1 tablespoon daily'],
-    benefits: 'Traditional winter wellness tonic from Lesotho',
-    storageTips: ['Keeps 1 year shelf stable','Shake daily during infusion','Store in dark place'],
-    _ref: 'ZAP-004', _ussd: '*200#', _type: 'PAID',
-    _math: '1:4 plant to ACV ratio. 28 days = 95% extraction',
-    _cures: ['Severe congestion','Stuck mucus','Winter immunity'],
-    _warning: 'EXTREMELY HOT. Not for ulcers, GERD, or kids under 12',
-    _cogs: 22,
-    _disclaimer: 'Traditional folk remedy. Not medical advice.'
-  },
-  'liver-flush': {
-    id: 'liver-flush',
-    name: 'LIVER FLUSH',
-    subtitle: 'Beet + Lemon + Olive Oil + ACV',
-    prepTime: '5 minutes',
-    cost: 140,
-    servings: '1 daily',
-    ingredients: ['Fresh beet','Lemon','Extra virgin olive oil','Apple cider vinegar','Cayenne pepper','Water'],
-    preparations: ['1. Juice beet or blend and strain','2. Add lemon, ACV, oil, cayenne','3. Top with water and shake','4. Drink morning empty stomach','5. Wait 30 min before food'],
-    benefits: 'Traditional morning wellness tonic from Lesotho',
-    storageTips: ['Best fresh','Do 7 days, rest 7 days','Drink 2L water daily'],
-    _ref: 'ZAP-005', _ussd: '*200#', _type: 'PAID',
-    _math: 'Betalains support liver. Oil stimulates bile flow',
-    _cures: ['Digestive support','Bloating','Morning comfort'],
-    _warning: 'NOT for gallstones - can trigger attack. Not low blood pressure',
-    _cogs: 16,
-    _disclaimer: 'Traditional support. Not medical treatment for liver disease.'
-  },
-  'brain-tonic': {
-    id: 'brain-tonic',
-    name: 'BRAIN TONIC',
-    subtitle: 'Lion\'s Mane + Ginkgo + Rosemary + Honey',
-    prepTime: '12 minutes',
-    cost: 145,
-    servings: '1 cup',
-    ingredients: ['Lion\'s mane powder','Ginkgo biloba tea','Fresh rosemary','Raw honey','Hot water'],
-    preparations: ['1. Steep ginkgo and rosemary 10 minutes','2. Add lion\'s mane, whisk','3. Strain, add honey','4. Drink morning for focus'],
-    benefits: 'Traditional focus tonic from Lesotho',
-    storageTips: ['Morning only','Daily for 30 days minimum','Not instant'],
-    _ref: 'ZAP-006', _ussd: '*200#', _type: 'PAID',
-    _math: 'Hericenones cross blood-brain barrier. Ginkgo +15% cerebral blood flow',
-    _cures: ['Mental clarity','Focus support','Morning energy'],
-    _warning: 'Not with blood thinners - bleeding risk. Not pre-surgery',
-    _cogs: 25,
-    _disclaimer: 'Nootropic tonic. Not medical advice.'
-  },
-  'sleep-elixir': {
-    id: 'sleep-elixir',
-    name: 'SLEEP ELIXIR',
-    subtitle: 'Chamomile + Valerian + Passionflower + Honey',
-    prepTime: '17 minutes',
-    cost: 155,
-    servings: '1 cup',
-    ingredients: ['Chamomile flowers','Valerian root','Passionflower','Raw honey','Hot water','Nutmeg'],
-    preparations: ['1. Steep all herbs 15 minutes covered','2. Strain, add honey and nutmeg','3. Drink 1 hour before bed','4. No screens after drinking'],
-    benefits: 'Traditional bedtime tonic from Lesotho',
-    storageTips: ['Not for daily use','Cycle 2 weeks on 1 off','Dark room, cool temp'],
-    _ref: 'ZAP-007', _ussd: '*200#', _type: 'PAID',
-    _math: 'Valerenic acid = GABA agonist. 15min = 80% extraction',
-    _cures: ['Nighttime calm','Rest support','Evening routine'],
-    _warning: 'Not with sedatives, alcohol. Not pregnancy. Can cause morning grogginess',
-    _cogs: 20,
-    _disclaimer: 'Traditional sleep aid. Not medical treatment.'
-  },
-  'metabolism': {
-    id: 'metabolism',
-    name: 'METABOLISM BOOST',
-    subtitle: 'Green Tea + Cayenne + Cinnamon + Lemon',
-    prepTime: '5 minutes',
-    cost: 160,
-    servings: '1 cup',
-    ingredients: ['Green tea','Cayenne pepper','Ceylon cinnamon','Lemon','Raw honey','Hot water'],
-    preparations: ['1. Steep green tea 3 minutes only','2. Remove tea, add cayenne and cinnamon','3. Add lemon and honey','4. Drink morning or pre-workout'],
-    benefits: 'Traditional energy tonic from Lesotho',
-    storageTips: ['Not after 2pm','Ceylon cinnamon only','Max 2x daily'],
-    _ref: 'ZAP-008', _ussd: '*200#', _type: 'PAID',
-    _math: 'EGCG + caffeine + capsaicin = 8-12% metabolic boost',
-    _cures: ['Morning energy','Pre-workout support','Warmth'],
-    _warning: 'Not for heart conditions, high BP, or anxiety. Caffeine sensitive avoid',
-    _cogs: 12,
-    _disclaimer: 'Metabolic support tonic. Not weight loss drug.'
-  },
-  'heart-guard': {
-    id: 'heart-guard',
-    name: 'HEART GUARD',
-    subtitle: 'Hawthorn + Garlic + Cayenne + Honey',
-    prepTime: '22 minutes',
-    cost: 165,
-    servings: '1 cup',
-    ingredients: ['Hawthorn berry tea','Fresh garlic','Cayenne pepper','Raw honey','Hot water','Lemon'],
-    preparations: ['1. Steep hawthorn 15 minutes covered','2. Add crushed garlic, sit 5 minutes','3. Strain, add cayenne, honey, lemon','4. Drink morning daily'],
-    benefits: 'Traditional circulation tonic from Lesotho',
-    storageTips: ['Not instant - 6 weeks minimum','Track readings daily','Reduce salt intake'],
-    _ref: 'ZAP-009', _ussd: '*200#', _type: 'PAID',
-    _math: 'Hawthorn flavonoids improve cardiac output. Allicin supports circulation',
-    _cures: ['Circulation support','General heart wellness'],
-    _warning: 'NOT replacement for BP meds. Interacts with digoxin, beta blockers',
-    _cogs: 18,
-    _disclaimer: 'Cardiovascular support tonic. Not medical treatment for heart disease.'
-  },
-  'skin-glow': {
-    id: 'skin-glow',
-    name: 'SKIN GLOW',
-    subtitle: 'Aloe + Cucumber + Mint + Lemon',
-    prepTime: '8 minutes',
-    cost: 170,
-    servings: '1 drink + 1 mask',
-    ingredients: ['Fresh aloe gel','Cucumber','Mint leaves','Lemon','Raw honey','Cold water'],
-    preparations: ['1. Blend aloe, cucumber, mint','2. Strain through cloth','3. Add lemon, honey, water','4. Drink morning. Apply pulp as face mask 10 min'],
-    benefits: 'Traditional beauty tonic from Lesotho',
-    storageTips: ['Use inner aloe filet only','Patch test face first','Best cold'],
-    _ref: 'ZAP-010', _ussd: '*200#', _type: 'PAID',
-    _math: 'Acemannan hydrates. Silica 70mg. Internal + topical = 2x absorption',
-    _cures: ['Skin hydration','Natural glow','Cooling'],
-    _warning: 'Aloe latex toxic - use clear gel only. Not pregnancy',
-    _cogs: 14,
-    _disclaimer: 'Beauty tonic. Not medical treatment for skin disease.'
-  },
-  'lung-clear': {
-    id: 'lung-clear',
-    name: 'LUNG CLEAR',
-    subtitle: 'Mullein + Thyme + Eucalyptus + Honey',
-    prepTime: '18 minutes',
-    cost: 175,
-    servings: '1 cup',
-    ingredients: ['Mullein leaf','Dried thyme','Eucalyptus leaves','Raw honey','Hot water','Lemon'],
-    preparations: ['1. Steep mullein and thyme 15 min covered','2. Strain through coffee filter','3. Add honey, eucalyptus, lemon','4. Inhale steam first, then drink'],
-    benefits: 'Traditional respiratory tonic from Lesotho',
-    storageTips: ['MUST strain mullein','Steam inhalation before drinking','3x daily when needed'],
-    _ref: 'ZAP-011', _ussd: '*200#', _type: 'PAID',
-    _math: 'Mullein saponins expectorant. Thymol antimicrobial',
-    _cures: ['Chest comfort','Seasonal respiratory support'],
-    _warning: 'Not for dry cough. Not for asthma attack. Eucalyptus oil toxic if ingested',
-    _cogs: 16,
-    _disclaimer: 'Respiratory support tea. Not medical treatment.'
-  },
-  'kidney-cleanse': {
-    id: 'kidney-cleanse',
-    name: 'KIDNEY CLEANSE',
-    subtitle: 'Parsley + Dandelion + Lemon + ACV',
-    prepTime: '15 minutes',
-    cost: 180,
-    servings: '2 cups daily',
-    ingredients: ['Fresh parsley','Dandelion root tea','Lemon','Apple cider vinegar','Raw honey','Water'],
-    preparations: ['1. Boil parsley and dandelion 10 minutes','2. Strain, cool slightly','3. Add lemon, ACV, honey','4. Drink 1 cup morning and afternoon'],
-    benefits: 'Traditional cleansing tonic from Lesotho',
-    storageTips: ['7 days max, rest 14 days','Eat bananas for potassium','Stop if dizzy'],
-    _ref: 'ZAP-012', _ussd: '*200#', _type: 'PAID',
-    _math: 'Apiol diuretic. Taraxacin +5% urine output',
-    _cures: ['Fluid balance','Natural cleansing'],
-    _warning: 'NOT for kidney disease, dialysis, or stones present. Can dislodge stones',
-    _cogs: 15,
-    _disclaimer: 'Traditional kidney support. NOT medical treatment for kidney disease.'
-  },
-  'hormone': {
-    id: 'hormone',
-    name: 'HORMONE HARMONY',
-    subtitle: 'Maca + Shatavari + Cinnamon + Honey',
-    prepTime: '5 minutes',
-    cost: 185,
-    servings: '1 cup',
-    ingredients: ['Maca powder','Shatavari powder','Ceylon cinnamon','Raw honey','Almond milk','Nutmeg'],
-    preparations: ['1. Warm milk - do not boil','2. Whisk in maca, shatavari, cinnamon','3. Add honey and nutmeg','4. Cycle sync: morning days 1-14, evening 15-28'],
-    benefits: 'Traditional balance tonic from Lesotho',
-    storageTips: ['Not instant - 3 months','Track symptoms daily','Works best with seed cycling'],
-    _ref: 'ZAP-013', _ussd: '*200#', _type: 'PAID',
-    _math: 'Maca glucosinolates balance. Shatavari phytoestrogens. 90 days reset',
-    _cures: ['Cycle support','Traditional women\'s wellness'],
-    _warning: 'NOT for hormone-sensitive cancers, endometriosis, PCOS without doctor',
-    _cogs: 28,
-    _disclaimer: 'Hormone support tonic. Not medical treatment for hormonal disorders.'
-  },
-  'blood-sugar': {
-    id: 'blood-sugar',
-    name: 'BLOOD SUGAR BALANCE',
-    subtitle: 'Ceylon Cinnamon + Fenugreek + ACV',
-    prepTime: '8 min + overnight',
-    cost: 190,
-    servings: '1 cup',
-    ingredients: ['Ceylon cinnamon','Fenugreek seeds','Apple cider vinegar','Lemon','Stevia','Warm water'],
-    preparations: ['1. Soak fenugreek overnight','2. Blend soaked seeds with water','3. Strain, add cinnamon, ACV, lemon','4. Drink 15 min before meals'],
-    benefits: 'Traditional metabolic tonic from Lesotho',
-    storageTips: ['ALWAYS before carbs','Ceylon only - cassia toxic','Max 2x daily'],
-    _ref: 'ZAP-014', _ussd: '*200#', _type: 'PAID',
-    _math: 'MHCP +10% insulin sensitivity. 4-hydroxyisoleucine increases insulin',
-    _cures: ['Post-meal comfort','Traditional metabolic support'],
-    _warning: 'NOT replacement for diabetes meds. Can cause hypoglycemia. Not Type 1',
-    _cogs: 14,
-    _disclaimer: 'Blood sugar support tonic. NOT medical treatment for diabetes.'
-  },
-  'exclusive': {
-    id: 'exclusive',
-    name: 'EXCLUSIVE TANGY FUSION',
-    subtitle: 'Ginger + Turmeric + Honey + Cayenne + Cinnamon + ACV',
-    prepTime: '20 minutes',
-    cost: 0,
-    servings: '16 doses',
-    ingredients: ['Fresh ginger','Fresh turmeric','Raw honey','Cayenne pepper','Ceylon cinnamon','Apple cider vinegar','Lemon','Water'],
-    preparations: ['1. Simmer ginger and turmeric 15 minutes','2. Strain, add cayenne and cinnamon','3. Cool slightly, add honey, ACV, lemon','4. Store in glass jar','5. Take 2 tablespoons daily'],
-    benefits: 'Premium traditional wellness tonic from Lesotho',
-    storageTips: ['Subscription exclusive','Keeps 14 days refrigerated','Shake before each use'],
-    _ref: 'EXCL-001', _ussd: null, _type: 'EXCLUSIVE',
-    _math: 'All 6 ingredients synergistic. 2000% absorption. Maximum strength',
-    _cures: ['Complete system support','Traditional all-in-one'],
-    _warning: 'Start with 1 teaspoon to test tolerance. Not for ulcers, pregnancy, blood thinners',
-    _cogs: 35,
-    _disclaimer: 'Most potent formula. Subscription holders only. Not medical advice.'
+export default function RecipesPage() {
+  const [showEFT, setShowEFT] = useState<string | null>(null)
+  const paidRecipes = Object.values(RECIPES).filter(r => r._type === 'PAID' || r._type === 'SUBSCRIPTION')
+  const freeRecipes = Object.values(RECIPES).filter(r => r._type === 'FREE')
+  const exclusiveRecipe = Object.values(RECIPES).find(r => r._type === 'EXCLUSIVE')
+
+  const copyEFT = (ref: string) => {
+    navigator.clipboard.writeText(`Zap Sauce ${ref}`)
+    alert(`EFT Reference copied: Zap Sauce ${ref}\n\nBank: Lesotho Post Bank\nAccount: 1036202900018\nBranch: BONHOMME`)
   }
+
+  return (
+    <div className="bg-black min-h-[100dvh] text-white p-3">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <Link href="/">
+            <h1 className="text-5xl font-black text-[#00E06D] mb-2">Zap Sauce.</h1>
+          </Link>
+          <p className="text-2xl text-[#00C85F] font-black mb-1">14 Healing Recipes</p>
+          <p className="text-base text-gray-300 font-semibold">Product of Lesotho 🇱🇸</p>
+        </div>
+
+        {/* FREE SAMPLES */}
+        <div className="mb-10">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-black text-[#00E06D] mb-2">FREE SAMPLES</h2>
+            <p className="text-gray-400 text-base">Try Zap Sauce on us. No payment needed.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-5">
+            {freeRecipes.map((recipe) => (
+              <div key={recipe.id} className="border-2 border-[#00E06D] bg-gradient-to-br from-black to-gray-900/60 p-6 rounded-2xl shadow-lg shadow-[#00A651]/20 hover:shadow-[#00E06D]/40 transition-all">
+                <div className="text-sm bg-[#00A651] text-white px-4 py-1 rounded-full font-black inline-block mb-3">FREE</div>
+                <h3 className="text-3xl font-black text-[#00E06D] mb-2">{recipe.name}</h3>
+                <p className="text-gray-300 text-lg mb-4">{recipe.subtitle}</p>
+
+                <div className="flex gap-4 text-sm mb-5 text-gray-400">
+                  <div><span className="text-[#00C85F] font-bold">Prep:</span> {recipe.prepTime}</div>
+                  <div><span className="text-[#00C85F] font-bold">Serves:</span> {recipe.servings}</div>
+                </div>
+
+                <Link
+                  href={`/recipes/${recipe.id}`}
+                  className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-4 rounded-xl text-xl w-full block text-center transition-all shadow-lg hover:scale-105"
+                >
+                  View Full Recipe →
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* PAID RECIPES */}
+        <div className="mb-10">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-black text-white mb-2">PAID RECIPES</h2>
+            <p className="text-gray-400 text-base">MPESA *200# or EFT Bank Transfer</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {paidRecipes.map((recipe) => (
+              <div key={recipe.id} className="border-2 border-[#00A651]/60 bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl shadow-lg shadow-black/50 hover:border-[#00E06D] transition-all">
+                {recipe._type === 'SUBSCRIPTION' && (
+                  <div className="text-sm bg-yellow-500 text-black px-4 py-1 rounded-full font-black inline-block mb-3">SUBSCRIPTION</div>
+                )}
+                {recipe._type === 'PAID' && (
+                  <div className="text-sm bg-[#00C85F] text-black px-4 py-1 rounded-full font-black inline-block mb-3">PAID</div>
+                )}
+
+                <h3 className="text-2xl font-black text-[#00E06D] mb-2">{recipe.name}</h3>
+                {recipe.subtitle && <p className="text-sm text-gray-400 mb-4">{recipe.subtitle}</p>}
+
+                <div className="space-y-1 text-sm mb-5 text-gray-400">
+                  <div><span className="text-[#00C85F] font-bold">ID:</span> {recipe.id}</div>
+                  <div><span className="text-[#00C85F] font-bold">Prep Time:</span> {recipe.prepTime}</div>
+                  <div><span className="text-[#00C85F] font-bold">Servings:</span> {recipe.servings}</div>
+                </div>
+
+                <div className="border-t border-gray-700 pt-4">
+                  <div className="text-5xl font-black text-white mb-4">M{recipe.cost}</div>
+                  <Link
+                    href={`/recipes/${recipe.id}`}
+                    className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-3 rounded-xl text-lg w-full block text-center mb-3 transition-all"
+                  >
+                    View Recipe
+                  </Link>
+                  {recipe._ussd && (
+                    <button
+                      onClick={() => setShowEFT(recipe.id)}
+                      className="border-2 border-[#00A651] text-[#00C85F] hover:bg-[#00A651]/20 font-black px-4 py-2 rounded-xl text-base w-full transition-all"
+                    >
+                      EFT Bank Transfer
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* EXCLUSIVE TEASER */}
+        {exclusiveRecipe && (
+          <div className="mb-10">
+            <div className="border-2 border-purple-600 bg-gradient-to-br from-purple-900/30 to-black p-8 rounded-2xl text-center shadow-lg shadow-purple-600/20">
+              <div className="text-sm bg-purple-600 text-white px-4 py-1 rounded-full font-black inline-block mb-4">EXCLUSIVE</div>
+              <h2 className="text-4xl font-black text-purple-400 mb-3">{exclusiveRecipe.name}</h2>
+              <p className="text-gray-300 text-lg mb-6">Unlocked with MONTHLY HEAL subscription only</p>
+              <div className="text-2xl font-black text-purple-300">Subscription Holders Only</div>
+            </div>
+          </div>
+        )}
+
+        {/* Footer */}
+        <div className="text-center mt-12 mb-8">
+          <Link href="/" className="text-[#00C85F] hover:text-[#00E06D] font-black text-xl transition-colors">
+            ← Back to Home
+          </Link>
+          <p className="text-base text-gray-500 mt-8">© 2026 Zap Sauce. Traditional wellness. Product of Lesotho 🇱🇸</p>
+          <p className="text-xs text-gray-600 mt-2">Not medical advice. Consult your doctor.</p>
+        </div>
+      </div>
+
+      {/* EFT Modal */}
+      {showEFT && (
+        <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4" onClick={() => setShowEFT(null)}>
+          <div className="bg-gray-900 border-3 border-[#00A651] rounded-2xl p-8 max-w-md w-full shadow-2xl shadow-[#00E06D]/30" onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-4xl font-black text-[#00E06D] mb-6 text-center">EFT Bank Transfer</h2>
+            <div className="space-y-4 text-lg">
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Bank:</p>
+                <p className="text-white text-xl font-black">Lesotho Post Bank</p>
+              </div>
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Account Number:</p>
+                <p className="text-white text-xl font-black">1036202900018</p>
+              </div>
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Branch:</p>
+                <p className="text-white text-xl font-black">BONHOMME</p>
+              </div>
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Reference:</p>
+                <p className="text-white text-xl font-black">Zap Sauce {RECIPES[showEFT]._ref}</p>
+              </div>
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Amount:</p>
+                <p className="text-white text-3xl font-black">M{RECIPES[showEFT].cost}</p>
+              </div>
+            </div>
+            <button
+              onClick={() => copyEFT(RECIPES[showEFT]._ref)}
+              className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-4 rounded-xl text-xl w-full mt-6 transition-all"
+            >
+              Copy Reference
+            </button>
+            <button
+              onClick={() => setShowEFT(null)}
+              className="text-gray-400 hover:text-white mt-4 w-full text-lg"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
