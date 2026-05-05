@@ -37,48 +37,54 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#051B11] text-white" style={{fontFamily: 'Montserrat, sans-serif'}}>
-      {/* HEADER NAV - MONEY BUTTONS BACK */}
-      <header className="bg-[#0A2E1D] border-b border-[#D4AF37] p-4 sticky top-0 z-40">
+      {/* HEADER NAV - GOLD PORTAL */}
+      <header className="bg-[#0A2E1D]/95 backdrop-blur-sm border-b-2 border-[#D4AF37] p-4 sticky top-0 z-40 shadow-2xl">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-black text-[#D4AF37]">ZAP SAUCE ⚡</h1>
-          <div className="flex gap-2">
-            <a href="/portal" className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-black px-4 py-2 rounded text-sm uppercase">
+          <h1 className="text-2xl md:text-3xl font-black text-[#D4AF37]">ZAP SAUCE ⚡</h1>
+          <div className="flex gap-3">
+            <a href="/portal" className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black px-6 py-3 rounded-lg text-sm md:text-base uppercase shadow-lg">
               PORTAL
             </a>
-            <a href="/admin" className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black px-4 py-2 rounded text-sm uppercase">
+            <a href="/admin" className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-black px-6 py-3 rounded-lg text-sm md:text-base uppercase border-2 border-[#D4AF37] shadow-lg">
               ADMIN
             </a>
           </div>
         </div>
       </header>
 
-      {/* HERO SECTION - FIXED + VISIBLE */}
-      <div className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden">
+      {/* HERO BEHIND TEXT - FULL SCREEN FIRE */}
+      <div className="relative w-full h-screen overflow-hidden">
         <img
           src={HERO_URL}
           alt="Zap Sauce"
-          className="w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-center scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#051B11] via-[#051B11]/40 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 right-0 text-center pb-12 px-4">
-          <h2 className="text-5xl md:text-7xl font-black text-[#D4AF37] mb-3 uppercase tracking-tight drop-shadow-2xl">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#051B11]/70 via-[#051B11]/50 to-[#051B11]"></div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+          <h2 className="text-6xl md:text-9xl font-black text-[#D4AF37] mb-4 uppercase tracking-tight drop-shadow-2xl animate-pulse">
             ZAP SAUCE
           </h2>
-          <p className="text-2xl md:text-4xl font-black text-white font-montserrat drop-shadow-2xl">
+          <p className="text-3xl md:text-5xl font-black text-white font-montserrat drop-shadow-2xl mb-6">
             'Immunity in a jar!'
           </p>
-          <p className="text-lg text-gray-200 mt-4 font-montserrat drop-shadow-lg">
+          <p className="text-xl text-gray-200 font-montserrat drop-shadow-lg mb-8">
             Product of Lesotho 🇱🇸 | By Makhauhelo Moima
           </p>
+          <button
+            onClick={() => document.getElementById('teasers')?.scrollIntoView({behavior: 'smooth'})}
+            className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black px-8 py-4 rounded-lg uppercase text-xl tracking-wider shadow-2xl animate-bounce"
+          >
+            START HEALING ↓
+          </button>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto p-4">
+      <div className="max-w-4xl mx-auto p-4" id="teasers">
         {/* TEASERS */}
-        <h2 className="text-3xl font-black text-emerald-400 mb-4 mt-8 uppercase">FREE TEASERS ⚡</h2>
+        <h2 className="text-3xl font-black text-emerald-400 mb-4 mt-12 uppercase">FREE TEASERS ⚡</h2>
         <div className="grid md:grid-cols-2 gap-4 mb-8">
           {freeRecipes.map(([key, recipe]) => (
-            <div key={key} className="bg-[#0A2E1D] p-6 rounded-lg border-2 border-emerald-500 shadow-lg">
+            <div key={key} className="bg-[#0A2E1D] p-6 rounded-lg border-2 border-emerald-500 shadow-2xl">
               <h3 className="text-xl font-black text-emerald-400 mb-3">{recipe.name}</h3>
               <button onClick={() => handleFree(key)} className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black p-4 rounded uppercase tracking-wider">
                 VIEW FREE
@@ -89,23 +95,23 @@ export default function Home() {
 
         {/* MONEY BUTTONS */}
         <div className="grid md:grid-cols-2 gap-4 mb-8">
-          <button onClick={() => setShowExplore(true)} className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black p-6 rounded-lg uppercase text-xl tracking-wider shadow-xl">
+          <button onClick={() => setShowExplore(true)} className="bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black p-6 rounded-lg uppercase text-xl tracking-wider shadow-2xl">
             EXPLORE RECIPES 📋
           </button>
-          <button onClick={() => setShowPdfMenu(true)} className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-black p-6 rounded-lg uppercase text-xl tracking-wider shadow-xl border-2 border-[#D4AF37]">
+          <button onClick={() => setShowPdfMenu(true)} className="bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-black p-6 rounded-lg uppercase text-xl tracking-wider shadow-2xl border-2 border-[#D4AF37]">
             REQUEST PDF 📄 M197
           </button>
         </div>
 
         {/* TRUST BAR */}
-        <div className="bg-[#0A2E1D] p-4 rounded-lg border border-[#D4AF37] mb-8 text-center">
-          <p className="text-[#D4AF37] font-black font-montserrat">
+        <div className="bg-gradient-to-r from-[#0A2E1D] to-[#1B4332] p-6 rounded-lg border-2 border-[#D4AF37] mb-8 text-center shadow-2xl">
+          <p className="text-[#D4AF37] font-black font-montserrat text-lg">
             M120 = 28 Days Healing | M197 = Full Protocols | 0MB Data Popups
           </p>
         </div>
 
         {showExplore && (
-          <div className="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="fixed inset-0 bg-black/95 flex items-center justify-center p-4 z-50 overflow-y-auto">
             <div className="bg-[#0A2E1D] p-6 rounded-lg border-2 border-[#D4AF37] w-full max-w-2xl my-8">
               <h3 className="text-3xl font-black text-[#D4AF37] mb-6 uppercase text-center">RECIPE DESCRIPTIONS</h3>
               <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
@@ -130,7 +136,7 @@ export default function Home() {
         )}
 
         {showPdfMenu && (
-          <div className="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="fixed inset-0 bg-black/95 flex items-center justify-center p-4 z-50 overflow-y-auto">
             <div className="bg-[#0A2E1D] p-6 rounded-lg border-2 border-[#25D366] w-full max-w-2xl my-8">
               <h3 className="text-3xl font-black text-[#25D366] mb-2 uppercase text-center">REQUEST PDF</h3>
               <p className="text-center text-gray-400 mb-6 font-montserrat">M197 Universal Price | WhatsApp Delivery</p>
