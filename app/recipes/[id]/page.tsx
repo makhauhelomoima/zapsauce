@@ -1,290 +1,203 @@
 'use client'
-import { RECIPES } from '../../../data/recipes'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
+import { RECIPES } from '../../../data/recipes'
 import Link from 'next/link'
 
 export default function RecipePage() {
   const params = useParams()
-  const id = params.id as string
-  const recipe = RECIPES[id]
-
-  const [mpesaCode, setMpesaCode] = useState('')
-  const [eftRef, setEftRef] = useState('')
-  const [isUnlocked, setIsUnlocked] = useState(false)
-  const [unlockMethod, setUnlockMethod] = useState<'mpesa' | 'eft' | null>(null)
-  const [loading, setLoading] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
+  const [showEFT, setShowEFT] = useState(false)
+  const [loading, setLoading] = useState(true)
+
+  const recipe = RECIPES[params.id as string]
 
   useEffect(() => {
-    // Check if already unlocked
-    const unlocked = localStorage.getItem(`zap_unlocked_${id}`)
-    if (unlocked === 'true') setIsUnlocked(true)
+    const unlocked = localStorage.getItem('zap_unlocked_recipes')
+    if (unlocked) {
+      const unlockedList = JSON.parse(unlocked)
+      setIsSubscribed(unlockedList.includes('monthly') || unlockedList.includes('subscription'))
+    }
+    setLoading(false)
+  }, [])
 
-    // Check subscription for EXCLUSIVE
-    const subStatus = localStorage.getItem('zap_subscribed')
-    if (subStatus === 'true') setIsSubscribed(true)
-  }, [id])
+  const copyEFT = () => {
+    if (!recipe) return
+    navigator.clipboard.writeText(`Zap Sauce ${recipe._ref}`)
+    alert(`EFT Reference copied: Zap Sauce ${recipe._ref}\n\nBank: Lesotho Post Bank\nAccount: 1036202900018\nBranch: BONHOMME`)
+  }
+
+  if (loading) {
+    return (
+      <div className="bg-black min-h-[100dvh] flex items-center justify-center">
+        <div className="text-[#00E06D] text-2xl font-black">Loading...</div>
+      </div>
+    )
+  }
 
   if (!recipe) {
     return (
-      <div className="bg-black min-h-[100dvh] text-white flex items-center justify-center">
-        <div className="text-center">
+      <div className="bg-black min-h-[100dvh] text-white p-4">
+        <div className="max-w-2xl mx-auto pt-12 text-center">
           <h1 className="text-4xl font-black text-red-500 mb-4">Recipe Not Found</h1>
-          <Link href="/recipes" className="text-[#00C85F] underline">← Back to Recipes</Link>
+          <Link href="/recipes" className="text-[#00C85F] hover:text-[#00E06D] font-black text-xl">
+            ← Back to All Recipes
+          </Link>
         </div>
       </div>
     )
   }
 
   // Check if EXCLUSIVE and not subscribed
-  if (recipe.isSubscriberOnly &&!isSubscribed) {
+  if (recipe._type === 'EXCLUSIVE' &&!isSubscribed) {
     return (
       <div className="bg-black min-h-[100dvh] text-white p-4">
         <div className="max-w-2xl mx-auto pt-12 text-center">
-          <div className="bg-gradient-to-br from-yellow-600 to-yellow-500 border-3 border-yellow-300 rounded-2xl p-8 backdrop-blur shadow-2xl shadow-yellow-500/50">
-            <div className="text-6xl mb-4">🔒</div>
-            <h1 className="text-4xl font-black text-black mb-4">SUBSCRIBERS ONLY</h1>
-            <p className="text-black text-xl mb-6 font-bold">{recipe.name}</p>
-            <p className="text-black text-lg mb-8">This EXCLUSIVE recipe unlocks with Monthly Heal subscription</p>
-            <Link
-              href="/subscribe"
-              className="bg-black hover:bg-gray-900 text-yellow-400 font-black px-8 py-5 rounded-xl text-xl shadow-xl inline-block border-2 border-black"
-            >
-              Subscribe M120/month →
-            </Link>
-            <Link href="/recipes" className="text-black underline mt-6 block font-semibold">
-              ← Back to Recipes
+          <div className="border-2 border-purple-600 bg-gradient-to-br from-purple-900/30 to-black p-8 rounded-2xl mb-8">
+            <div className="text-sm bg-purple-600 text-white px-4 py-1 rounded-full font-black inline-block mb-4">EXCLUSIVE</div>
+            <h1 className="text-4xl font-black text-purple-400 mb-4">{recipe.name}</h1>
+            <p className="text-xl text-gray-300 mb-6">This recipe is for MONTHLY HEAL subscribers only</p>
+            <div className="text-6xl font-black text-purple-300 mb-6">🔒</div>
+            <Link href="/recipes/monthly" className="bg-yellow-500 hover:bg-yellow-400 text-black font-black px-8 py-4 rounded-xl text-xl inline-block transition-all">
+              Subscribe to Unlock
             </Link>
           </div>
-        </div>
-      </div>
-    )
-  }
-
-  const handleMpesaUnlock = async () => {
-    if (mpesaCode.length < 8) {
-      alert('Enter valid 8-digit Mpesa code from SMS')
-      return
-    }
-
-    setLoading(true)
-    // In production: Verify with Vodacom API
-    // For now: Accept any 8-digit code
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    localStorage.setItem(`zap_unlocked_${id}`, 'true')
-    localStorage.setItem(`zap_mpesa_${id}`, mpesaCode)
-    setIsUnlocked(true)
-    setUnlockMethod('mpesa')
-    setLoading(false)
-  }
-
-  const handleEFTUnlock = async () => {
-    if (!eftRef) {
-      alert('Enter your EFT payment reference')
-      return
-    }
-
-    setLoading(true)
-    // In production: Check your bank API or admin approval queue
-    // For now: Accept any reference with "ZAP" or recipe ref
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    localStorage.setItem(`zap_unlocked_${id}`, 'true')
-    localStorage.setItem(`zap_eft_${id}`, eftRef)
-    setIsUnlocked(true)
-    setUnlockMethod('eft')
-    setLoading(false)
-  }
-
-  // FREE RECIPE - Show immediately
-  if (recipe.type === 'FREE' || isUnlocked) {
-    return (
-      <div className="bg-black min-h-[100dvh] text-white p-4">
-        <div className="max-w-3xl mx-auto pt-6">
-
-          <Link href="/recipes" className="text-[#00C85F] hover:text-[#00E06D] font-bold text-lg mb-6 inline-block">
+          <Link href="/recipes" className="text-[#00C85F] hover:text-[#00E06D] font-black text-xl">
             ← Back to All Recipes
           </Link>
-
-          {isUnlocked && (
-            <div className="bg-[#00A651]/20 border-2 border-[#00E06D] rounded-xl p-4 mb-6 text-center">
-              <p className="text-[#00E06D] font-black text-xl">
-                ✅ UNLOCKED via {unlockMethod === 'mpesa'? 'MPESA' : 'EFT'}
-              </p>
-              <p className="text-gray-300 text-sm mt-1">
-                {unlockMethod === 'mpesa'? `Code: ${localStorage.getItem(`zap_mpesa_${id}`)}` : `Ref: ${localStorage.getItem(`zap_eft_${id}`)}`}
-              </p>
-            </div>
-          )}
-
-          <div className="bg-gray-900 border-3 border-[#00A651] rounded-2xl p-8 backdrop-blur shadow-2xl shadow-green-500/40">
-            <div className="flex items-start justify-between mb-6">
-              <div>
-                <h1 className="text-5xl font-black text-[#00E06D] mb-2">{recipe.name}</h1>
-                {recipe.subtitle && <p className="text-xl text-gray-300">{recipe.subtitle}</p>}
-              </div>
-              <div className="text-right">
-                <div className={`px-4 py-2 rounded-lg font-black text-lg ${
-                  recipe.type === 'FREE'? 'bg-[#00A651] text-white' :
-                  recipe.type === 'EXCLUSIVE'? 'bg-yellow-500 text-black' :
-                  'bg-[#00C85F] text-black'
-                }`}>
-                  {recipe.type === 'FREE'? 'FREE' : recipe.type === 'EXCLUSIVE'? 'EXCLUSIVE' : `M${recipe.price}`}
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-8">
-              <h2 className="text-2xl font-black text-[#00C85F] mb-4">CURES:</h2>
-              <ul className="space-y-2">
-                {recipe.cures.map((cure, i) => (
-                  <li key={i} className="flex items-start text-lg">
-                    <span className="text-[#00E06D] mr-3 text-2xl">✓</span>
-                    <span className="text-white">{cure}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {recipe.warning && (
-              <div className="bg-yellow-900/40 border-2 border-yellow-600 p-4 rounded-xl mb-8">
-                <p className="text-yellow-200 font-bold text-lg">⚠️ {recipe.warning}</p>
-              </div>
-            )}
-
-            <div className="mb-8">
-              <h2 className="text-2xl font-black text-[#00C85F] mb-4">INGREDIENTS:</h2>
-              <ul className="space-y-3">
-                {recipe.ingredients?.map((ing, i) => (
-                  <li key={i} className="flex items-start text-lg">
-                    <span className="text-[#00E06D] mr-3 text-xl">•</span>
-                    <span className="text-white">{ing}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mb-8">
-              <h2 className="text-2xl font-black text-[#00C85F] mb-4">INSTRUCTIONS:</h2>
-              <ol className="space-y-4">
-                {recipe.instructions?.map((step, i) => (
-                  <li key={i} className="flex items-start text-lg">
-                    <span className="text-[#00E06D] mr-4 font-black text-2xl">{i + 1}.</span>
-                    <span className="text-white">{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            <div className="border-t border-gray-700 pt-6 text-center">
-              <p className="text-gray-400 text-base mb-4">
-                Recipe Ref: <span className="text-white font-mono">{recipe.ref}</span>
-              </p>
-              <Link
-                href="https://wa.me/26657031600?text=Hi%20Zap%20Sauce%20I%20need%20help%20with%20recipe"
-                className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-8 py-4 rounded-xl text-lg inline-block"
-              >
-                Need Help? WhatsApp Us
-              </Link>
-            </div>
-          </div>
-
-          <div className="text-center mt-8 text-gray-500 text-sm">
-            <p>© 2026 Zap Sauce | Product of Lesotho 🇱🇸</p>
-          </div>
         </div>
       </div>
     )
   }
 
-  // PAID RECIPE - Show unlock screen
+  const isFree = recipe._type === 'FREE'
+  const isSubscription = recipe._type === 'SUBSCRIPTION'
+
   return (
-    <div className="bg-black min-h-[100dvh] text-white p-4">
-      <div className="max-w-2xl mx-auto pt-6">
+    <div className="bg-black min-h-[100dvh] text-white p-3">
+      <div className="max-w-3xl mx-auto">
+        {/* Header */}
+        <div className="mb-6">
+          <Link href="/recipes" className="text-[#00C85F] hover:text-[#00E06D] font-bold text-base mb-4 inline-block">
+            ← All Recipes
+          </Link>
 
-        <Link href="/recipes" className="text-[#00C85F] hover:text-[#00E06D] font-bold text-lg mb-6 inline-block">
-          ← Back to All Recipes
-        </Link>
+          {isFree && <div className="text-sm bg-[#00A651] text-white px-4 py-1 rounded-full font-black inline-block mb-3">FREE</div>}
+          {isSubscription && <div className="text-sm bg-yellow-500 text-black px-4 py-1 rounded-full font-black inline-block mb-3">SUBSCRIPTION</div>}
+          {recipe._type === 'PAID' && <div className="text-sm bg-[#00C85F] text-black px-4 py-1 rounded-full font-black inline-block mb-3">PAID</div>}
+          {recipe._type === 'EXCLUSIVE' && <div className="text-sm bg-purple-600 text-white px-4 py-1 rounded-full font-black inline-block mb-3">EXCLUSIVE</div>}
 
-        <div className="bg-gray-900 border-3 border-[#00A651] rounded-2xl p-8 backdrop-blur shadow-2xl shadow-green-500/40 text-center">
-
-          <div className="text-6xl mb-4">🔒</div>
-          <h1 className="text-4xl font-black text-[#00E06D] mb-2">{recipe.name}</h1>
+          <h1 className="text-4xl md:text-5xl font-black text-[#00E06D] mb-3">{recipe.name}</h1>
           {recipe.subtitle && <p className="text-xl text-gray-300 mb-4">{recipe.subtitle}</p>}
 
-          <div className="text-5xl font-black text-white mb-6">M{recipe.price}</div>
-
-          <div className="bg-black/40 rounded-xl p-5 mb-8 text-left">
-            <div className="text-lg text-[#00C85F] font-bold mb-3">This recipe cures:</div>
-            <ul className="space-y-2">
-              {recipe.cures.slice(0, 3).map((cure, i) => (
-                <li key={i} className="flex items-start">
-                  <span className="text-[#00E06D] mr-2">✓</span>
-                  <span className="text-white">{cure}</span>
-                </li>
-              ))}
-            </ul>
+          <div className="flex flex-wrap gap-4 text-sm text-gray-400 mb-6">
+            <div><span className="text-[#00C85F] font-bold">ID:</span> {recipe.id}</div>
+            <div><span className="text-[#00C85F] font-bold">Prep Time:</span> {recipe.prepTime}</div>
+            <div><span className="text-[#00C85F] font-bold">Servings:</span> {recipe.servings}</div>
+            {!isFree && <div><span className="text-[#00C85F] font-bold">Cost:</span> M{recipe.cost}</div>}
           </div>
+        </div>
 
-          {/* MPESA UNLOCK */}
-          <div className="bg-[#00A651]/10 border-2 border-[#00A651] rounded-xl p-6 mb-6">
-            <h3 className="text-2xl font-black text-[#00E06D] mb-4">📱 Unlock with MPESA</h3>
-            <p className="text-gray-300 mb-4">1. Dial <span className="text-white font-mono font-black">*200#</span></p>
-            <p className="text-gray-300 mb-4">2. Pay M{recipe.price} to Zap Sauce</p>
-            <p className="text-gray-300 mb-4">3. Enter MPESA code below</p>
-
-            <input
-              type="text"
-              placeholder="Enter 8-digit Mpesa Code"
-              value={mpesaCode}
-              onChange={(e) => setMpesaCode(e.target.value)}
-              className="w-full bg-black border-2 border-[#00A651] rounded-xl px-5 py-4 text-white text-xl mb-4 focus:border-[#00E06D] focus:outline-none text-center font-bold"
-              maxLength={8}
-            />
-
-            <button
-              onClick={handleMpesaUnlock}
-              disabled={loading || mpesaCode.length < 8}
-              className="w-full bg-[#00A651] hover:bg-[#00C85F] disabled:bg-gray-700 disabled:text-gray-500 text-white font-black py-4 rounded-xl text-xl shadow-2xl shadow-green-500/50 border-3 border-[#00E06D] transition-all active:scale-95"
-            >
-              {loading? 'Verifying...' : '🔓 Unlock Recipe'}
+        {/* Payment Section for Paid Recipes */}
+        {!isFree &&!isSubscription && (
+          <div className="border-2 border-[#00A651] bg-gray-900/60 p-6 rounded-2xl mb-8">
+            <div className="text-5xl font-black text-white mb-4 text-center">M{recipe.cost}</div>
+            <button onClick={() => setShowEFT(true)} className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-4 rounded-xl text-xl w-full transition-all">
+              EFT Bank Transfer
             </button>
+            <p className="text-xs text-gray-500 text-center mt-3">MPESA: *200# | Reference: Zap Sauce {recipe._ref}</p>
           </div>
+        )}
 
-          {/* EFT UNLOCK */}
-          <div className="bg-gray-800/50 border-2 border-gray-600 rounded-xl p-6">
-            <h3 className="text-2xl font-black text-gray-300 mb-4">🏦 Unlock with EFT</h3>
-            <div className="text-left text-sm text-gray-400 space-y-1 mb-4">
-              <div>Bank: Lesotho Post Bank</div>
-              <div>Acc Holder: Makhauhelo Moima</div>
-              <div>Account: 1036202900018</div>
-              <div>Branch: BONHOMME</div>
-              <div>Ref: <span className="text-white font-mono">Zap Sauce {recipe.ref}</span></div>
-              <div>Amount: <span className="text-white font-bold">M{recipe.price}</span></div>
-            </div>
+        {/* Ingredients */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-black text-[#00C85F] mb-4">Ingredients</h2>
+          <ul className="space-y-2">
+            {recipe.ingredients.map((ingredient, idx) => (
+              <li key={idx} className="flex items-start">
+                <span className="text-[#00E06D] mr-3 font-black">•</span>
+                <span className="text-lg text-gray-200">{ingredient}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-            <input
-              type="text"
-              placeholder="Enter Your Payment Reference"
-              value={eftRef}
-              onChange={(e) => setEftRef(e.target.value)}
-              className="w-full bg-black border-2 border-gray-600 rounded-xl px-5 py-3 text-white text-lg mb-4 focus:border-[#00A651] focus:outline-none text-center"
-            />
+        {/* Preparations */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-black text-[#00C85F] mb-4">Preparations</h2>
+          <ol className="space-y-3">
+            {recipe.preparations.map((step, idx) => (
+              <li key={idx} className="flex items-start">
+                <span className="text-[#00E06D] mr-3 font-black text-lg">{idx + 1}.</span>
+                <span className="text-lg text-gray-200">{step.replace(/^\d+\.\s*/, '')}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
 
-            <button
-              onClick={handleEFTUnlock}
-              disabled={loading ||!eftRef}
-              className="w-full bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-600 text-white font-black py-4 rounded-xl text-xl transition-all active:scale-95"
-            >
-              {loading? 'Checking...' : '🔓 Verify & Unlock'}
-            </button>
-            <p className="text-xs text-gray-500 mt-3">No WhatsApp proof needed. Auto-verified in 30 seconds.</p>
-          </div>
+        {/* Benefits */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-black text-[#00C85F] mb-4">Benefits</h2>
+          <p className="text-lg text-gray-200">{recipe.benefits}</p>
+        </div>
 
+        {/* Storage Tips */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-black text-[#00C85F] mb-4">Storage Tips</h2>
+          <ul className="space-y-2">
+            {recipe.storageTips.map((tip, idx) => (
+              <li key={idx} className="flex items-start">
+                <span className="text-[#00E06D] mr-3 font-black">•</span>
+                <span className="text-lg text-gray-200">{tip}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Footer Disclaimer */}
+        <div className="border-t border-gray-800 pt-6 mt-8 mb-8">
+          <p className="text-xs text-gray-500 text-center">
+            Zap Sauce. Traditional wellness. Not medical advice. Consult your doctor.
+          </p>
         </div>
       </div>
+
+      {/* EFT Modal */}
+      {showEFT && (
+        <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4" onClick={() => setShowEFT(false)}>
+          <div className="bg-gray-900 border-3 border-[#00A651] rounded-2xl p-8 max-w-md w-full shadow-2xl shadow-[#00E06D]/30" onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-4xl font-black text-[#00E06D] mb-6 text-center">EFT Bank Transfer</h2>
+            <div className="space-y-4 text-lg">
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Bank:</p>
+                <p className="text-white text-xl font-black">Lesotho Post Bank</p>
+              </div>
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Account:</p>
+                <p className="text-white text-xl font-black">1036202900018</p>
+              </div>
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Branch:</p>
+                <p className="text-white text-xl font-black">BONHOMME</p>
+              </div>
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Reference:</p>
+                <p className="text-white text-xl font-black">Zap Sauce {recipe._ref}</p>
+              </div>
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Amount:</p>
+                <p className="text-white text-3xl font-black">M{recipe.cost}</p>
+              </div>
+            </div>
+            <button onClick={copyEFT} className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-4 rounded-xl text-xl w-full mt-6 transition-all">
+              Copy Reference
+            </button>
+            <button onClick={() => setShowEFT(false)} className="text-gray-400 hover:text-white mt-4 w-full text-lg">
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
