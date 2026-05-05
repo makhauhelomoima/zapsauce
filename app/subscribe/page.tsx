@@ -108,6 +108,7 @@ export default function Subscribe() {
           <div className="text-sm text-gray-400 space-y-1">
             <div>Bank: Lesotho Post Bank</div>
             <div>Acc: 1036202900018</div>
+            <div>Branch: BONHOMME</div>
             <div>Ref: Zap Sauce SUB-001</div>
             <div>Amount: M120</div>
           </div>
