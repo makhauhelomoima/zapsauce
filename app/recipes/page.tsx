@@ -1,7 +1,7 @@
 'use client'
 import { RECIPES } from '../../data/recipes'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'[id]
+import { useState, useEffect } from 'react'
 
 export default function RecipesPage() {
   const [selectedRecipe, setSelectedRecipe] = useState<string | null>(null)
@@ -12,7 +12,6 @@ export default function RecipesPage() {
   const freeRecipes = Object.values(RECIPES).filter(r => r.type === 'FREE')
 
   useEffect(() => {
-    // Load unlocked recipes from browser
     const unlocked: string[] = []
     Object.keys(RECIPES).forEach(id => {
       if (localStorage.getItem(`zap_unlocked_${id}`) === 'true') {
@@ -28,14 +27,13 @@ export default function RecipesPage() {
 
   const copyEFT = (ref: string) => {
     navigator.clipboard.writeText(`Zap Sauce ${ref}`)
-    alert(`EFT Reference copied: Zap Sauce ${ref}\n\nBank: Lesotho Post Bank\nAccount: 1036202900018\nBranch: BONHOMME\nAcc Holder: Makhauhelo Moima`)
+    alert(`EFT Reference copied: Zap Sauce ${ref}\n\nBank: Lesotho Post Bank\nAccount: 1036202900018\nBranch: BONHOMME\nSwift: LESHLSMMXXX`)
   }
 
   return (
     <div className="bg-black min-h-[100dvh] text-white p-3">
       <div className="max-w-7xl mx-auto">
 
-        {/* Header */}
         <div className="text-center mb-6">
           <Link href="/" className="inline-block mb-3">
             <h1 className="text-5xl font-black text-[#00E06D] drop-shadow-[0_0_30px_rgba(0,224,109,0.8)]">
@@ -46,7 +44,6 @@ export default function RecipesPage() {
           <p className="text-base text-gray-300 font-semibold">Tap USSD to pay • EFT available • Subscribe for EXCLUSIVE</p>
         </div>
 
-        {/* Subscribe CTA Banner */}
         <div className="bg-gradient-to-r from-yellow-600 to-yellow-500 border-3 border-yellow-300 rounded-2xl p-6 mb-6 backdrop-blur text-center shadow-2xl shadow-yellow-500/40">
           <h3 className="text-3xl font-black text-black mb-2">🔒 SUBSCRIBERS GET EXCLUSIVE RECIPE</h3>
           <p className="text-black text-lg mb-4 font-bold">Monthly Heal M120 unlocks: Ginger+Turmeric+Honey+Cayenne+Cinnamon+ACV — TANGY FUSION</p>
@@ -58,7 +55,6 @@ export default function RecipesPage() {
           </Link>
         </div>
 
-        {/* FREE TEASERS */}
         <div className="mb-8">
           <h2 className="text-2xl font-black text-[#00E06D] mb-4 text-center">FREE SAMPLES</h2>
           <div className="grid md:grid-cols-2 gap-4">
@@ -78,7 +74,6 @@ export default function RecipesPage() {
           </div>
         </div>
 
-        {/* PAID RECIPES GRID - 14 TOTAL */}
         <div className="mb-8">
           <h2 className="text-2xl font-black text-white mb-4 text-center">14 PAID RECIPES</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -96,7 +91,7 @@ export default function RecipesPage() {
                 {recipe.subtitle && <p className="text-sm text-gray-400 mb-3">{recipe.subtitle}</p>}
 
                 <div className="text-sm text-[#00C85F] mb-2 mt-3 font-bold">CURES:</div>
-                <ul className="text-sm mb-4 min-h-">
+                <ul className="text-sm mb-4">
                   {recipe.cures.slice(0, 3).map((cure, i) => (
                     <li key={i} className="mb-1 text-gray-300 flex items-start">
                       <span className="text-[#00E06D] mr-2">✓</span>
@@ -166,7 +161,6 @@ export default function RecipesPage() {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="text-center mt-8 mb-6">
           <Link href="/" className="text-[#00C85F] hover:text-[#00E06D] font-black text-lg">
             ← Back to Home
@@ -178,15 +172,16 @@ export default function RecipesPage() {
         </div>
       </div>
 
-      {/* EFT MODAL */}
       {showEFT && (
         <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4" onClick={() => setShowEFT(null)}>
           <div className="bg-gray-900 border-3 border-[#00A651] rounded-2xl p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
             <h2 className="text-3xl font-black text-[#00E06D] mb-4">EFT Bank Details</h2>
             <div className="space-y-3 text-lg">
               <div><span className="text-[#00C85F] font-bold">Bank:</span> <span className="text-white">Lesotho Post Bank</span></div>
+              <div><span className="text-[#00C85F] font-bold">Account Holder:</span> <span className="text-white">Makhauhelo Moima</span></div>
               <div><span className="text-[#00C85F] font-bold">Account:</span> <span className="text-white">1036202900018</span></div>
               <div><span className="text-[#00C85F] font-bold">Branch:</span> <span className="text-white">BONHOMME</span></div>
+              <div><span className="text-[#00C85F] font-bold">Swift:</span> <span className="text-white">LESHLSMMXXX</span></div>
               <div><span className="text-[#00C85F] font-bold">Reference:</span> <span className="text-white">Zap Sauce {RECIPES[showEFT].ref}</span></div>
               <div><span className="text-[#00C85F] font-bold">Amount:</span> <span className="text-white">M{RECIPES[showEFT].price}</span></div>
             </div>
@@ -202,7 +197,6 @@ export default function RecipesPage() {
         </div>
       )}
 
-      {/* WhatsApp Float */}
       <a
         href="https://wa.me/26657031600?text=Hi%20Zap%20Sauce%20I%20need%20order%20support"
         target="_blank"
