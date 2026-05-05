@@ -16,12 +16,12 @@ export default function CustomerPortal() {
   const login = async () => {
     setLoading(true);
     const { data, error } = await supabase
-.from('zap_orders')
-.select('*')
-.eq('customer_whatsapp', whatsapp)
-.eq('mpesa_code', mpesaCode)
-.eq('payment_status', 'verified')
-.order('paid_at', { ascending: false });
+     .from('zap_orders')
+     .select('*')
+     .eq('customer_whatsapp', whatsapp)
+     .eq('mpesa_code', mpesaCode)
+     .eq('payment_status', 'verified')
+     .order('paid_at', { ascending: false });
 
     if (error ||!data || data.length === 0) {
       alert('No subscription found. Check WhatsApp + Mpesa code.');
@@ -147,4 +147,4 @@ export default function CustomerPortal() {
       </div>
     </main>
   );
-  }
+}
