@@ -1,7 +1,7 @@
 # ZAP SAUCE ⚡
 
 **Immunity in a jar. 1 tsp daily keeps pharmacy away.**  
-**Product of Lesotho 🇱🇸 | By Makhauhelo Moima**
+**Easy to use recipes for every day aches and pains. Zap Sauce helps to keep your immune system on guard. Free recipe for tasters and also request pdf file inbox for reading at your own pace. Product of Lesotho 🇱🇸 | By Makhauhelo Moima**
 
 ---
 
