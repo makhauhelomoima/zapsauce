@@ -17,7 +17,6 @@ export default function RecipesPage() {
   return (
     <div className="bg-black min-h-[100dvh] text-white p-3">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <Link href="/">
             <h1 className="text-5xl font-black text-[#00E06D] mb-2">Zap Sauce.</h1>
@@ -26,7 +25,6 @@ export default function RecipesPage() {
           <p className="text-base text-gray-300 font-semibold">Product of Lesotho 🇱🇸</p>
         </div>
 
-        {/* FREE SAMPLES */}
         <div className="mb-10">
           <div className="text-center mb-6">
             <h2 className="text-3xl font-black text-[#00E06D] mb-2">FREE SAMPLES</h2>
@@ -38,16 +36,11 @@ export default function RecipesPage() {
                 <div className="text-sm bg-[#00A651] text-white px-4 py-1 rounded-full font-black inline-block mb-3">FREE</div>
                 <h3 className="text-3xl font-black text-[#00E06D] mb-2">{recipe.name}</h3>
                 <p className="text-gray-300 text-lg mb-4">{recipe.subtitle}</p>
-
                 <div className="flex gap-4 text-sm mb-5 text-gray-400">
                   <div><span className="text-[#00C85F] font-bold">Prep:</span> {recipe.prepTime}</div>
                   <div><span className="text-[#00C85F] font-bold">Serves:</span> {recipe.servings}</div>
                 </div>
-
-                <Link
-                  href={`/recipes/${recipe.id}`}
-                  className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-4 rounded-xl text-xl w-full block text-center transition-all shadow-lg hover:scale-105"
-                >
+                <Link href={`/recipes/${recipe.id}`} className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-4 rounded-xl text-xl w-full block text-center transition-all shadow-lg hover:scale-105">
                   View Full Recipe →
                 </Link>
               </div>
@@ -55,7 +48,6 @@ export default function RecipesPage() {
           </div>
         </div>
 
-        {/* PAID RECIPES */}
         <div className="mb-10">
           <div className="text-center mb-6">
             <h2 className="text-3xl font-black text-white mb-2">PAID RECIPES</h2>
@@ -70,29 +62,20 @@ export default function RecipesPage() {
                 {recipe._type === 'PAID' && (
                   <div className="text-sm bg-[#00C85F] text-black px-4 py-1 rounded-full font-black inline-block mb-3">PAID</div>
                 )}
-
                 <h3 className="text-2xl font-black text-[#00E06D] mb-2">{recipe.name}</h3>
                 {recipe.subtitle && <p className="text-sm text-gray-400 mb-4">{recipe.subtitle}</p>}
-
                 <div className="space-y-1 text-sm mb-5 text-gray-400">
                   <div><span className="text-[#00C85F] font-bold">ID:</span> {recipe.id}</div>
                   <div><span className="text-[#00C85F] font-bold">Prep Time:</span> {recipe.prepTime}</div>
                   <div><span className="text-[#00C85F] font-bold">Servings:</span> {recipe.servings}</div>
                 </div>
-
                 <div className="border-t border-gray-700 pt-4">
                   <div className="text-5xl font-black text-white mb-4">M{recipe.cost}</div>
-                  <Link
-                    href={`/recipes/${recipe.id}`}
-                    className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-3 rounded-xl text-lg w-full block text-center mb-3 transition-all"
-                  >
+                  <Link href={`/recipes/${recipe.id}`} className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-3 rounded-xl text-lg w-full block text-center mb-3 transition-all">
                     View Recipe
                   </Link>
                   {recipe._ussd && (
-                    <button
-                      onClick={() => setShowEFT(recipe.id)}
-                      className="border-2 border-[#00A651] text-[#00C85F] hover:bg-[#00A651]/20 font-black px-4 py-2 rounded-xl text-base w-full transition-all"
-                    >
+                    <button onClick={() => setShowEFT(recipe.id)} className="border-2 border-[#00A651] text-[#00C85F] hover:bg-[#00A651]/20 font-black px-4 py-2 rounded-xl text-base w-full transition-all">
                       EFT Bank Transfer
                     </button>
                   )}
@@ -102,7 +85,6 @@ export default function RecipesPage() {
           </div>
         </div>
 
-        {/* EXCLUSIVE TEASER */}
         {exclusiveRecipe && (
           <div className="mb-10">
             <div className="border-2 border-purple-600 bg-gradient-to-br from-purple-900/30 to-black p-8 rounded-2xl text-center shadow-lg shadow-purple-600/20">
@@ -114,7 +96,6 @@ export default function RecipesPage() {
           </div>
         )}
 
-        {/* Footer */}
         <div className="text-center mt-12 mb-8">
           <Link href="/" className="text-[#00C85F] hover:text-[#00E06D] font-black text-xl transition-colors">
             ← Back to Home
@@ -124,7 +105,6 @@ export default function RecipesPage() {
         </div>
       </div>
 
-      {/* EFT Modal */}
       {showEFT && (
         <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4" onClick={() => setShowEFT(null)}>
           <div className="bg-gray-900 border-3 border-[#00A651] rounded-2xl p-8 max-w-md w-full shadow-2xl shadow-[#00E06D]/30" onClick={(e) => e.stopPropagation()}>
@@ -151,16 +131,10 @@ export default function RecipesPage() {
                 <p className="text-white text-3xl font-black">M{RECIPES[showEFT].cost}</p>
               </div>
             </div>
-            <button
-              onClick={() => copyEFT(RECIPES[showEFT]._ref)}
-              className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-4 rounded-xl text-xl w-full mt-6 transition-all"
-            >
+            <button onClick={() => copyEFT(RECIPES[showEFT]._ref)} className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-4 rounded-xl text-xl w-full mt-6 transition-all">
               Copy Reference
             </button>
-            <button
-              onClick={() => setShowEFT(null)}
-              className="text-gray-400 hover:text-white mt-4 w-full text-lg"
-            >
+            <button onClick={() => setShowEFT(null)} className="text-gray-400 hover:text-white mt-4 w-full text-lg">
               Close
             </button>
           </div>
