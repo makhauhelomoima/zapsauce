@@ -19,6 +19,15 @@ export const RECIPES: Record<string, Recipe> = {
     type: 'FREE',
     cures: ['First-time inflammation test', 'Morning energy boost', 'Beginner-friendly intro', 'Taste before you invest']
   },
+  'immunity-teaser': {
+    name: 'IMMUNITY TEASER',
+    subtitle: 'Lightning Defense Shot',
+    price: 0,
+    ussd: '*777*57031600*0%23',
+    ref: 'TEASER',
+    type: 'FREE',
+    cures: ['Rapid immune system test', 'Instant warming sensation', 'Perfect for cold mornings', 'Share with skeptical friends']
+  },
   'monthly-heal': {
     name: 'MONTHLY HEAL',
     subtitle: 'Auto-Restock Plan',
@@ -28,13 +37,14 @@ export const RECIPES: Record<string, Recipe> = {
     type: 'AUTO',
     cures: ['Never run out of Zap Sauce', 'Save M20 vs buying single monthly', 'Priority WhatsApp support', 'Cancel anytime via WhatsApp']
   },
-  'pack-all-5': {
-    name: 'PACK - ALL 5 - Best Value',
-    price: 647,
-    ussd: '*777*57031600*647%23',
-    ref: 'PACK',
+  'pdf-kit': {
+    name: 'PDF RECIPES KIT - All 13',
+    subtitle: 'Complete Collection - Save 70%',
+    price: 560,
+    ussd: '*777*57031600*560%23',
+    ref: 'PDF',
     type: 'BUNDLE',
-    cures: ['Full arsenal', 'Save M164', 'Full family protection']
+    cures: ['All 13 recipes in one PDF', '2 FREE samples included', '11 paid recipes included', 'Save M1328 vs buying all separately', 'Lifetime WhatsApp access', 'Print or share with family']
   },
   'original': {
     name: 'ORIGINAL',
