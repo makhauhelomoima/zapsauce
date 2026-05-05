@@ -3,7 +3,22 @@ import { useState } from 'react';
 
 const HERO_URL = 'https://drive.google.com/uc?export=download&id=1NjKBExO5geHyq0GsGLwLUZfYoFQbGNAa';
 
-const RECIPES = {
+type FreeRecipe = {
+  name: string;
+  price: 0;
+  category: string;
+  content: string;
+};
+
+type PaidRecipe = {
+  name: string;
+  price: number;
+  ussd: string;
+  category: string;
+  content: string;
+};
+
+const RECIPES: Record<string, FreeRecipe | PaidRecipe> = {
   free1: {
     name: 'FREE TEASER SHOT',
     price: 0,
@@ -227,7 +242,7 @@ export default function Home() {
     setMpesaCode('');
   };
 
-  const requestPdf = (recipeName: string, price: number) => {
+  const requestPdf = (recipeName: string) => {
     const msg = `Hi! I need PDF for ${recipeName}. Paid Mpesa: ${mpesaCode}. WhatsApp: ${whatsapp}. PDF = M197. Confirm payment?`;
     window.open(`https://wa.me/26657031600?text=${encodeURIComponent(msg)}`, '_blank');
   };
@@ -282,9 +297,11 @@ export default function Home() {
               <div className="text-xs text-gray-500 mb-1 font-montserrat uppercase">{recipe.category}</div>
               <h3 className="text-xl font-black text-[#D4AF37] mb-2">{recipe.name}</h3>
               <p className="text-3xl font-black mb-2">M{recipe.price}</p>
-              <a href={`tel:${recipe.ussd}`} className="w-full bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black p-3 rounded uppercase text-center block mb-2">
-                PAY M{recipe.price}
-              </a>
+              {'ussd' in recipe && (
+                <a href={`tel:${recipe.ussd}`} className="w-full bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black p-3 rounded uppercase text-center block mb-2">
+                  PAY M{recipe.price}
+                </a>
+              )}
               <button
                 onClick={() => handlePaid(key)}
                 className="w-full bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-black p-3 rounded uppercase"
@@ -303,8 +320,9 @@ export default function Home() {
 
         <div className="bg-red-900/20 border border-red-500 p-4 rounded mb-8">
           <p className="text-xs text-gray-300 font-montserrat text-center">
-            <strong>DISCLAIMER:</strong> Zap Sauce recipes are nutritional support only. Not medical advice, diagnosis, or treatment. 
-            Always consult qualified healthcare providers. Never stop prescribed medication. 
+            <strong>DISCLAIMER:</strong> Zap Sauce recipes are nutritional support only. Not medical advice, diagnosis, or treatment.
+            Always consult qualified healthcare providers. Never stop prescribed medication.
+            For TB, HIV, Lupus: Use ONLY alongside medical treatment.
             Results vary. Heal responsibly.
           </p>
         </div>
@@ -315,7 +333,7 @@ export default function Home() {
             <div className="bg-[#0A2E1D] p-6 rounded-lg border-2 border-[#D4AF37] w-full max-w-sm">
               <h3 className="text-xl font-black text-[#D4AF37] mb-4 uppercase">UNLOCK RECIPE</h3>
               <p className="text-sm text-gray-400 mb-4 font-montserrat">
-                Paid M{RECIPES[verifyStep as keyof typeof RECIPES].price}? Enter SMS details:
+                Paid M{RECIPES[verifyStep].price}? Enter SMS details:
               </p>
               <input
                 type="text"
@@ -352,14 +370,14 @@ export default function Home() {
           <div className="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50 overflow-y-auto">
             <div className="bg-[#0A2E1D] p-6 rounded-lg border-2 border-[#D4AF37] w-full max-w-lg my-8">
               <h3 className="text-2xl font-black text-[#D4AF37] mb-4 uppercase">
-                {RECIPES[showRecipe as keyof typeof RECIPES].name} ⚡
+                {RECIPES[showRecipe].name} ⚡
               </h3>
               <pre className="text-gray-200 whitespace-pre-wrap font-montserrat text-sm leading-relaxed mb-6">
-                {RECIPES[showRecipe as keyof typeof RECIPES].content}
+                {RECIPES[showRecipe].content}
               </pre>
-              {RECIPES[showRecipe as keyof typeof RECIPES].price > 0 && (
+              {RECIPES[showRecipe].price > 0 && (
                 <button
-                  onClick={() => requestPdf(RECIPES[showRecipe as keyof typeof RECIPES].name, RECIPES[showRecipe as keyof typeof RECIPES].price)}
+                  onClick={() => requestPdf(RECIPES[showRecipe].name)}
                   className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white font-black p-3 rounded uppercase mb-2"
                 >
                   WANT PDF? M197 VIA WHATSAPP 📄
