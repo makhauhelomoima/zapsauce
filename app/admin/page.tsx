@@ -1,160 +1,86 @@
 'use client'
-import { useState } from 'react'
+import { RECIPES } from '../../data/recipes'
 import Link from 'next/link'
 
-export default function Portal() {
-  const [phone, setPhone] = useState('')
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [doses, setDoses] = useState(0)
-  const [totalOrders, setTotalOrders] = useState(0)
-
-  const handleLogin = () => {
-    if (phone.length === 8) {
-      setLoggedIn(true)
-      setDoses(12)
-      setTotalOrders(3)
-    }
-  }
-
-  if (!loggedIn) {
-    return (
-      <div className="bg-black min-h-[100dvh] text-white flex flex-col items-center justify-center p-4">
-        <div className="max-w-sm w-full">
-          <Link href="/" className="inline-block mb-6">
-            <h1 className="text-3xl font-bold text-[#00E06D] drop-shadow-[0_0_20px_rgba(0,224,109,0.6)]">
-              Zap Sauce.
-            </h1>
-          </Link>
-          
-          <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-6 backdrop-blur shadow-xl shadow-green-500/20">
-            <h2 className="text-xl font-bold text-[#00E06D] mb-1">Customer Portal</h2>
-            <p className="text-gray-400 text-sm mb-5">Track doses. Earn points. Get reminders.</p>
-            
-            <label className="block text-sm text-[#00C85F] mb-2 font-bold">Phone Number</label>
-            <input
-              type="tel"
-              placeholder="57031600"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              className="w-full bg-black border border-[#00A651] rounded-md px-4 py-3 text-white mb-4 focus:border-[#00E06D] focus:outline-none"
-              maxLength={8}
-            />
-            
-            <button
-              onClick={handleLogin}
-              className="w-full bg-[#00A651] hover:bg-[#00C85F] text-white font-bold py-3 rounded-md text-base shadow-lg shadow-green-500/40 border border-[#00E06D] transition-all"
-            >
-              Login via WhatsApp OTP
-            </button>
-            
-            <p className="text-xs text-gray-500 mt-4 text-center">
-              First time? Any purchase creates your account automatically.
-            </p>
-          </div>
-          
-          <Link href="/" className="text-[#00C85F] hover:text-[#00E06D] text-sm mt-6 block text-center">
-            ← Back to Home
-          </Link>
-        </div>
-      </div>
-    )
-  }
+export default function AdminDashboard() {
+  const paidRecipes = Object.values(RECIPES).filter(r => r.type === 'PAID' || r.type === 'SUBSCRIPTION')
+  const freeRecipes = Object.values(RECIPES).filter(r => r.type === 'FREE')
+  const totalRevenue = paidRecipes.reduce((sum, r) => sum + r.price, 0)
 
   return (
-    <div className="bg-black min-h-[100dvh] text-white p-3">
-      <div className="max-w-2xl mx-auto">
-        
-        {/* Header - Tight */}
-        <div className="flex justify-between items-center mb-5">
-          <Link href="/">
-            <h1 className="text-2xl font-bold text-[#00E06D] drop-shadow-[0_0_15px_rgba(0,224,109,0.5)]">
-              Zap Sauce.
-            </h1>
-          </Link>
-          <button
-            onClick={() => setLoggedIn(false)}
-            className="text-xs text-[#00C85F] hover:text-[#00E06D] border border-[#00A651] px-3 py-1.5 rounded-md"
-          >
-            Logout
-          </button>
-        </div>
+    <div className="bg-black min-h-[100dvh] text-white p-4">
+      <div className="max-w-7xl mx-auto">
 
-        {/* Welcome Card */}
-        <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-5 mb-4 backdrop-blur shadow-xl shadow-green-500/20">
-          <h2 className="text-lg font-bold text-[#00E06D] mb-1">Welcome back!</h2>
-          <p className="text-gray-400 text-sm">+{phone}</p>
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-4xl font-black text-[#00E06D]">Admin Dashboard</h1>
+            <p className="text-gray-400 text-base">Zap Sauce Management</p>
+          </div>
+          <Link href="/" className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-3 rounded-lg text-lg">
+            ← View Site
+          </Link>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-4 text-center backdrop-blur">
-            <div className="text-3xl font-bold text-[#00E06D]">{doses}</div>
-            <div className="text-xs text-gray-400 mt-1">Doses Logged</div>
+        <div className="grid md:grid-cols-4 gap-4 mb-8">
+          <div className="bg-gray-900 border-2 border-[#00A651] rounded-xl p-5">
+            <div className="text-gray-400 text-sm mb-1">Total Recipes</div>
+            <div className="text-4xl font-black text-white">{Object.keys(RECIPES).length}</div>
           </div>
-          <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-4 text-center backdrop-blur">
-            <div className="text-3xl font-bold text-[#00E06D]">{doses * 10}</div>
-            <div className="text-xs text-gray-400 mt-1">Loyalty Points</div>
+          <div className="bg-gray-900 border-2 border-[#00A651] rounded-xl p-5">
+            <div className="text-gray-400 text-sm mb-1">Paid Recipes</div>
+            <div className="text-4xl font-black text-white">{paidRecipes.length}</div>
           </div>
-        </div>
-
-        {/* Log Dose Button */}
-        <button
-          onClick={() => setDoses(doses + 1)}
-          className="w-full bg-[#00A651] hover:bg-[#00C85F] text-white font-bold py-4 rounded-lg text-base shadow-lg shadow-green-500/40 border border-[#00E06D] mb-4 transition-all"
-        >
-          ✓ Log Today's Dose (1 tbsp)
-        </button>
-
-        {/* Progress Bar */}
-        <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-4 mb-4 backdrop-blur">
-          <div className="flex justify-between text-xs text-gray-400 mb-2">
-            <span>Monthly Progress</span>
-            <span>{doses}/30 days</span>
+          <div className="bg-gray-900 border-2 border-yellow-500 rounded-xl p-5">
+            <div className="text-gray-400 text-sm mb-1">Potential Revenue</div>
+            <div className="text-4xl font-black text-yellow-400">M{totalRevenue}</div>
           </div>
-          <div className="w-full bg-black rounded-full h-2 border border-[#00A651]/30">
-            <div 
-              className="bg-gradient-to-r from-[#00A651] to-[#00E06D] h-2 rounded-full transition-all"
-              style={{ width: `${(doses / 30) * 100}%` }}
-            ></div>
+          <div className="bg-gray-900 border-2 border-[#00E06D] rounded-xl p-5">
+            <div className="text-gray-400 text-sm mb-1">Free Samples</div>
+            <div className="text-4xl font-black text-[#00E06D]">{freeRecipes.length}</div>
           </div>
         </div>
 
-        {/* Orders */}
-        <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-4 mb-4 backdrop-blur">
-          <h3 className="text-base font-bold text-[#00E06D] mb-3">Order History</h3>
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm border-b border-gray-800 pb-2">
-              <div>
-                <div className="text-white">ORIGINAL - Turmeric Gold</div>
-                <div className="text-xs text-gray-500">12 Jan 2026</div>
-              </div>
-              <div className="text-[#00E06D] font-bold">M120</div>
-            </div>
-            <div className="flex justify-between text-sm border-b border-gray-800 pb-2">
-              <div>
-                <div className="text-white">MONTHLY HEAL</div>
-                <div className="text-xs text-gray-500">01 Jan 2026</div>
-              </div>
-              <div className="text-[#00E06D] font-bold">M120</div>
-            </div>
-            <div className="flex justify-between text-sm">
-              <div>
-                <div className="text-white">PDF RECIPES KIT</div>
-                <div className="text-xs text-gray-500">15 Dec 2025</div>
-              </div>
-              <div className="text-[#00E06D] font-bold">M560</div>
-            </div>
+        {/* Recipes Management Table */}
+        <div className="bg-gray-900 border-2 border-[#00A651] rounded-xl p-6 mb-6">
+          <h2 className="text-2xl font-black text-[#00E06D] mb-4">Recipe Inventory</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-gray-700">
+                  <th className="py-3 px-2 text-[#00C85F]">Name</th>
+                  <th className="py-3 px-2 text-[#00C85F]">Type</th>
+                  <th className="py-3 px-2 text-[#00C85F]">Price</th>
+                  <th className="py-3 px-2 text-[#00C85F]">Ref</th>
+                  <th className="py-3 px-2 text-[#00C85F]">USSD</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.values(RECIPES).map((recipe) => (
+                  <tr key={recipe.id} className="border-b border-gray-800 hover:bg-gray-800/50">
+                    <td className="py-3 px-2 text-white font-bold">{recipe.name}</td>
+                    <td className="py-3 px-2">
+                      <span className={`px-3 py-1 rounded-md text-xs font-black ${
+                        recipe.type === 'FREE'? 'bg-[#00A651] text-white' :
+                        recipe.type === 'SUBSCRIPTION'? 'bg-yellow-500 text-black' :
+                        recipe.type === 'EXCLUSIVE'? 'bg-purple-600 text-white' :
+                        'bg-[#00C85F] text-black'
+                      }`}>
+                        {recipe.type}
+                      </span>
+                    </td>
+                    <td className="py-3 px-2 text-white font-black">M{recipe.price}</td>
+                    <td className="py-3 px-2 text-gray-400 text-sm">{recipe.ref}</td>
+                    <td className="py-3 px-2 text-white font-mono text-sm">{recipe.ussd || 'N/A'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center mt-6 mb-4">
-          <Link href="/recipes" className="text-[#00C85F] hover:text-[#00E06D] font-bold text-sm">
-            Order More Recipes →
-          </Link>
-          <div className="text- text-gray-600 mt-4">
-            <p>Need help? WhatsApp 57031600</p>
-          </div>
+        <div className="text-center text-gray-500 text-sm">
+          <p>© 2026 Zap Sauce Admin | By Makhauhelo Moima</p>
         </div>
       </div>
     </div>
