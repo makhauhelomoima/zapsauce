@@ -16,7 +16,7 @@ export default function RecipesPage() {
 
   const copyEFT = (ref: string) => {
     navigator.clipboard.writeText(`Zap Sauce ${ref}`)
-    alert(`EFT Reference copied: Zap Sauce ${ref}\n\nBank: Standard Lesotho\nAcc: 908000123456\nBranch: 060067`)
+    alert(`EFT Reference copied: Zap Sauce ${ref}\n\nBank: Lesotho Post Bank\nAcc: 1036202900018\nBranch: BONHOMME`)
   }
 
   return (
