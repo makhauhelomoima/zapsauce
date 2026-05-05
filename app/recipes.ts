@@ -39,7 +39,7 @@ export default function RecipesPage() {
       {/* HEADER */}
       <header className="bg-[#0A2E1D]/95 backdrop-blur-sm border-b-2 border-[#D4AF37] p-4 sticky top-0 z-40 shadow-2xl">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-2xl md:text-3xl font-black text-[#D4AF37]">ZAP SAUCE ⚡</Link>
+          <Link href="/" className="text-2xl md:text-3xl font-black text-[#D4AF37]">ZAP SAUCE. ⚡</Link>
           <div className="flex gap-3">
             <a href="/portal" className="bg-[#D4AF37] hover:bg-[#F4B400] active:bg-[#B8860B] text-[#051B11] font-black px-6 py-3 md:px-8 md:py-3 rounded-lg text-sm md:text-base uppercase shadow-lg transition-all duration-200 hover:scale-105">
               SUBSCRIPTIONS
