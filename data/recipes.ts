@@ -1,19 +1,32 @@
-export const RECIPES = {
+export type Recipe = {
+  name: string
+  price: number
+  ussd: string
+  ref: string
+  type: string
+  cures: string[]
+  subtitle?: string
+  warning?: string
+}
+
+export const RECIPES: Record<string, Recipe> = {
   'free-sample': {
-    name: 'FREE SAMPLE - Turmeric Starter',
+    name: 'FREE SAMPLE',
+    subtitle: 'Turmeric Starter',
     price: 0,
     ussd: '*777*57031600*0%23',
     ref: 'FREE',
     type: 'FREE',
-    cures: ['First-time inflammation test', 'Morning energy boost', 'Beginner-friendly intro']
+    cures: ['First-time inflammation test', 'Morning energy boost', 'Beginner-friendly intro', 'Taste before you invest']
   },
-  'monthly-home': {
-    name: 'MONTHLY HOME - Auto-Restock',
+  'monthly-heal': {
+    name: 'MONTHLY HEAL',
+    subtitle: 'Auto-Restock Plan',
     price: 120,
     ussd: '*777*57031600*120%23',
     ref: 'HOME',
-    type: 'SUBSCRIPTION',
-    cures: ['Never run out of Zap Sauce', 'Save M20 vs buying single monthly', 'Priority WhatsApp support']
+    type: 'AUTO',
+    cures: ['Never run out of Zap Sauce', 'Save M20 vs buying single monthly', 'Priority WhatsApp support', 'Cancel anytime via WhatsApp']
   },
   'pack-all-5': {
     name: 'PACK - ALL 5 - Best Value',
@@ -23,13 +36,59 @@ export const RECIPES = {
     type: 'BUNDLE',
     cures: ['Full arsenal', 'Save M164', 'Full family protection']
   },
+  'original': {
+    name: 'ORIGINAL',
+    subtitle: 'Turmeric Gold',
+    price: 120,
+    ussd: '*777*57031600*120%23',
+    ref: 'ZAPORIG',
+    type: 'SWEET',
+    cures: ['Chronic inflammation', 'Joint stiffness & arthritis pain', 'Low immunity & frequent colds', 'Digestive bloating']
+  },
   'citrus': {
     name: 'CITRUS',
+    subtitle: 'Lemon Zest',
     price: 120,
     ussd: '*777*57031600*120%23',
     ref: 'ZAPCIT',
-    type: 'RECIPE',
-    cures: ['Seasonal flu & congestion', 'Sluggish metabolism', 'Skin breakouts from toxins']
+    type: 'SWEET',
+    cures: ['Vitamin C deficiency', 'Seasonal flu & congestion', 'Sluggish metabolism', 'Skin breakouts from toxins']
+  },
+  'warrior-pro': {
+    name: 'WARRIOR PRO',
+    subtitle: 'Black Pepper Boost',
+    price: 140,
+    ussd: '*777*57031600*140%23',
+    ref: 'ZAPWAR',
+    type: 'SWEET',
+    cures: ['Poor nutrient absorption', 'Post-workout inflammation', 'Brain fog & low focus', 'Chronic fatigue']
+  },
+  'queen': {
+    name: 'QUEEN',
+    subtitle: 'Cinnamon Royal',
+    price: 130,
+    ussd: '*777*57031600*130%23',
+    ref: 'ZAPQUE',
+    type: 'SWEET',
+    cures: ['Blood sugar spikes', 'Hormonal imbalance', 'PMS & menstrual cramps', 'Sugar cravings']
+  },
+  'bone': {
+    name: 'BONE',
+    subtitle: 'Ginger Joint',
+    price: 157,
+    ussd: '*777*57031600*157%23',
+    ref: 'BONE',
+    type: 'SWEET',
+    cures: ['Knee & hip joint pain', 'Morning stiffness', 'Osteoarthritis flare-ups']
+  },
+  'herb-fire': {
+    name: 'HERB FIRE',
+    subtitle: 'Garlic Rosemary',
+    price: 157,
+    ussd: '*777*57031600*157%23',
+    ref: 'HERB',
+    type: 'SAVORY',
+    cures: ['High blood pressure & cholesterol', 'Poor circulation', 'Antibiotic resistance', 'Cognitive decline']
   },
   'gout-zap': {
     name: 'GOUT ZAP',
@@ -74,37 +133,5 @@ export const RECIPES = {
     type: 'CONDITION',
     cures: ['Unhealthy weight loss', 'Protein deficiency', 'Vitamin depletion', 'Weak immune system'],
     warning: 'Safe weight gain +2kg per month target. Nutrient dense.'
-  },
-  'warrior-pro': {
-    name: 'WARRIOR PRO - Black Pepper Boost',
-    price: 140,
-    ussd: '*777*57031600*140%23',
-    ref: 'ZAPWAR',
-    type: 'SWEET',
-    cures: ['Poor nutrient absorption', 'Post-workout inflammation', 'Brain fog & low focus', 'Chronic fatigue']
-  },
-  'queen': {
-    name: 'QUEEN - Cinnamon Royal',
-    price: 130,
-    ussd: '*777*57031600*130%23',
-    ref: 'ZAPQUE',
-    type: 'SWEET',
-    cures: ['Blood sugar spikes', 'Hormonal imbalance', 'PMS & menstrual cramps', 'Sugar cravings']
-  },
-  'bone': {
-    name: 'BONE - Ginger Joint',
-    price: 157,
-    ussd: '*777*57031600*157%23',
-    ref: 'BONE',
-    type: 'SWEET',
-    cures: ['Adults 30+ Joint pain', 'Knee & hip joint pain', 'Osteoarthritis flare-ups', 'Morning stiffness']
-  },
-  'herb-fire': {
-    name: 'HERB FIRE - Garlic Rosemary',
-    price: 157,
-    ussd: '*777*57031600*157%23',
-    ref: 'HERB',
-    type: 'SAVORY',
-    cures: ['High blood pressure & cholesterol', 'Poor circulation', 'Antibiotic resistance', 'Cognitive decline']
   }
 }
