@@ -1,101 +1,324 @@
-export type Recipe = {
+export interface Recipe {
   id: string
   name: string
   subtitle?: string
-  type: 'FREE' | 'PAID' | 'SUBSCRIPTION' | 'EXCLUSIVE'
-  price: number
-  ref: string
-  ussd?: string
-  cures: string[]
-  warning?: string
-  ingredients?: string[]
-  instructions?: string[]
-  isSubscriberOnly?: boolean
+  prepTime: string
+  cost: number
+  servings: string
+  ingredients: string[]
+  preparations: string[]
+  benefits: string
+  storageTips: string[]
+  _ref: string
+  _ussd: string | null
+  _type: 'FREE' | 'PAID' | 'SUBSCRIPTION' | 'EXCLUSIVE'
+  _math?: string
+  _cures?: string[]
+  _warning?: string
+  _cogs?: number
+  _disclaimer: string
 }
 
 export const RECIPES: Record<string, Recipe> = {
-  // FREE TEASERS - KEEP SAME
-  'free-sample': {
-    id: 'free-sample',
+  'free-001': {
+    id: 'free-001',
     name: 'FREE TEASER SHOT',
-    subtitle: 'Taste of healing',
-    type: 'FREE',
-    price: 0,
-    ref: 'FREE-001',
-    cures: ['Morning energy boost', 'Digestive kickstart', 'Immune primer'],
-    ingredients: ['Ginger 1 tsp', 'Lemon juice 1 tbsp', 'Warm water 100ml', 'Raw Honey 1 tsp'],
-    instructions: ['Mix all in warm water', 'Drink on empty stomach', 'Wait 15 mins before breakfast']
+    subtitle: 'Ginger + Lemon + Cayenne Starter',
+    prepTime: '2 minutes',
+    cost: 0,
+    servings: '1 shot',
+    ingredients: ['Fresh ginger','Lemon','Cayenne pepper','Raw honey','Warm water'],
+    preparations: ['1. Grate ginger into glass','2. Add lemon juice, cayenne, honey','3. Top with warm water and stir','4. Drink immediately'],
+    benefits: 'Traditional morning wellness tonic from Lesotho',
+    storageTips: ['Make fresh','Drink immediately'],
+    _ref: 'FREE-001', _ussd: null, _type: 'FREE',
+    _math: 'Ginger 10g + Lemon 15ml + Cayenne 0.5g + Honey 15g = 40.5g total',
+    _cures: ['Morning sluggishness','Congestion','Low appetite'],
+    _disclaimer: 'Traditional tonic. Not medical advice.'
   },
-  'immunity-teaser': {
-    id: 'immunity-teaser',
+  'free-002': {
+    id: 'free-002',
     name: 'IMMUNITY TEASER',
-    subtitle: 'Your first defense',
-    type: 'FREE',
-    price: 0,
-    ref: 'FREE-002',
-    cures: ['Cold prevention', 'Throat soothing', 'Vitamin C boost'],
-    ingredients: ['Turmeric 1/2 tsp', 'Black Pepper pinch', 'Raw Honey 1 tbsp', 'Hot water 150ml'],
-    instructions: ['Dissolve turmeric + pepper in hot water', 'Stir in honey', 'Sip slowly']
+    subtitle: 'Turmeric + Black Pepper + Honey',
+    prepTime: '3 minutes',
+    cost: 0,
+    servings: '1 cup',
+    ingredients: ['Turmeric powder','Black pepper','Raw honey','Warm water or milk'],
+    preparations: ['1. Mix turmeric and pepper in mug','2. Add honey to make paste','3. Pour warm water or milk and stir','4. Drink before bed'],
+    benefits: 'Traditional bedtime wellness tonic from Lesotho',
+    storageTips: ['Best fresh','Stains - use carefully'],
+    _ref: 'FREE-002', _ussd: null, _type: 'FREE',
+    _math: 'Piperine increases curcumin absorption 2000%',
+    _cures: ['General immunity','Joint comfort','Sleep support'],
+    _disclaimer: 'Traditional tonic. Not medical advice.'
   },
-
-  // PAID RECIPES - 14 TOTAL - UPDATED USSD TO *200#
   'original': {
     id: 'original',
     name: 'ORIGINAL - Turmeric Gold',
-    type: 'PAID',
-    price: 120,
-    ref: 'ZAP-001',
-    ussd: '*200#',
-    cures: ['Inflammation', 'Joint pain', 'Arthritis', 'Muscle recovery'],
-    ingredients: ['Turmeric Powder 2 tbsp', 'Black Pepper 1 tsp', 'Coconut Oil 1 tbsp', 'Raw Honey 2 tbsp', 'Ginger Powder 1 tsp'],
-    instructions: ['Mix all dry ingredients in bowl', 'Add coconut oil to form thick paste', 'Store in glass jar', 'Take 1 tsp daily with warm water', 'Keep refrigerated']
+    subtitle: 'Turmeric + Ginger + Black Pepper + Honey',
+    prepTime: '15 minutes',
+    cost: 120,
+    servings: '2 cups',
+    ingredients: ['Fresh turmeric','Fresh ginger','Black pepper','Raw honey','Water','Lemon'],
+    preparations: ['1. Simmer turmeric and ginger in water 10 minutes','2. Strain into mug','3. Add pepper, honey, and lemon','4. Stir until honey dissolves','5. Drink warm'],
+    benefits: 'Traditional family wellness tonic from Lesotho',
+    storageTips: ['Make fresh daily for best taste','Store in fridge up to 3 days','Reheat gently, do not boil'],
+    _ref: 'ZAP-001', _ussd: '*200#', _type: 'PAID',
+    _math: '1g curcumin + 5mg piperine = 2000% absorption boost',
+    _cures: ['Joint comfort','General wellness','Digestive support'],
+    _warning: 'Consult doctor if on blood thinners, diabetic meds, or pre-surgery',
+    _cogs: 15,
+    _disclaimer: 'Traditional remedy. Not FDA approved. Not medical advice.'
   },
-  'savory-heal': {
-    id: 'savory-heal',
+  'savory': {
+    id: 'savory',
     name: 'SAVORY HEAL',
-    type: 'PAID',
-    price: 150,
-    ref: 'ZAP-002',
-    ussd: '*200#',
-    cures: ['Gut health', 'Bloating', 'IBS symptoms', 'Appetite control'],
-    ingredients: ['Apple Cider Vinegar 2 tbsp', 'Fresh Garlic 2 cloves crushed', 'Cayenne Pepper 1/4 tsp', 'Extra Virgin Olive Oil 1 tbsp', 'Sea Salt pinch'],
-    instructions: ['Crush garlic finely', 'Mix all ingredients in jar', 'Shake well before each use', 'Take 1 tbsp before meals', 'Store in cool dark place']
+    subtitle: 'Garlic + Onion + ACV + Honey',
+    prepTime: '1 hour 15 minutes',
+    cost: 150,
+    servings: '8 doses',
+    ingredients: ['Fresh garlic','Red onion','Apple cider vinegar','Raw honey','Warm water','Cayenne pepper'],
+    preparations: ['1. Crush garlic and let sit 10 minutes','2. Mix ACV, honey, and warm water in jar','3. Add garlic, onion, and cayenne','4. Shake and infuse 1 hour minimum','5. Strain before use'],
+    benefits: 'Traditional seasonal wellness tonic from Lesotho',
+    storageTips: ['Keeps 2 weeks refrigerated','Shake before each use','Take 2 tablespoons as needed'],
+    _ref: 'ZAP-002', _ussd: '*200#', _type: 'PAID',
+    _math: 'Allicin peaks 10min after crushing. ACV 5% acidity',
+    _cures: ['Seasonal comfort','Throat support','Immune support'],
+    _warning: 'Can irritate stomach. Dilute if sensitive. Avoid with blood thinners',
+    _cogs: 18,
+    _disclaimer: 'Traditional tonic. Not medical advice.'
   },
-  'monthly-heal': {
-    id: 'monthly-heal',
+  'monthly': {
+    id: 'monthly',
     name: 'MONTHLY HEAL',
-    subtitle: 'Subscription Base',
-    type: 'SUBSCRIPTION',
-    price: 120,
-    ref: 'SUB-001',
-    ussd: '*200#',
-    cures: ['Monthly immune reset', 'Hormone balance', 'Energy cycles', 'Stress relief'],
-    warning: 'Subscription unlocks EXCLUSIVE recipe'
+    subtitle: '30-Day Wellness Protocol',
+    prepTime: 'Varies',
+    cost: 120,
+    servings: '30 days access',
+    ingredients: ['Access to all 14 Zap Sauce recipes','Daily preparation guide','Batch prep calendar'],
+    preparations: ['1. Subscribe to unlock portal','2. Follow 30-day calendar','3. Prepare 3 recipes weekly as guided','4. Includes EXCLUSIVE TANGY FUSION recipe'],
+    benefits: 'Complete traditional wellness system from Lesotho',
+    storageTips: ['Subscription renews monthly','Cancel anytime','Recipes accessible online 24/7'],
+    _ref: 'SUB-001', _ussd: '*200#', _type: 'SUBSCRIPTION',
+    _math: '14 recipes M2170 value for M120 = 94% savings',
+    _cures: ['Full system support','Consistent wellness routine'],
+    _cogs: 0,
+    _disclaimer: 'Subscription service. Not medical treatment.'
   },
-  'recipe-4': { id: 'recipe-4', name: 'FIRE CIDER', type: 'PAID', price: 130, ref: 'ZAP-004', ussd: '*200#', cures: ['Sinus relief', 'Congestion'], ingredients: ['ACV 1 cup', 'Horseradish 2 tbsp', 'Onion 1/4 cup', 'Ginger 2 tbsp', 'Cayenne 1 tsp', 'Honey 1/4 cup'] },
-  'recipe-5': { id: 'recipe-5', name: 'LIVER FLUSH', type: 'PAID', price: 140, ref: 'ZAP-005', ussd: '*200#', cures: ['Detox', 'Liver support'], ingredients: ['Lemon juice 1/4 cup', 'Olive Oil 2 tbsp', 'Garlic 1 clove', 'Ginger 1 tsp', 'Cayenne pinch'] },
-  'recipe-6': { id: 'recipe-6', name: 'BRAIN TONIC', type: 'PAID', price: 145, ref: 'ZAP-006', ussd: '*200#', cures: ['Focus', 'Memory'], ingredients: ['Turmeric 1 tbsp', 'Cinnamon 1 tsp', 'Coconut Oil 1 tbsp', 'Black Pepper pinch', 'Raw Honey 2 tbsp'] },
-  'recipe-7': { id: 'recipe-7', name: 'SLEEP ELIXIR', type: 'PAID', price: 155, ref: 'ZAP-007', ussd: '*200#', cures: ['Insomnia', 'Anxiety'], ingredients: ['Chamomile tea 1 cup', 'Raw Honey 1 tbsp', 'Cinnamon 1/2 tsp', 'Nutmeg pinch', 'Vanilla extract 1/4 tsp'] },
-  'recipe-8': { id: 'recipe-8', name: 'METABOLISM BOOST', type: 'PAID', price: 160, ref: 'ZAP-008', ussd: '*200#', cures: ['Weight loss', 'Energy'], ingredients: ['Green Tea 1 cup', 'Ginger 1 tbsp', 'Lemon 1/2', 'Cayenne 1/4 tsp', 'ACV 1 tbsp'] },
-  'recipe-9': { id: 'recipe-9', name: 'HEART GUARD', type: 'PAID', price: 165, ref: 'ZAP-009', ussd: '*200#', cures: ['Blood pressure', 'Circulation'], ingredients: ['Hibiscus tea 1 cup', 'Garlic 2 cloves', 'Lemon juice 2 tbsp', 'Raw Honey 1 tbsp', 'Cinnamon 1 tsp'] },
-  'recipe-10': { id: 'recipe-10', name: 'SKIN GLOW', type: 'PAID', price: 170, ref: 'ZAP-010', ussd: '*200#', cures: ['Acne', 'Eczema'], ingredients: ['Aloe Vera juice 2 tbsp', 'Turmeric 1 tsp', 'Raw Honey 1 tbsp', 'Lemon juice 1 tsp', 'Coconut Oil 1 tsp'] },
-  'recipe-11': { id: 'recipe-11', name: 'LUNG CLEAR', type: 'PAID', price: 175, ref: 'ZAP-011', ussd: '*200#', cures: ['Cough', 'Asthma'], ingredients: ['Eucalyptus tea 1 cup', 'Ginger 2 tbsp', 'Raw Honey 2 tbsp', 'Lemon 1/2', 'Cayenne pinch'] },
-  'recipe-12': { id: 'recipe-12', name: 'KIDNEY CLEANSE', type: 'PAID', price: 180, ref: 'ZAP-012', ussd: '*200#', cures: ['UTI', 'Kidney stones'], ingredients: ['Cranberry juice 1 cup', 'Lemon juice 2 tbsp', 'ACV 1 tbsp', 'Parsley 1 tbsp', 'Ginger 1 tsp'] },
-  'recipe-13': { id: 'recipe-13', name: 'HORMONE HARMONY', type: 'PAID', price: 185, ref: 'ZAP-013', ussd: '*200#', cures: ['PMS', 'Menopause'], ingredients: ['Maca powder 1 tsp', 'Cinnamon 1 tsp', 'Raw Honey 1 tbsp', 'Coconut Oil 1 tbsp', 'Vanilla 1/4 tsp'] },
-  'recipe-14': { id: 'recipe-14', name: 'BLOOD SUGAR BALANCE', type: 'PAID', price: 190, ref: 'ZAP-014', ussd: '*200#', cures: ['Diabetes', 'Sugar cravings'], ingredients: ['Cinnamon 2 tsp', 'ACV 1 tbsp', 'Ginger 1 tsp', 'Lemon juice 1 tbsp', 'Stevia leaf pinch'] },
-
-  // EXCLUSIVE - SUBSCRIBERS ONLY
-  'exclusive-tangy': {
-    id: 'exclusive-tangy',
+  'fire-cider': {
+    id: 'fire-cider',
+    name: 'FIRE CIDER',
+    subtitle: 'Horseradish + Garlic + Onion + Ginger + ACV',
+    prepTime: '4 weeks + 10 min',
+    cost: 130,
+    servings: '32 doses',
+    ingredients: ['Horseradish root','Fresh ginger','Onion','Fresh garlic','Jalapeños','Apple cider vinegar','Raw honey'],
+    preparations: ['1. Pack all roots and veg in jar','2. Cover with ACV completely','3. Seal, shake daily, infuse 4 weeks','4. Strain, add honey to taste','5. Take 1 tablespoon daily'],
+    benefits: 'Traditional winter wellness tonic from Lesotho',
+    storageTips: ['Keeps 1 year shelf stable','Shake daily during infusion','Store in dark place'],
+    _ref: 'ZAP-004', _ussd: '*200#', _type: 'PAID',
+    _math: '1:4 plant to ACV ratio. 28 days = 95% extraction',
+    _cures: ['Severe congestion','Stuck mucus','Winter immunity'],
+    _warning: 'EXTREMELY HOT. Not for ulcers, GERD, or kids under 12',
+    _cogs: 22,
+    _disclaimer: 'Traditional folk remedy. Not medical advice.'
+  },
+  'liver-flush': {
+    id: 'liver-flush',
+    name: 'LIVER FLUSH',
+    subtitle: 'Beet + Lemon + Olive Oil + ACV',
+    prepTime: '5 minutes',
+    cost: 140,
+    servings: '1 daily',
+    ingredients: ['Fresh beet','Lemon','Extra virgin olive oil','Apple cider vinegar','Cayenne pepper','Water'],
+    preparations: ['1. Juice beet or blend and strain','2. Add lemon, ACV, oil, cayenne','3. Top with water and shake','4. Drink morning empty stomach','5. Wait 30 min before food'],
+    benefits: 'Traditional morning wellness tonic from Lesotho',
+    storageTips: ['Best fresh','Do 7 days, rest 7 days','Drink 2L water daily'],
+    _ref: 'ZAP-005', _ussd: '*200#', _type: 'PAID',
+    _math: 'Betalains support liver. Oil stimulates bile flow',
+    _cures: ['Digestive support','Bloating','Morning comfort'],
+    _warning: 'NOT for gallstones - can trigger attack. Not low blood pressure',
+    _cogs: 16,
+    _disclaimer: 'Traditional support. Not medical treatment for liver disease.'
+  },
+  'brain-tonic': {
+    id: 'brain-tonic',
+    name: 'BRAIN TONIC',
+    subtitle: 'Lion\'s Mane + Ginkgo + Rosemary + Honey',
+    prepTime: '12 minutes',
+    cost: 145,
+    servings: '1 cup',
+    ingredients: ['Lion\'s mane powder','Ginkgo biloba tea','Fresh rosemary','Raw honey','Hot water'],
+    preparations: ['1. Steep ginkgo and rosemary 10 minutes','2. Add lion\'s mane, whisk','3. Strain, add honey','4. Drink morning for focus'],
+    benefits: 'Traditional focus tonic from Lesotho',
+    storageTips: ['Morning only','Daily for 30 days minimum','Not instant'],
+    _ref: 'ZAP-006', _ussd: '*200#', _type: 'PAID',
+    _math: 'Hericenones cross blood-brain barrier. Ginkgo +15% cerebral blood flow',
+    _cures: ['Mental clarity','Focus support','Morning energy'],
+    _warning: 'Not with blood thinners - bleeding risk. Not pre-surgery',
+    _cogs: 25,
+    _disclaimer: 'Nootropic tonic. Not medical advice.'
+  },
+  'sleep-elixir': {
+    id: 'sleep-elixir',
+    name: 'SLEEP ELIXIR',
+    subtitle: 'Chamomile + Valerian + Passionflower + Honey',
+    prepTime: '17 minutes',
+    cost: 155,
+    servings: '1 cup',
+    ingredients: ['Chamomile flowers','Valerian root','Passionflower','Raw honey','Hot water','Nutmeg'],
+    preparations: ['1. Steep all herbs 15 minutes covered','2. Strain, add honey and nutmeg','3. Drink 1 hour before bed','4. No screens after drinking'],
+    benefits: 'Traditional bedtime tonic from Lesotho',
+    storageTips: ['Not for daily use','Cycle 2 weeks on 1 off','Dark room, cool temp'],
+    _ref: 'ZAP-007', _ussd: '*200#', _type: 'PAID',
+    _math: 'Valerenic acid = GABA agonist. 15min = 80% extraction',
+    _cures: ['Nighttime calm','Rest support','Evening routine'],
+    _warning: 'Not with sedatives, alcohol. Not pregnancy. Can cause morning grogginess',
+    _cogs: 20,
+    _disclaimer: 'Traditional sleep aid. Not medical treatment.'
+  },
+  'metabolism': {
+    id: 'metabolism',
+    name: 'METABOLISM BOOST',
+    subtitle: 'Green Tea + Cayenne + Cinnamon + Lemon',
+    prepTime: '5 minutes',
+    cost: 160,
+    servings: '1 cup',
+    ingredients: ['Green tea','Cayenne pepper','Ceylon cinnamon','Lemon','Raw honey','Hot water'],
+    preparations: ['1. Steep green tea 3 minutes only','2. Remove tea, add cayenne and cinnamon','3. Add lemon and honey','4. Drink morning or pre-workout'],
+    benefits: 'Traditional energy tonic from Lesotho',
+    storageTips: ['Not after 2pm','Ceylon cinnamon only','Max 2x daily'],
+    _ref: 'ZAP-008', _ussd: '*200#', _type: 'PAID',
+    _math: 'EGCG + caffeine + capsaicin = 8-12% metabolic boost',
+    _cures: ['Morning energy','Pre-workout support','Warmth'],
+    _warning: 'Not for heart conditions, high BP, or anxiety. Caffeine sensitive avoid',
+    _cogs: 12,
+    _disclaimer: 'Metabolic support tonic. Not weight loss drug.'
+  },
+  'heart-guard': {
+    id: 'heart-guard',
+    name: 'HEART GUARD',
+    subtitle: 'Hawthorn + Garlic + Cayenne + Honey',
+    prepTime: '22 minutes',
+    cost: 165,
+    servings: '1 cup',
+    ingredients: ['Hawthorn berry tea','Fresh garlic','Cayenne pepper','Raw honey','Hot water','Lemon'],
+    preparations: ['1. Steep hawthorn 15 minutes covered','2. Add crushed garlic, sit 5 minutes','3. Strain, add cayenne, honey, lemon','4. Drink morning daily'],
+    benefits: 'Traditional circulation tonic from Lesotho',
+    storageTips: ['Not instant - 6 weeks minimum','Track readings daily','Reduce salt intake'],
+    _ref: 'ZAP-009', _ussd: '*200#', _type: 'PAID',
+    _math: 'Hawthorn flavonoids improve cardiac output. Allicin supports circulation',
+    _cures: ['Circulation support','General heart wellness'],
+    _warning: 'NOT replacement for BP meds. Interacts with digoxin, beta blockers',
+    _cogs: 18,
+    _disclaimer: 'Cardiovascular support tonic. Not medical treatment for heart disease.'
+  },
+  'skin-glow': {
+    id: 'skin-glow',
+    name: 'SKIN GLOW',
+    subtitle: 'Aloe + Cucumber + Mint + Lemon',
+    prepTime: '8 minutes',
+    cost: 170,
+    servings: '1 drink + 1 mask',
+    ingredients: ['Fresh aloe gel','Cucumber','Mint leaves','Lemon','Raw honey','Cold water'],
+    preparations: ['1. Blend aloe, cucumber, mint','2. Strain through cloth','3. Add lemon, honey, water','4. Drink morning. Apply pulp as face mask 10 min'],
+    benefits: 'Traditional beauty tonic from Lesotho',
+    storageTips: ['Use inner aloe filet only','Patch test face first','Best cold'],
+    _ref: 'ZAP-010', _ussd: '*200#', _type: 'PAID',
+    _math: 'Acemannan hydrates. Silica 70mg. Internal + topical = 2x absorption',
+    _cures: ['Skin hydration','Natural glow','Cooling'],
+    _warning: 'Aloe latex toxic - use clear gel only. Not pregnancy',
+    _cogs: 14,
+    _disclaimer: 'Beauty tonic. Not medical treatment for skin disease.'
+  },
+  'lung-clear': {
+    id: 'lung-clear',
+    name: 'LUNG CLEAR',
+    subtitle: 'Mullein + Thyme + Eucalyptus + Honey',
+    prepTime: '18 minutes',
+    cost: 175,
+    servings: '1 cup',
+    ingredients: ['Mullein leaf','Dried thyme','Eucalyptus leaves','Raw honey','Hot water','Lemon'],
+    preparations: ['1. Steep mullein and thyme 15 min covered','2. Strain through coffee filter','3. Add honey, eucalyptus, lemon','4. Inhale steam first, then drink'],
+    benefits: 'Traditional respiratory tonic from Lesotho',
+    storageTips: ['MUST strain mullein','Steam inhalation before drinking','3x daily when needed'],
+    _ref: 'ZAP-011', _ussd: '*200#', _type: 'PAID',
+    _math: 'Mullein saponins expectorant. Thymol antimicrobial',
+    _cures: ['Chest comfort','Seasonal respiratory support'],
+    _warning: 'Not for dry cough. Not for asthma attack. Eucalyptus oil toxic if ingested',
+    _cogs: 16,
+    _disclaimer: 'Respiratory support tea. Not medical treatment.'
+  },
+  'kidney-cleanse': {
+    id: 'kidney-cleanse',
+    name: 'KIDNEY CLEANSE',
+    subtitle: 'Parsley + Dandelion + Lemon + ACV',
+    prepTime: '15 minutes',
+    cost: 180,
+    servings: '2 cups daily',
+    ingredients: ['Fresh parsley','Dandelion root tea','Lemon','Apple cider vinegar','Raw honey','Water'],
+    preparations: ['1. Boil parsley and dandelion 10 minutes','2. Strain, cool slightly','3. Add lemon, ACV, honey','4. Drink 1 cup morning and afternoon'],
+    benefits: 'Traditional cleansing tonic from Lesotho',
+    storageTips: ['7 days max, rest 14 days','Eat bananas for potassium','Stop if dizzy'],
+    _ref: 'ZAP-012', _ussd: '*200#', _type: 'PAID',
+    _math: 'Apiol diuretic. Taraxacin +5% urine output',
+    _cures: ['Fluid balance','Natural cleansing'],
+    _warning: 'NOT for kidney disease, dialysis, or stones present. Can dislodge stones',
+    _cogs: 15,
+    _disclaimer: 'Traditional kidney support. NOT medical treatment for kidney disease.'
+  },
+  'hormone': {
+    id: 'hormone',
+    name: 'HORMONE HARMONY',
+    subtitle: 'Maca + Shatavari + Cinnamon + Honey',
+    prepTime: '5 minutes',
+    cost: 185,
+    servings: '1 cup',
+    ingredients: ['Maca powder','Shatavari powder','Ceylon cinnamon','Raw honey','Almond milk','Nutmeg'],
+    preparations: ['1. Warm milk - do not boil','2. Whisk in maca, shatavari, cinnamon','3. Add honey and nutmeg','4. Cycle sync: morning days 1-14, evening 15-28'],
+    benefits: 'Traditional balance tonic from Lesotho',
+    storageTips: ['Not instant - 3 months','Track symptoms daily','Works best with seed cycling'],
+    _ref: 'ZAP-013', _ussd: '*200#', _type: 'PAID',
+    _math: 'Maca glucosinolates balance. Shatavari phytoestrogens. 90 days reset',
+    _cures: ['Cycle support','Traditional women\'s wellness'],
+    _warning: 'NOT for hormone-sensitive cancers, endometriosis, PCOS without doctor',
+    _cogs: 28,
+    _disclaimer: 'Hormone support tonic. Not medical treatment for hormonal disorders.'
+  },
+  'blood-sugar': {
+    id: 'blood-sugar',
+    name: 'BLOOD SUGAR BALANCE',
+    subtitle: 'Ceylon Cinnamon + Fenugreek + ACV',
+    prepTime: '8 min + overnight',
+    cost: 190,
+    servings: '1 cup',
+    ingredients: ['Ceylon cinnamon','Fenugreek seeds','Apple cider vinegar','Lemon','Stevia','Warm water'],
+    preparations: ['1. Soak fenugreek overnight','2. Blend soaked seeds with water','3. Strain, add cinnamon, ACV, lemon','4. Drink 15 min before meals'],
+    benefits: 'Traditional metabolic tonic from Lesotho',
+    storageTips: ['ALWAYS before carbs','Ceylon only - cassia toxic','Max 2x daily'],
+    _ref: 'ZAP-014', _ussd: '*200#', _type: 'PAID',
+    _math: 'MHCP +10% insulin sensitivity. 4-hydroxyisoleucine increases insulin',
+    _cures: ['Post-meal comfort','Traditional metabolic support'],
+    _warning: 'NOT replacement for diabetes meds. Can cause hypoglycemia. Not Type 1',
+    _cogs: 14,
+    _disclaimer: 'Blood sugar support tonic. NOT medical treatment for diabetes.'
+  },
+  'exclusive': {
+    id: 'exclusive',
     name: 'EXCLUSIVE TANGY FUSION',
-    subtitle: 'Subscribers Only',
-    type: 'EXCLUSIVE',
-    price: 0,
-    ref: 'EXCL-001',
-    isSubscriberOnly: true,
-    cures: ['Ultimate immunity', 'Fat burning', 'Anti-aging', 'Total body reset'],
-    ingredients: ['Fresh Ginger 2 tbsp grated', 'Turmeric Powder 2 tbsp', 'Raw Honey 3 tbsp', 'Cayenne Pepper 1 tsp', 'Ceylon Cinnamon 1 tsp', 'Apple Cider Vinegar 3 tbsp', 'Black Pepper 1/2 tsp', 'Lemon juice 2 tbsp'],
-    instructions: ['Combine ginger + turmeric in glass jar', 'Add all spices + mix well', 'Pour ACV + lemon juice', 'Stir in raw honey last', 'Ferment 24hrs in fridge', 'Take 1 tbsp morning + night', 'WARNING: Extremely potent - start with 1/2 tsp'],
-    warning: 'SUBSCRIBERS ONLY - Subscribe to Monthly Heal to unlock'
+    subtitle: 'Ginger + Turmeric + Honey + Cayenne + Cinnamon + ACV',
+    prepTime: '20 minutes',
+    cost: 0,
+    servings: '16 doses',
+    ingredients: ['Fresh ginger','Fresh turmeric','Raw honey','Cayenne pepper','Ceylon cinnamon','Apple cider vinegar','Lemon','Water'],
+    preparations: ['1. Simmer ginger and turmeric 15 minutes','2. Strain, add cayenne and cinnamon','3. Cool slightly, add honey, ACV, lemon','4. Store in glass jar','5. Take 2 tablespoons daily'],
+    benefits: 'Premium traditional wellness tonic from Lesotho',
+    storageTips: ['Subscription exclusive','Keeps 14 days refrigerated','Shake before each use'],
+    _ref: 'EXCL-001', _ussd: null, _type: 'EXCLUSIVE',
+    _math: 'All 6 ingredients synergistic. 2000% absorption. Maximum strength',
+    _cures: ['Complete system support','Traditional all-in-one'],
+    _warning: 'Start with 1 teaspoon to test tolerance. Not for ulcers, pregnancy, blood thinners',
+    _cogs: 35,
+    _disclaimer: 'Most potent formula. Subscription holders only. Not medical advice.'
   }
 }
