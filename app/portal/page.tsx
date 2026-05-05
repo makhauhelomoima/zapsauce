@@ -1,150 +1,162 @@
-'use client';
-import { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
+'use client'
+import { useState } from 'react'
+import Link from 'next/link'
 
-const supabaseUrl = 'https://twnkxgblxtjrqihxzsjl.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3bmt4Z2JseHRqcnFpaHh6c2psIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4NjIzMTgsImV4cCI6MjA5MzQzODMxOH0.-3zeeVyK8WbcForwd5zsaxSULUqmXQGPn_to-mBR9Zg';
-const supabase = createClient(supabaseUrl, supabaseKey);
+export default function Portal() {
+  const [phone, setPhone] = useState('')
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [doses, setDoses] = useState(0)
+  const [totalOrders, setTotalOrders] = useState(0)
 
-export default function CustomerPortal() {
-  const [whatsapp, setWhatsapp] = useState('');
-  const [mpesaCode, setMpesaCode] = useState('');
-  const [customer, setCustomer] = useState<any>(null);
-  const [orders, setOrders] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const login = async () => {
-    setLoading(true);
-    const { data, error } = await supabase
-     .from('zap_orders')
-     .select('*')
-     .eq('customer_whatsapp', whatsapp)
-     .eq('mpesa_code', mpesaCode)
-     .eq('payment_status', 'verified')
-     .order('paid_at', { ascending: false });
-
-    if (error ||!data || data.length === 0) {
-      alert('No subscription found. Check WhatsApp + Mpesa code.');
-    } else {
-      setCustomer(data[0]);
-      setOrders(data);
+  const handleLogin = () => {
+    if (phone.length === 8) {
+      setLoggedIn(true)
+      setDoses(12)
+      setTotalOrders(3)
     }
-    setLoading(false);
-  };
-
-  const cancelSubscription = async () => {
-    if (confirm('Cancel MONTHLY HEAL? You lose recipe access.')) {
-      alert('Subscription cancelled. Email support@zapsauce.com to reactivate.');
-      setCustomer(null);
-      setOrders([]);
-    }
-  };
-
-  if (!customer) {
-    return (
-      <main className="min-h-screen bg-[#051B11] text-white flex items-center justify-center p-4" style={{fontFamily: 'Montserrat, sans-serif'}}>
-        <div className="bg-[#0A2E1D] p-8 rounded-lg border-2 border-[#D4AF37] w-full max-w-sm">
-          <h1 className="text-3xl font-black text-[#D4AF37] mb-6 text-center uppercase tracking-tight" style={{fontFamily: 'Montserrat, sans-serif'}}>
-            ZAP SAUCE PORTAL ⚡
-          </h1>
-          <p className="text-sm text-gray-400 mb-4 text-center font-montserrat font-semibold">
-            Enter your WhatsApp + last Mpesa code to view subscription
-          </p>
-          <input
-            type="text"
-            placeholder="26657031600"
-            className="w-full p-3 mb-3 bg-[#051B11] rounded border border-[#1B4332] text-white font-montserrat font-medium"
-            value={whatsapp}
-            onChange={e => setWhatsapp(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Mpesa Code QK123ABC"
-            className="w-full p-3 mb-4 bg-[#051B11] rounded border border-[#1B4332] text-white font-montserrat font-medium"
-            value={mpesaCode}
-            onChange={e => setMpesaCode(e.target.value)}
-          />
-          <button
-            onClick={login}
-            disabled={loading}
-            className="w-full bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black p-3 rounded uppercase tracking-wider disabled:opacity-50 transition-colors"
-          >
-            {loading? 'CHECKING...' : 'VIEW MY HEAL'}
-          </button>
-          <p className="text-xs text-gray-600 mt-4 text-center font-montserrat">
-            First time? Pay M120 via homepage first
-          </p>
-        </div>
-      </main>
-    );
   }
 
-  const nextDue = new Date(customer.paid_at);
-  nextDue.setDate(nextDue.getDate() + 28);
-  const daysLeft = Math.ceil((nextDue.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+  if (!loggedIn) {
+    return (
+      <div className="bg-black min-h-[100dvh] text-white flex flex-col items-center justify-center p-4">
+        <div className="max-w-sm w-full">
+          <Link href="/" className="inline-block mb-6">
+            <h1 className="text-3xl font-bold text-[#00E06D] drop-shadow-[0_0_20px_rgba(0,224,109,0.6)]">
+              Zap Sauce.
+            </h1>
+          </Link>
+          
+          <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-6 backdrop-blur shadow-xl shadow-green-500/20">
+            <h2 className="text-xl font-bold text-[#00E06D] mb-1">Customer Portal</h2>
+            <p className="text-gray-400 text-sm mb-5">Track doses. Earn points. Get reminders.</p>
+            
+            <label className="block text-sm text-[#00C85F] mb-2 font-bold">Phone Number</label>
+            <input
+              type="tel"
+              placeholder="57031600"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="w-full bg-black border border-[#00A651] rounded-md px-4 py-3 text-white mb-4 focus:border-[#00E06D] focus:outline-none"
+              maxLength={8}
+            />
+            
+            <button
+              onClick={handleLogin}
+              className="w-full bg-[#00A651] hover:bg-[#00C85F] text-white font-bold py-3 rounded-md text-base shadow-lg shadow-green-500/40 border border-[#00E06D] transition-all"
+            >
+              Login via WhatsApp OTP
+            </button>
+            
+            <p className="text-xs text-gray-500 mt-4 text-center">
+              First time? Any purchase creates your account automatically.
+            </p>
+          </div>
+          
+          <Link href="/" className="text-[#00C85F] hover:text-[#00E06D] text-sm mt-6 block text-center">
+            ← Back to Home
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <main className="min-h-screen bg-[#051B11] text-white p-4" style={{fontFamily: 'Montserrat, sans-serif'}}>
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl font-black text-[#D4AF37] mb-2 uppercase tracking-tight" style={{fontFamily: 'Montserrat, sans-serif'}}>
-          HELLO {customer.customer_name} ⚡
-        </h1>
-        <p className="text-gray-400 mb-8 font-montserrat font-semibold">Your MONTHLY HEAL dashboard</p>
-
-        <a
-          href="https://drive.google.com/uc?export=download&id=1YA8Ge-KOyff-eI3691sOATuGnIxcO6u9"
-          target="_blank"
-          className="w-full bg-[#D4AF37] hover:bg-[#F4B400] text-[#051B11] font-black p-4 rounded uppercase tracking-wider text-center block mb-6 transition-colors"
-        >
-          DOWNLOAD WELCOME KIT PDF 📄⚡
-        </a>
-
-        <div className="grid md:grid-cols-2 gap-4 mb-8">
-          <div className="bg-[#0A2E1D] p-6 rounded border-2 border-emerald-500">
-            <p className="text-gray-400 text-sm font-montserrat uppercase font-bold">STATUS</p>
-            <p className="text-3xl font-black text-emerald-400 uppercase">ACTIVE</p>
-          </div>
-          <div className="bg-[#0A2E1D] p-6 rounded border-2 border-[#D4AF37]">
-            <p className="text-gray-400 text-sm font-montserrat uppercase font-bold">NEXT M120 DUE</p>
-            <p className="text-3xl font-black text-white uppercase">{daysLeft} DAYS</p>
-            <p className="text-xs text-gray-500 font-montserrat font-medium">{nextDue.toLocaleDateString('en-GB')}</p>
-          </div>
+    <div className="bg-black min-h-[100dvh] text-white p-3">
+      <div className="max-w-2xl mx-auto">
+        
+        {/* Header - Tight */}
+        <div className="flex justify-between items-center mb-5">
+          <Link href="/">
+            <h1 className="text-2xl font-bold text-[#00E06D] drop-shadow-[0_0_15px_rgba(0,224,109,0.5)]">
+              Zap Sauce.
+            </h1>
+          </Link>
+          <button
+            onClick={() => setLoggedIn(false)}
+            className="text-xs text-[#00C85F] hover:text-[#00E06D] border border-[#00A651] px-3 py-1.5 rounded-md"
+          >
+            Logout
+          </button>
         </div>
 
-        <div className="bg-[#0A2E1D] p-6 rounded border-2 border-[#1B4332] mb-6">
-          <h2 className="text-2xl font-black text-[#D4AF37] mb-4 uppercase tracking-tight">ZAP SAUCE ORIGINAL RECIPE</h2>
-          <div className="space-y-2 text-gray-300 font-montserrat text-sm font-medium">
-            <p><strong className="text-white">1.</strong> Raw honey: 1 tablespoon</p>
-            <p><strong className="text-white">2.</strong> Organic turmeric: 1 teaspoon</p>
-            <p><strong className="text-white">3.</strong> Black pepper: Pinch</p>
-            <p><strong className="text-white">4.</strong> Warm water: 200ml</p>
-            <p className="text-[#D4AF37] pt-2 font-bold">Mix. Drink every morning. Heal in 30 days.</p>
+        {/* Welcome Card */}
+        <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-5 mb-4 backdrop-blur shadow-xl shadow-green-500/20">
+          <h2 className="text-lg font-bold text-[#00E06D] mb-1">Welcome back!</h2>
+          <p className="text-gray-400 text-sm">+{phone}</p>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-4 text-center backdrop-blur">
+            <div className="text-3xl font-bold text-[#00E06D]">{doses}</div>
+            <div className="text-xs text-gray-400 mt-1">Doses Logged</div>
+          </div>
+          <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-4 text-center backdrop-blur">
+            <div className="text-3xl font-bold text-[#00E06D]">{doses * 10}</div>
+            <div className="text-xs text-gray-400 mt-1">Loyalty Points</div>
           </div>
         </div>
 
-        <div className="bg-[#0A2E1D] p-6 rounded border-2 border-[#1B4332] mb-6">
-          <h2 className="text-2xl font-black text-[#D4AF37] mb-4 uppercase tracking-tight">PAYMENT HISTORY</h2>
-          {orders.map(o => (
-            <div key={o.id} className="border-t border-[#1B4332] py-3 flex justify-between">
-              <div>
-                <p className="text-white font-montserrat text-sm font-semibold">{new Date(o.paid_at).toLocaleDateString('en-GB')}</p>
-                <p className="text-gray-500 text-xs font-montserrat">Mpesa: {o.mpesa_code}</p>
-              </div>
-              <p className="text-emerald-400 font-black uppercase">M{o.amount_maloti}</p>
-            </div>
-          ))}
-        </div>
-
+        {/* Log Dose Button */}
         <button
-          onClick={cancelSubscription}
-          className="w-full bg-red-600 hover:bg-red-500 py-3 rounded font-black uppercase tracking-wider transition-colors"
+          onClick={() => setDoses(doses + 1)}
+          className="w-full bg-[#00A651] hover:bg-[#00C85F] text-white font-bold py-4 rounded-lg text-base shadow-lg shadow-green-500/40 border border-[#00E06D] mb-4 transition-all"
         >
-          CANCEL SUBSCRIPTION
+          ✓ Log Today's Dose (1 tbsp)
         </button>
-        <p className="text-xs text-gray-600 mt-4 text-center font-montserrat">
-          Questions? WhatsApp +266 57031600
-        </p>
+
+        {/* Progress Bar */}
+        <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-4 mb-4 backdrop-blur">
+          <div className="flex justify-between text-xs text-gray-400 mb-2">
+            <span>Monthly Progress</span>
+            <span>{doses}/30 days</span>
+          </div>
+          <div className="w-full bg-black rounded-full h-2 border border-[#00A651]/30">
+            <div 
+              className="bg-gradient-to-r from-[#00A651] to-[#00E06D] h-2 rounded-full transition-all"
+              style={{ width: `${(doses / 30) * 100}%` }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Orders */}
+        <div className="bg-gray-900/90 border border-[#00A651]/60 rounded-lg p-4 mb-4 backdrop-blur">
+          <h3 className="text-base font-bold text-[#00E06D] mb-3">Order History</h3>
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm border-b border-gray-800 pb-2">
+              <div>
+                <div className="text-white">ORIGINAL - Turmeric Gold</div>
+                <div className="text-xs text-gray-500">12 Jan 2026</div>
+              </div>
+              <div className="text-[#00E06D] font-bold">M120</div>
+            </div>
+            <div className="flex justify-between text-sm border-b border-gray-800 pb-2">
+              <div>
+                <div className="text-white">MONTHLY HEAL</div>
+                <div className="text-xs text-gray-500">01 Jan 2026</div>
+              </div>
+              <div className="text-[#00E06D] font-bold">M120</div>
+            </div>
+            <div className="flex justify-between text-sm">
+              <div>
+                <div className="text-white">PDF RECIPES KIT</div>
+                <div className="text-xs text-gray-500">15 Dec 2025</div>
+              </div>
+              <div className="text-[#00E06D] font-bold">M560</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-6 mb-4">
+          <Link href="/recipes" className="text-[#00C85F] hover:text-[#00E06D] font-bold text-sm">
+            Order More Recipes →
+          </Link>
+          <div className="text- text-gray-600 mt-4">
+            <p>Need help? WhatsApp 57031600</p>
+          </div>
+        </div>
       </div>
-    </main>
-  );
+    </div>
+  )
 }
