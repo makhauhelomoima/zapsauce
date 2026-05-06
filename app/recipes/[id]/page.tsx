@@ -7,133 +7,123 @@ import { recipes } from '@/data/recipes'
 
 export default function RecipePage() {
   const params = useParams()
-  const id = params.id as string
-  const recipe = recipes.find(r => r.id === id)
+  const [recipe, setRecipe] = useState<typeof recipes[0] | null>(null)
   const [unlocked, setUnlocked] = useState(false)
-  const [hasVault, setHasVault] = useState(false)
+  const [mpesaCode, setMpesaCode] = useState('')
+  const [verifying, setVerifying] = useState(false)
 
   useEffect(() => {
+    const found = recipes.find(r => r.id === params.id)
+    setRecipe(found || null)
+
     const saved = localStorage.getItem('zapSauceUnlocked')
     if (saved) {
       const unlockedList = JSON.parse(saved)
-      setUnlocked(unlockedList.includes(id))
-      setHasVault(unlockedList.includes('bundle-001'))
+      setUnlocked(unlockedList.includes(params.id) || params.id === 'free-001' || params.id === 'free-002')
     }
-  }, [id])
+  }, [params.id])
 
-  if (!recipe) {
-    return (
-      <div className="bg-black min-h-[100dvh] text-white flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Recipe Not Found</h1>
-          <Link href="/recipes" className="text-[#00E06D] hover:text-[#00C85F]">Back to Recipes</Link>
-        </div>
-      </div>
-    )
+  const verifyPayment = async () => {
+    if (!mpesaCode.trim() ||!recipe) return
+    setVerifying(true)
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    if (mpesaCode.length >= 8) {
+      const saved = localStorage.getItem('zapSauceUnlocked')
+      const current = saved? JSON.parse(saved) : []
+      const newUnlocked = [...current, recipe.id]
+      localStorage.setItem('zapSauceUnlocked', JSON.stringify(newUnlocked))
+      setUnlocked(true)
+      setMpesaCode('')
+      alert('Payment verified! Recipe unlocked ⚡')
+    } else {
+      alert('Invalid MPESA code. Try again.')
+    }
+    setVerifying(false)
   }
 
-  const isFree = recipe.category === 'free'
-  const isBundle = recipe.category === 'bundle'
-  const showAffiliateNote = hasVault && recipe.affiliationEligible
+  if (!recipe) return <div className="bg-black min-h-screen text-white p-8">Recipe not found</div>
 
   return (
-    <div className="bg-black min-h-[100dvh] text-white">
-      <div className="bg-gray-900/90 border-b border-[#00A651]/40 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-black text-[#00E06D]">Zap Sauce.</Link>
-          <div className="flex items-center gap-4">
-            <div className="text-xs text-gray-400 hidden sm:block">MPESA: 57031600</div>
-            <Link href="/customer" className="text-sm text-[#00A651] hover:text-[#00E06D] font-bold">Customer Portal</Link>
-          </div>
-        </div>
-      </div>
+    <div className="bg-black min-h-screen text-white p-8">
+      <div className="max-w-4xl mx-auto">
+        <Link href="/" className="text-[#00A651] mb-8 block">← Back to Recipes</Link>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <Link href="/recipes" className="text-[#00A651] hover:text-[#00E06D] text-sm">← Back to All Recipes</Link>
-        </div>
+        <h1 className="text-4xl font-black mb-2 text-[#00E06D]">{recipe.name}</h1>
+        <p className="text-xl text-gray-300 mb-4">{recipe.subtitle}</p>
+        <p className="text-2xl font-bold text-white mb-8">M{recipe.price}</p>
 
-        {isBundle && (
-          <div className="bg-gradient-to-r from-[#00A651]/20 to-[#00E06D]/20 border-2 border-[#00E06D] rounded-xl p-6 mb-8">
-            <div className="text-xs font-bold text-yellow-400 bg-yellow-400/20 px-3 py-1 rounded inline-block mb-3">💚 BUSINESS OPPORTUNITY</div>
-            <h1 className="text-4xl font-black text-white mb-2">{recipe.name}</h1>
-            <p className="text-[#00E06D] font-bold text-lg mb-4">{recipe.subtitle}</p>
-            <div className="flex items-center gap-4 mb-6">
-              <div className="text-gray-400 text-sm line-through">M{recipe.originalPrice}</div>
-              <div className="text-3xl font-black text-[#00E06D]">M{recipe.price}</div>
-              <div className="text-xs text-yellow-400 font-bold bg-yellow-400/20 px-2 py-1 rounded">SAVE M{recipe.originalPrice! - recipe.price}</div>
-            </div>
-            <p className="text-gray-300 mb-6">{recipe.benefits}</p>
-
-            <div className="bg-black/40 rounded-lg p-4 mb-6">
-              <div className="text-sm font-bold text-white mb-3">Inside the Vault:</div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs text-gray-300">
-                {recipe.includes?.map((incId) => {
-                  const incRecipe = recipes.find(r => r.id === incId)
-                  return <div key={incId}>✓ {incRecipe?.name}</div>
-                })}
-              </div>
-            </div>
-
-            <button className="w-full bg-[#00E06D] hover:bg-[#00C85F] text-black font-black py-4 rounded-lg text-lg mb-4">
-              📱 MPESA *200# M{recipe.price} Ref: {recipe.id.toUpperCase()}
+        {!unlocked? (
+          <div className="bg-red-900/20 border border-red-500/40 rounded-xl p-6 mb-8">
+            <p className="text-red-400 font-bold mb-3">🔒 LOCKED - Purchase to unlock full recipe</p>
+            <p className="text-sm text-gray-400 mb-2">Send M{recipe.price} to MPESA 57031600</p>
+            <p className="text-sm text-gray-400 mb-4">Ref: {recipe.id.toUpperCase()}</p>
+            <input
+              type="text"
+              placeholder="Enter MPESA code"
+              value={mpesaCode}
+              onChange={(e) => setMpesaCode(e.target.value)}
+              className="w-full bg-black border border-gray-600 rounded px-3 py-2 text-sm mb-3"
+            />
+            <button
+              onClick={verifyPayment}
+              disabled={verifying}
+              className="w-full bg-[#00A651] hover:bg-[#00C85F] text-black font-bold py-2 rounded text-sm disabled:opacity-50"
+            >
+              {verifying? 'Verifying...' : 'Unlock Recipe'}
             </button>
-
-            <div className="bg-yellow-900/20 border border-yellow-500/40 rounded-lg p-4 text-center">
-              <p className="text-sm text-yellow-400 font-bold">⚡ ONLY Hustler's Vault owners earn 30% on referrals</p>
-            </div>
           </div>
-        )}
-
-        {!isBundle && (
+        ) : (
           <>
-            <div className="mb-6">
-              <div className="flex items-center gap-3 mb-3">
-                <h1 className="text-4xl font-black text-[#00E06D]">{recipe.name}</h1>
-                {recipe.category === 'free' && <span className="text-xs font-bold text-[#00E06D] bg-[#00E06D]/20 px-2 py-1 rounded">FREE</span>}
-                {recipe.category === 'subscription' && <span className="text-xs font-bold text-yellow-400 bg-yellow-400/20 px-2 py-1 rounded">SUBSCRIPTION</span>}
-                {recipe.category === 'exclusive' && <span className="text-xs font-bold text-purple-400 bg-purple-400/20 px-2 py-1 rounded">EXCLUSIVE</span>}
-              </div>
-              <p className="text-gray-400 text-lg">{recipe.subtitle}</p>
+            <div className="bg-[#00A651]/10 border border-[#00A651]/40 rounded-xl p-6 mb-8">
+              <h2 className="text-2xl font-bold text-[#00E06D] mb-4">Benefits</h2>
+              <p className="text-gray-300">{recipe.benefits}</p>
             </div>
 
-            {!isFree &&!unlocked && (
-              <div className="bg-gray-900/50 border border-[#00A651]/30 rounded-xl p-6 mb-8">
-                <div className="text-3xl font-black text-white mb-4">M{recipe.price}</div>
-                <button className="w-full bg-[#00E06D] hover:bg-[#00C85F] text-black font-black py-3 rounded-lg mb-3">
-                  📱 MPESA *200# M{recipe.price}
-                </button>
-                <div className="text-xs text-gray-500 text-center">Ref: {recipe.id.toUpperCase()}</div>
-                {recipe.affiliationEligible === false && (
-                  <div className="text-xs text-gray-500 mt-3 text-center">No affiliate commissions on this item</div>
-                )}
-                {showAffiliateNote && (
-                  <div className="text-xs text-[#00E06D] mt-3 text-center">✓ Your 30% affiliate applies if you refer others</div>
-                )}
+            <div className="bg-[#00A651]/10 border border-[#00A651]/40 rounded-xl p-6 mb-8">
+              <h2 className="text-2xl font-bold text-[#00E06D] mb-4">Ingredients</h2>
+              <ul className="space-y-2">
+                {recipe.ingredients.map((ing, i) => (
+                  <li key={i} className="text-gray-300">• {ing}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-[#00A651]/10 border border-[#00A651]/40 rounded-xl p-6 mb-8">
+              <h2 className="text-2xl font-bold text-[#00E06D] mb-4">Instructions</h2>
+              <ol className="space-y-2">
+                {recipe.instructions.map((step, i) => (
+                  <li key={i} className="text-gray-300">{step}</li>
+                ))}
+              </ol>
+            </div>
+
+            {recipe.id === 'bundle-001' && recipe.includes && (
+              <div className="bg-[#00E06D]/10 border border-[#00E06D]/40 rounded-xl p-6 mb-8">
+                <h2 className="text-2xl font-bold text-[#00E06D] mb-4">Inside the Vault:</h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-gray-300">
+                  {recipe.includes.map((incId) => {
+                    const incRecipe = recipes.find(r => r.id === incId)
+                    return <div key={incId}>✓ {incRecipe?.name}</div>
+                  })}
+                </div>
               </div>
             )}
 
-            {(isFree || unlocked) && (
-              <div className="bg-gray-900/50 border border-[#00A651]/30 rounded-xl p-6">
-                <h2 className="text-xl font-bold text-white mb-4">Ingredients</h2>
-                <ul className="space-y-2 mb-6">
-                  {recipe.ingredients.map((ing, i) => (
-                    <li key={i} className="text-gray-300 flex items-center gap-2">
-                      <span className="text-[#00E06D]">•</span> {ing}
-                    </li>
-                  ))}
-                </ul>
-                <div className="text-sm text-gray-400">Prep time: {recipe.time}</div>
+            {recipe.disclaimer && (
+              <div className="bg-yellow-900/20 border border-yellow-500/40 rounded-xl p-6 mb-8">
+                <h2 className="text-xl font-bold text-yellow-400 mb-3">⚠️ Disclaimer</h2>
+                <p className="text-sm text-gray-300">{recipe.disclaimer}</p>
+              </div>
+            )}
+
+            {recipe.costBreakdown && (
+              <div className="bg-blue-900/20 border border-blue-500/40 rounded-xl p-6">
+                <h2 className="text-xl font-bold text-blue-400 mb-3">💰 Cost Breakdown</h2>
+                <p className="text-sm text-gray-300">{recipe.costBreakdown}</p>
               </div>
             )}
           </>
         )}
-
-        <div className="mt-12 text-center text-xs text-gray-500">
-          <p>Zap Sauce recipes are food and beverage ideas for general wellness.</p>
-          <p>Not intended to diagnose, treat, cure, or prevent any disease.</p>
-          <p>Consult your healthcare provider before use. Results may vary.</p>
-        </div>
       </div>
     </div>
   )
