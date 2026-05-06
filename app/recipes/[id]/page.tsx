@@ -39,7 +39,7 @@ export default function RecipePage() {
 
   const isLocked = () => {
     if (!recipe) return true
-    return! unlockedRecipes.includes(recipe.id) && recipe.id!== 'free-001' && recipe.id!== 'free-002'
+    return !unlockedRecipes.includes(recipe.id) && recipe.id!== 'free-001' && recipe.id!== 'free-002'
   }
 
   if (!recipe) {
