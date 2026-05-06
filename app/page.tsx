@@ -242,6 +242,7 @@ export default function HomePage() {
                 <li><Link href="/recipes" className="text-gray-400 hover:text-[#00E06D]">Manage</Link></li>
               </ul>
             </div>
+          </div>
           <div className="border-t border-gray-800 pt-6 text-center">
             <p className="text-base text-gray-500 mb-2">© 2026 Zap Sauce. For considered families.</p>
             <p className="text-xs text-gray-600">Not medical advice. Consult your doctor.</p>
