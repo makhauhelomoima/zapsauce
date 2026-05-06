@@ -1,12 +1,11 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { RECIPES } from '../../../data/recipes'
 import Link from 'next/link'
 
 export default function RecipePage() {
   const params = useParams()
-  const router = useRouter()
   const [unlockedRecipes, setUnlockedRecipes] = useState<string[]>([])
   const [showEFT, setShowEFT] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
@@ -33,7 +32,6 @@ export default function RecipePage() {
     )
   }
 
-  // PAYWALL LOGIC - THIS WAS MISSING
   const isFree = recipe._type === 'FREE'
   const isExclusive = recipe._type === 'EXCLUSIVE'
   const isUnlocked = isFree || unlockedRecipes.includes(recipe.id) || (isExclusive && isSubscribed)
@@ -49,7 +47,11 @@ export default function RecipePage() {
 
   const copyEFT = () => {
     navigator.clipboard.writeText(`Zap Sauce ${recipe._ref}`)
-    alert(`EFT Reference copied: Zap Sauce ${recipe._ref}\n\nBank: Lesotho Post Bank\nAccount: 1036202900018\nBranch: BONHOMME`)
+    alert(`EFT Reference copied: Zap Sauce ${recipe._ref}\n\nBank: Lesotho Post Bank\nAccount: 1036202900018\nBranch: BONHOMME\nSwift: LESHLSMMXXX\nAcc Holder: Makhauhelo Moima\n\nMPESA: 57031600`)
+  }
+
+  const handleWhatsApp = () => {
+    window.open('https://wa.me/26657031600?text=Hello%20Zap%20Sauce%20Support%20⚡%20Help%20with%20' + recipe._ref, '_blank')
   }
 
   return (
@@ -89,7 +91,6 @@ export default function RecipePage() {
           </div>
         </div>
 
-        {/* PAYWALL - SHOWS IF LOCKED */}
         {!isUnlocked? (
           <div className="border-2 border-[#00A651] bg-gradient-to-br from-gray-900 to-black p-8 rounded-2xl text-center mb-8">
             <div className="text-6xl mb-4">🔒</div>
@@ -100,13 +101,16 @@ export default function RecipePage() {
             {canPurchase && (
               <div className="space-y-4">
                 <button onClick={handlePurchase} className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-8 py-4 rounded-xl text-xl w-full transition-all shadow-lg hover:scale-105">
-                  Unlock with MPESA *200#
+                  Unlock with MPESA 57031600
                 </button>
                 {recipe._ussd && (
                   <button onClick={() => setShowEFT(true)} className="border-2 border-[#00A651] text-[#00C85F] hover:bg-[#00A651]/20 font-black px-8 py-4 rounded-xl text-xl w-full transition-all">
                     EFT Bank Transfer
                   </button>
                 )}
+                <button onClick={handleWhatsApp} className="border-2 border-[#00E06D] text-[#00E06D] hover:bg-[#00E06D]/20 font-black px-8 py-4 rounded-xl text-xl w-full transition-all">
+                  WhatsApp Help +26657031600
+                </button>
               </div>
             )}
 
@@ -120,7 +124,6 @@ export default function RecipePage() {
             )}
           </div>
         ) : (
-          // UNLOCKED CONTENT - ONLY SHOWS AFTER PAYMENT
           <div className="space-y-8">
             <div className="border-2 border-[#00E06D] bg-gradient-to-br from-black to-gray-900/60 p-6 rounded-2xl">
               <h2 className="text-2xl font-black text-[#00E06D] mb-4">Ingredients</h2>
@@ -139,7 +142,7 @@ export default function RecipePage() {
               <ol className="space-y-3">
                 {recipe.preparations.map((step, i) => (
                   <li key={i} className="flex gap-3">
-                    <span className="text-[#00E06D] font-black min-w-[20px]">{i + 1}.</span>
+                    <span className="text-[#00E06D] font-black min-w-">{i + 1}.</span>
                     <span className="text-gray-300">{step.replace(/^\d+\.\s*/, '')}</span>
                   </li>
                 ))}
@@ -169,12 +172,17 @@ export default function RecipePage() {
           </div>
         )}
 
-        {/* EFT MODAL */}
         {showEFT && (
           <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4" onClick={() => setShowEFT(false)}>
             <div className="bg-gray-900 border-3 border-[#00A651] rounded-2xl p-8 max-w-md w-full shadow-2xl shadow-[#00E06D]/30" onClick={(e) => e.stopPropagation()}>
-              <h2 className="text-4xl font-black text-[#00E06D] mb-6 text-center">EFT Bank Transfer</h2>
+              <h2 className="text-4xl font-black text-[#00E06D] mb-6 text-center">Payment Details</h2>
               <div className="space-y-4 text-lg">
+                <div className="bg-green-900/30 p-4 rounded-xl border-[#00A651]">
+                  <p className="text-[#00C85F] font-black text-sm mb-2">MPESA PAYMENT:</p>
+                  <p className="text-white text-3xl font-black">57031600</p>
+                  <p className="text-gray-400 text-xs mt-1">Use reference: Zap Sauce {recipe._ref}</p>
+                </div>
+
                 <div className="bg-black/60 p-4 rounded-xl">
                   <p className="text-[#00C85F] font-bold text-sm">Bank:</p>
                   <p className="text-white text-xl font-black">Lesotho Post Bank</p>
@@ -186,6 +194,14 @@ export default function RecipePage() {
                 <div className="bg-black/60 p-4 rounded-xl">
                   <p className="text-[#00C85F] font-bold text-sm">Branch:</p>
                   <p className="text-white text-xl font-black">BONHOMME</p>
+                </div>
+                <div className="bg-black/60 p-4 rounded-xl">
+                  <p className="text-[#00C85F] font-bold text-sm">Swift:</p>
+                  <p className="text-white text-xl font-black">LESHLSMMXXX</p>
+                </div>
+                <div className="bg-black/60 p-4 rounded-xl">
+                  <p className="text-[#00C85F] font-bold text-sm">Acc Holder:</p>
+                  <p className="text-white text-xl font-black">Makhauhelo Moima</p>
                 </div>
                 <div className="bg-black/60 p-4 rounded-xl">
                   <p className="text-[#00C85F] font-bold text-sm">Reference:</p>
@@ -203,6 +219,7 @@ export default function RecipePage() {
               </button>
             </div>
           </div>
+        </div>
         )}
       </div>
     </div>
