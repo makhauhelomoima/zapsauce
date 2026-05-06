@@ -87,7 +87,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* MAIN HORIZONTAL ROW: TANGY → MONTHLY → FRANCHISE */}
+      {/* MAIN HORIZONTAL ROW: TANGY → MONTHLY → FRANCHISE - TYPE SAFE */}
       <div className="max-w-7xl mx-auto px-4 mb-12">
         <div className="grid md:grid-cols-3 gap-6">
           {mainRow.map((item: any) => (
@@ -104,11 +104,13 @@ export default function HomePage() {
                   <span className="bg-[#00A651] text-black text-xs font-black px-3 py-1 rounded-full">EXCLUSIVE</span>
                 )}
               </div>
-              <p className="text-3xl font-black text-white mb-3">M{item.price}{item.id === 'monthly-heal'? '/mo' : ''}</p>
-              <p className="text-gray-300 text-sm mb-6">{item.description || item.subtitle || 'Premium Zap Sauce access'}</p>
+              <p className="text-3xl font-black text-white mb-3">M{item.price}{item.id === 'monthly-heal' ? '/mo' : ''}</p>
+              <p className="text-gray-300 text-sm mb-6">
+                {item?.description || item?.subtitle || 'Premium Zap Sauce healing recipe'}
+              </p>
 
               {/* PACKAGES = WhatsApp | RECIPES = Paywall */}
-              {item.id === 'franchise-kit' || item.id === 'monthly-heal' || item.id === 'hustlers-vault'? (
+              {item.id === 'franchise-kit' || item.id === 'monthly-heal' || item.id === 'hustlers-vault' ? (
                 <button
                   onClick={() => handleWhatsApp(item.name, item.price)}
                   className="w-full bg-yellow-500 text-black font-black py-3 rounded-lg hover:bg-yellow-400 transition"
@@ -127,14 +129,16 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* OTHER RECIPES */}
+      {/* OTHER RECIPES - TYPE SAFE */}
       <div className="max-w-6xl mx-auto px-4 mb-16">
         <h2 className="text-2xl font-black text-white text-center mb-6">MORE HEALING RECIPES</h2>
         <div className="grid md:grid-cols-2 gap-6">
           {otherRecipes.map((recipe) => (
             <div key={recipe.id} className="bg-gray-900 border border-[#00A651]/30 rounded-xl p-6">
               <h3 className="text-xl font-black text-[#00E06D] mb-2">{recipe.name}</h3>
-              <p className="text-gray-400 text-sm mb-3">{recipe.description}</p>
+              <p className="text-gray-400 text-sm mb-3">
+                {recipe?.description || recipe?.subtitle || 'Traditional healing recipe from Lesotho'}
+              </p>
               <p className="text-2xl font-black text-white mb-4">M{recipe.price}</p>
               <Link href={`/recipes/${recipe.id}`}>
                 <button className="w-full bg-[#00A651] text-black font-black py-3 rounded-lg hover:bg-[#00E06D] transition">
