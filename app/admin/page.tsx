@@ -29,12 +29,27 @@ export default function AdminPage() {
   }
 
   const allRecipes = recipes
-  const totalRecipes = allRecipes.length
   const vaultBundle = recipes.find(r => r.id === 'bundle-001')
+  const totalRecipes = allRecipes.length
   const paidRecipes = allRecipes.filter(r => r.category === 'paid' && r.affiliationEligible!== false).length
   const noAffiliateRecipes = allRecipes.filter(r => r.affiliationEligible === false).length
-  const potentialRevenue = allRecipes.filter(r => r.price > 0 && r.category!== 'bundle').reduce((sum, r) => sum + r.price, 0)
   const vaultValue = vaultBundle?.originalPrice || 0
+  const vaultSavings = vaultValue - (vaultBundle?.price || 0)
+
+  const getTypeBadge = (category: string) => {
+    switch(category) {
+      case 'free':
+        return <span className="text-xs font-bold text-[#00E06D] bg-[#00E06D]/20 px-2 py-1 rounded">FREE</span>
+      case 'subscription':
+        return <span className="text-xs font-bold text-yellow-400 bg-yellow-400/20 px-2 py-1 rounded">SUB</span>
+      case 'exclusive':
+        return <span className="text-xs font-bold text-purple-400 bg-purple-400/20 px-2 py-1 rounded">EXCL</span>
+      case 'bundle':
+        return <span className="text-xs font-bold text-yellow-400 bg-yellow-400/20 px-2 py-1 rounded">VAULT</span>
+      default:
+        return <span className="text-xs font-bold text-[#00E06D] bg-[#00E06D]/20 px-2 py-1 rounded">PAID</span>
+    }
+  }
 
   if (!isAuthed) {
     return (
@@ -79,15 +94,15 @@ export default function AdminPage() {
             <div className="text-3xl font-black text-white">{totalRecipes}</div>
           </div>
           <div className="bg-gray-900/50 border border-[#00A651]/40 rounded-xl p-4">
-            <div className="text-gray-400 text-xs mb-1">Hustler's Vault Price</div>
+            <div className="text-gray-400 text-xs mb-1">Hustler's Vault</div>
             <div className="text-3xl font-black text-[#00E06D]">M{vaultBundle?.price}</div>
           </div>
           <div className="bg-gray-900/50 border border-yellow-500/40 rounded-xl p-4">
-            <div className="text-gray-400 text-xs mb-1">Vault Value</div>
-            <div className="text-3xl font-black text-yellow-400">M{vaultValue}</div>
+            <div className="text-gray-400 text-xs mb-1">Vault Savings</div>
+            <div className="text-3xl font-black text-yellow-400">M{vaultSavings}</div>
           </div>
           <div className="bg-gray-900/50 border border-red-500/40 rounded-xl p-4">
-            <div className="text-gray-400 text-xs mb-1">No Affiliate Items</div>
+            <div className="text-gray-400 text-xs mb-1">No Affiliate</div>
             <div className="text-3xl font-black text-red-400">{noAffiliateRecipes}</div>
           </div>
         </div>
@@ -109,13 +124,7 @@ export default function AdminPage() {
                 {allRecipes.map((recipe) => (
                   <tr key={recipe.id} className="border-b border-gray-800/50 hover:bg-gray-800/30">
                     <td className="py-3 px-2 font-bold text-white">{recipe.name}</td>
-                    <td className="py-3 px-2">
-                      {recipe.category === 'bundle' && <span className="text-xs font-bold text-yellow-400 bg-yellow-400/20 px-2 py-1 rounded">VAULT</span>}
-                      {recipe.category === 'free' && <span className="text-xs font-bold text-[#00E06D] bg-[#00E06D]/20 px-2 py-1 rounded">FREE</span>}
-                      {recipe.category === 'subscription' && <span className="text-xs font-bold text-yellow-400 bg-yellow-400/20 px-2 py-1 rounded">SUB</span>}
-                      {recipe.category === 'exclusive' && <span className="text-xs font-bold text-purple-400 bg-purple-400/20 px-2 py-1 rounded">EXCL</span>}
-                      {recipe.category === 'paid' && <span className="text-xs font-bold text-[#00E06D] bg-[#00E06D]/20 px-2 py-1 rounded">PAID</span>}
-                    </td>
+                    <td className="py-3 px-2">{getTypeBadge(recipe.category)}</td>
                     <td className="py-3 px-2 text-white">M{recipe.price}</td>
                     <td className="py-3 px-2">
                       {recipe.affiliationEligible === false?
@@ -129,6 +138,10 @@ export default function AdminPage() {
               </tbody>
             </table>
           </div>
+        </div>
+
+        <div className="text-center mt-8 text-xs text-gray-600">
+          <p>© 2026 ZapSauce Admin | By Makhaukhelo Moima | PIN: HEAL120 🔒</p>
         </div>
       </div>
     </div>
