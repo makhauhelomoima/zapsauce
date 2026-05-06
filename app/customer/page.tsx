@@ -13,11 +13,13 @@ export default function CustomerPortal() {
   }, [])
 
   const myRecipes = recipes.filter(r => unlockedRecipes.includes(r.id))
-  const paidUnlocked = myRecipes.filter(r => r.price > 0)
+  const hasVault = unlockedRecipes.includes('bundle-001')
+  const paidUnlocked = myRecipes.filter(r => r.price > 0 && r.category!== 'bundle')
+  const affiliateEarnings = 0 // Connect to your DB later
 
   return (
     <div className="bg-black min-h-[100dvh] text-white">
-      <div className="bg-gray-900/90 border-b border-[#00A651]/40 backdrop-blur-sm sticky top-0 z-50">
+      <div className="bg-gray-900/90 border-b border-[#00A651]/40 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-black text-[#00E06D]">Zap Sauce.</Link>
           <div className="flex items-center gap-4">
@@ -29,7 +31,22 @@ export default function CustomerPortal() {
 
       <div className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-black mb-2 text-center text-white">Customer Portal</h1>
-        <p className="text-gray-400 text-center mb-8">Your unlocked recipes</p>
+        <p className="text-gray-400 text-center mb-8">Your unlocked recipes & affiliate status</p>
+
+        {hasVault && (
+          <div className="bg-gradient-to-r from-[#00A651]/20 to-[#00E06D]/20 border-2 border-[#00E06D] rounded-xl p-6 mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <div className="text-xs font-bold text-yellow-400 mb-1">💚 HUSTLER STATUS</div>
+                <h3 className="text-2xl font-black text-white">HUSTLER'S VAULT OWNER</h3>
+              </div>
+              <div className="text-right">
+                <div className="text-xs text-gray-400">Affiliate Earnings</div>
+                <div className="text-3xl font-black text-[#00E06D]">M{affiliateEarnings}</div>
+              </div>
+            <p className="text-sm text-gray-300">You earn 30% on every referral. Share your link to start earning.</p>
+          </div>
+        )}
 
         <div className="bg-gray-900/50 border border-[#00A651]/30 rounded-xl p-6 mb-8">
           <div className="grid grid-cols-2 gap-4 text-center">
@@ -68,11 +85,6 @@ export default function CustomerPortal() {
             ))}
           </div>
         )}
-
-        <div className="mt-12 text-center text-xs text-gray-500">
-          <p>Need help? WhatsApp: +266 57031600</p>
-          <p className="mt-2">MPESA: 57031600 | USSD: *200#</p>
-        </div>
       </div>
     </div>
   )
