@@ -219,7 +219,6 @@ export default function RecipePage() {
               </button>
             </div>
           </div>
-        </div>
         )}
       </div>
     </div>
