@@ -24,7 +24,9 @@ export default function AdminPage() {
             {recipes.map(r => (
               <option key={r.id} value={r.id}>{r.name} - M{r.price}</option>
             ))}
-            <option value="franchise-kit">FRANCHISE KIT - M{r.packages['franchise-kit'].price}</option>
+            <option value="franchise-kit">
+              FRANCHISE KIT - M{packages['franchise-kit'].price}
+            </option>
           </select>
 
           <button
