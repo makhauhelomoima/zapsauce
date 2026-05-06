@@ -44,6 +44,7 @@ export default function CustomerPortal() {
                 <div className="text-xs text-gray-400">Affiliate Earnings</div>
                 <div className="text-3xl font-black text-[#00E06D]">M{affiliateEarnings}</div>
               </div>
+            </div>
             <p className="text-sm text-gray-300">You earn 30% on every referral. Share your link to start earning.</p>
           </div>
         )}
