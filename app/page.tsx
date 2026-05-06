@@ -35,7 +35,7 @@ export default function HomePage() {
 
   const isLocked = (recipeId: string) => {
     return!unlockedRecipes.includes(recipeId) && recipeId!== 'free-001' && recipeId!== 'free-002'
-  }
+ 
 
   return (
     <div className="bg-black min-h-[100dvh] text-white">
