@@ -5,6 +5,16 @@ import Link from 'next/link'
 import { recipes } from '@/data/recipes'
 
 export default function HomePage() {
+  const [unlockedRecipes, setUnlockedRecipes] = useState<string[]>(['free-001', 'free-002'])
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  useEffect(() => {
+    const saved = localStorage.getItem('zapSauceUnlocked')
+    if (saved) setUnlockedRecipes(JSON.parse(saved))
+    const adminCheck = localStorage.getItem('zapSauceAdmin')
+    if (adminCheck === 'true') setIsAdmin(true)
+  }, [])
+
   const freeRecipes = recipes.filter(r => r.category === 'free')
   const featuredRecipes = recipes.filter(r => r.featured && r.category!== 'free').slice(0, 3)
 
@@ -19,7 +29,7 @@ export default function HomePage() {
           <div className="flex items-center gap-4">
             <div className="text-xs text-gray-400 hidden sm:block">MPESA: 57031600</div>
             <Link href="/customer" className="text-sm text-[#00A651] hover:text-[#00E06D] font-bold">Customer Portal</Link>
-            <Link href="/admin" className="text-sm text-gray-400 hover:text-[#00E06D] font-bold">Admin</Link>
+            {isAdmin && <Link href="/admin" className="text-sm text-red-400 hover:text-red-300 font-bold">Admin</Link>}
           </div>
         </div>
       </div>
@@ -30,7 +40,7 @@ export default function HomePage() {
             <span className="text-[#00E06D]">Zap Sauce.</span>
           </h1>
           <p className="text-xl text-gray-300 mb-2">14 Healing Recipes</p>
-          <p className="text-lg text-[#00A651] mb-8">Traditional Wellness from Lesotho 🇱🇸</p>
+          <p className="text-lg text-[#00A651] mb-8">Lightning in a jar! ⚡ From Lesotho 🇱🇸</p>
           <Link href="/recipes" className="inline-block bg-[#00E06D] hover:bg-[#00C85F] text-black font-black px-8 py-3 rounded-lg text-lg">
             View All Recipes
           </Link>
@@ -85,9 +95,10 @@ export default function HomePage() {
 
         <div className="text-center text-xs text-gray-500 mt-16">
           <p>© 2026 Zap Sauce. Lightning in a jar. Product of Lesotho 🇱🇸</p>
-          <p>Not medical advice. Consult your doctor. For considered families.</p>
+          <p>Recipe collection. Not medical advice. Consult your doctor. For considered families.</p>
           <div className="flex justify-center gap-4 mt-4">
             <Link href="/admin" className="text-gray-600 hover:text-[#00A651]">Admin</Link>
+            <Link href="/customer" className="text-gray-600 hover:text-[#00A651]">Customer Portal</Link>
             <Link href="/recipes" className="text-gray-600 hover:text-[#00A651]">Recipes</Link>
           </div>
         </div>
