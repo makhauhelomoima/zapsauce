@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { RECIPES } from '../../data/recipes'
+import { recipes } from '../../data/recipes'
 import Link from 'next/link'
 
 export default function AdminPage() {
@@ -50,7 +50,7 @@ export default function AdminPage() {
     )
   }
 
-  const allRecipes = Object.values(RECIPES)
+  const allRecipes = Object.values(recipes)
   const totalRecipes = allRecipes.length
   const paidRecipes = allRecipes.filter(r => r._type === 'PAID').length
   const freeSamples = allRecipes.filter(r => r._type === 'FREE').length
