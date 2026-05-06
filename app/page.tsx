@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { recipes, packages } from '@/data/recipes'
+import { recipes, packages } from '../data/recipes'
 
 export default function HomePage() {
   const [unlockedRecipes, setUnlockedRecipes] = useState<string[]>(['free-001', 'free-002'])
   const [mpesaCode, setMpesaCode] = useState('')
+  const [eftRef, setEftRef] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState<'mpesa' | 'eft'>('mpesa')
   const [verifying, setVerifying] = useState(false)
   const [selectedRecipe, setSelectedRecipe] = useState<string | null>(null)
 
@@ -18,29 +20,45 @@ export default function HomePage() {
   }, [])
 
   const verifyPayment = async (recipeId: string, amount: number) => {
-    if (!mpesaCode.trim()) return
     setVerifying(true)
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    if (mpesaCode.length >= 8) {
-      const newUnlocked = [...unlockedRecipes, recipeId]
-      setUnlockedRecipes(newUnlocked)
-      localStorage.setItem('zapSauceUnlocked', JSON.stringify(newUnlocked))
-      setMpesaCode('')
-      setSelectedRecipe(null)
-      alert(`Payment verified! ${recipeId.toUpperCase()} unlocked ⚡`)
-    } else {
-      alert('Invalid MPESA code. Try again.')
+    
+    try {
+      const payload = paymentMethod === 'mpesa' 
+        ? { mpesaCode, recipeId, amount, method: 'mpesa' }
+        : { eftRef, recipeId, amount, method: 'eft' }
+      
+      const response = await fetch('/api/verify-payment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        const newUnlocked = [...unlockedRecipes, recipeId]
+        setUnlockedRecipes(newUnlocked)
+        localStorage.setItem('zapSauceUnlocked', JSON.stringify(newUnlocked))
+        setMpesaCode('')
+        setEftRef('')
+        setSelectedRecipe(null)
+        alert(data.message)
+      } else {
+        alert(data.message)
+      }
+    } catch (error) {
+      alert('Verification failed. Check connection and try again.')
     }
+    
     setVerifying(false)
   }
 
   const isLocked = (recipeId: string) => {
-    return!unlockedRecipes.includes(recipeId) && recipeId!== 'free-001' && recipeId!== 'free-002'
+    return !unlockedRecipes.includes(recipeId) && recipeId !== 'free-001' && recipeId !== 'free-002'
   }
 
   const ussdString = (amount: number) => `*200#1*1*57031600*${amount}#`
 
-  // HOMEPAGE ONLY SHOWS 5: 2 Free + 3 Favorites
   const freebies = recipes.filter(r => r.category === 'free')
   const favorites = recipes.filter(r => ['zap-001', 'master-001', 'excl-001'].includes(r.id))
 
@@ -56,7 +74,6 @@ export default function HomePage() {
             <Link href="/login" className="text-xs text-gray-400 hover:text-[#00A651]">Login</Link>
             <Link href="/portal" className="text-xs text-gray-400 hover:text-[#00A651]">Customer Portal</Link>
             <a href="https://wa.me/26657031600" target="_blank" className="text-xs text-[#25D366] hover:text-[#20BD5C]">WhatsApp</a>
-            <div className="text-xs text-gray-400">MPESA: 57031600</div>
           </div>
         </div>
       </div>
@@ -111,25 +128,68 @@ export default function HomePage() {
                 {isLocked(item.id)? (
                   <div className="border-t border-gray-700 pt-4">
                     <div className="bg-red-900/20 border border-red-500/40 rounded-lg p-3">
-                      <p className="text-xs text-red-400 font-bold mb-2">🔒 LOCKED</p>
-                      <p className="text-xs text-gray-400 mb-1">MPESA: 57031600 | Ref: {item.id.toUpperCase()}</p>
-                      <p className="text-xs text-[#00A651] mb-2">USSD: {ussdString(item.price)}</p>
-                      <input
-                        type="text"
-                        placeholder="MPESA code"
-                        value={selectedRecipe === item.id? mpesaCode : ''}
-                        onChange={(e) => {
-                          setMpesaCode(e.target.value)
-                          setSelectedRecipe(item.id)
-                        }}
-                        className="w-full bg-black border border-gray-600 rounded px-3 py-2 text-sm mb-2"
-                      />
+                      <p className="text-xs text-red-400 font-bold mb-3">🔒 LOCKED - CHOOSE PAYMENT</p>
+                      
+                      <div className="flex gap-2 mb-3">
+                        <button
+                          onClick={() => setPaymentMethod('mpesa')}
+                          className={`flex-1 py-2 text-xs rounded ${paymentMethod === 'mpesa'? 'bg-[#00A651] text-black font-bold' : 'bg-gray-700 text-gray-300'}`}
+                        >
+                          MPESA
+                        </button>
+                        <button
+                          onClick={() => setPaymentMethod('eft')}
+                          className={`flex-1 py-2 text-xs rounded ${paymentMethod === 'eft'? 'bg-[#00A651] text-black font-bold' : 'bg-gray-700 text-gray-300'}`}
+                        >
+                          EFT/Bank
+                        </button>
+                      </div>
+
+                      {paymentMethod === 'mpesa'? (
+                        <>
+                          <p className="text-xs text-gray-400 mb-1">Send M{item.price} to 57031600</p>
+                          <p className="text-xs text-gray-400 mb-1">Name: Makhauhelo Moima</p>
+                          <p className="text-xs text-gray-400 mb-1">Ref: {item.id.toUpperCase()}</p>
+                          <p className="text-xs text-[#00A651] mb-2">USSD: {ussdString(item.price)}</p>
+                          <input
+                            type="text"
+                            placeholder="MPESA code (QK7X8Y9Z0W)"
+                            value={selectedRecipe === item.id? mpesaCode : ''}
+                            onChange={(e) => {
+                              setMpesaCode(e.target.value.toUpperCase())
+                              setSelectedRecipe(item.id)
+                            }}
+                            className="w-full bg-black border border-gray-600 rounded px-3 py-2 text-sm mb-2"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-xs text-gray-400 mb-1">Bank: Lesotho Post Bank</p>
+                          <p className="text-xs text-gray-400 mb-1">Account: 1036202900018</p>
+                          <p className="text-xs text-gray-400 mb-1">Name: Makhauhelo Moima</p>
+                          <p className="text-xs text-gray-400 mb-1">Branch: BONHOMME</p>
+                          <p className="text-xs text-gray-400 mb-1">SWIFT: LESHLSMMXXX</p>
+                          <p className="text-xs text-gray-400 mb-2">Ref: {item.id.toUpperCase()}</p>
+                          <input
+                            type="text"
+                            placeholder="EFT Reference Number"
+                            value={selectedRecipe === item.id? eftRef : ''}
+                            onChange={(e) => {
+                              setEftRef(e.target.value)
+                              setSelectedRecipe(item.id)
+                            }}
+                            className="w-full bg-black border border-gray-600 rounded px-3 py-2 text-sm mb-2"
+                          />
+                          <p className="text-xs text-yellow-400 mb-2">Allow 2hrs for EFT to reflect</p>
+                        </>
+                      )}
+
                       <button
                         onClick={() => verifyPayment(item.id, item.price)}
-                        disabled={verifying || selectedRecipe!== item.id}
+                        disabled={verifying || selectedRecipe !== item.id}
                         className="w-full bg-[#00A651] hover:bg-[#00C85F] text-black font-bold py-2 rounded text-sm disabled:opacity-50"
                       >
-                        {verifying && selectedRecipe === item.id? 'Verifying...' : 'Unlock Now'}
+                        {verifying && selectedRecipe === item.id? 'Verifying...' : 'Verify Payment'}
                       </button>
                     </div>
                   </div>
@@ -151,9 +211,14 @@ export default function HomePage() {
             <div className="bg-gray-900/50 border border-[#00A651]/30 rounded-xl p-6">
               <h3 className="text-lg font-bold text-white mb-2">{packages.monthlyHeal.name}</h3>
               <div className="text-[#00E06D] font-black text-2xl mb-3">M{packages.monthlyHeal.price}<span className="text-sm">/mo</span></div>
-              <p className="text-sm text-gray-300 mb-4">{packages.monthlyHeal.description}</p>
+              <ul className="text-sm text-gray-300 mb-4 space-y-1">
+                <li>✓ Original + TANGY FUSION access</li>
+                <li>✓ 30% affiliate on local sales</li>
+                <li>✓ Monthly commission payout</li>
+                <li className="text-yellow-400">📍 Lesotho Only</li>
+              </ul>
               <a href={`https://wa.me/26657031600?text=I%20want%20${packages.monthlyHeal.name}`} className="block w-full bg-[#00A651] hover:bg-[#00C85F] text-black font-bold py-2 rounded text-sm text-center">
-                Subscribe
+                Subscribe Local
               </a>
               <p className="text-xs text-gray-500 mt-2 text-center">USSD: {ussdString(packages.monthlyHeal.price)}</p>
             </div>
@@ -162,23 +227,59 @@ export default function HomePage() {
               <div className="absolute -top-3 -right-3 bg-[#00E06D] text-black text-xs font-black px-3 py-1 rounded-full">POPULAR</div>
               <h3 className="text-lg font-bold text-white mb-2">{packages.hustlersVault.name}</h3>
               <div className="text-[#00E06D] font-black text-2xl mb-3">M{packages.hustlersVault.price}</div>
-              <p className="text-sm text-gray-300 mb-4">{packages.hustlersVault.description}</p>
+              <ul className="text-sm text-gray-300 mb-4 space-y-1">
+                <li>✓ 11 Recipes instant unlock</li>
+                <li>✓ 30% affiliate on local sales</li>
+                <li>✓ Monthly commission payout</li>
+                <li className="text-yellow-400">📍 Lesotho Only</li>
+              </ul>
               <a href={`https://wa.me/26657031600?text=I%20want%20${packages.hustlersVault.name}`} className="block w-full bg-[#00E06D] hover:bg-[#00C85F] text-black font-bold py-2 rounded text-sm text-center">
                 Get Vault Access
               </a>
               <p className="text-xs text-gray-500 mt-2 text-center">USSD: {ussdString(packages.hustlersVault.price)}</p>
             </div>
 
-            <div className="bg-gray-900/50 border border-yellow-500/40 rounded-xl p-6">
+            <div className="bg-gray-900/50 border border-yellow-500/40 rounded-xl p-6 relative">
+              <div className="absolute -top-3 -right-3 bg-yellow-500 text-black text-xs font-black px-3 py-1 rounded-full">GLOBAL 🌍</div>
               <h3 className="text-lg font-bold text-white mb-2">{packages.franchiseKit.name}</h3>
               <div className="text-yellow-400 font-black text-2xl mb-3">M{packages.franchiseKit.price}</div>
-              <p className="text-sm text-gray-300 mb-4">{packages.franchiseKit.description}</p>
-              <a href={`https://wa.me/26657031600?text=I%20want%20${packages.franchiseKit.name}`} className="block w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 rounded text-sm text-center">
-                Become Franchisee
+              <ul className="text-sm text-gray-300 mb-4 space-y-1">
+                <li>✓ Master Base + 17 recipes</li>
+                <li>✓ Branding kit + Scripts</li>
+                <li>✓ WhatsApp Support forever</li>
+                <li>✓ <span className="text-[#00E06D] font-bold">Complete PDF package</span></li>
+                <li>✓ <span className="text-[#00E06D] font-bold">Instant WhatsApp delivery</span></li>
+                <li className="text-[#00E06D] font-bold">✗ No affiliate stress [You own it all]</li>
+              </ul>
+              <div className="bg-yellow-500/10 border border-yellow-500/40 rounded p-2 mb-3">
+                <p className="text-xs text-yellow-400 font-bold">📦 GLOBAL: Complete PDF sent to your WhatsApp after payment confirmation</p>
+              </div>
+              <a href={`https://wa.me/26657031600?text=I%20want%20${packages.franchiseKit.name}%20-%20PDF%20Delivery`} className="block w-full bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 rounded text-sm text-center">
+                Order Global PDF
               </a>
-              <p className="text-xs text-gray-500 mt-2 text-center">USSD: {ussdString(packages.franchiseKit.price)}</p>
+              <p className="text-xs text-gray-500 mt-2 text-center">USSD: *200#1*1*57031600*{packages.franchiseKit.price}# | EFT: 1036202900018</p>
             </div>
           </div>
+        </div>
+
+        <div className="bg-[#00A651]/10 border border-[#00A651]/40 rounded-xl p-6 mb-8 max-w-4xl mx-auto">
+          <h3 className="text-lg font-bold text-[#00E06D] mb-3 text-center">💳 Payment Options</h3>
+          <div className="grid md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <p className="text-white font-bold mb-2">MPESA</p>
+              <p className="text-gray-300">Number: 57031600</p>
+              <p className="text-gray-300">Name: Makhauhelo Moima</p>
+              <p className="text-[#00A651]">USSD: *200#1*1*57031600*amount#</p>
+            </div>
+            <div>
+              <p className="text-white font-bold mb-2">EFT - Lesotho Post Bank</p>
+              <p className="text-gray-300">Account: 1036202900018</p>
+              <p className="text-gray-300">Name: Makhauhelo Moima</p>
+              <p className="text-gray-300">Branch: BONHOMME</p>
+              <p className="text-gray-300">SWIFT: LESHLSMMXXX</p>
+            </div>
+          </div>
+          <p className="text-xs text-yellow-400 mt-3 text-center">Use product code as reference. EFT takes 2hrs to reflect.</p>
         </div>
 
         <div className="text-center">
