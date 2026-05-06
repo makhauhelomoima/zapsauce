@@ -13,8 +13,6 @@ export default function HomePage() {
   const freeRecipes = Object.values(RECIPES).filter(r => r._type === 'FREE')
   const exclusiveRecipe = Object.values(RECIPES).find(r => r._type === 'EXCLUSIVE')
   const subscriptionRecipe = Object.values(RECIPES).find(r => r._type === 'SUBSCRIPTION')
-
-  // Show only first 3 paid as "featured"
   const featuredRecipes = allPaidRecipes.slice(0, 3)
 
   useEffect(() => {
@@ -28,11 +26,11 @@ export default function HomePage() {
 
   const copyEFT = (ref: string) => {
     navigator.clipboard.writeText(`Zap Sauce ${ref}`)
-    alert(`EFT Reference copied: Zap Sauce ${ref}\n\nBank: Lesotho Post Bank\nAccount: 1036202900018\nBranch: BONHOMME`)
+    alert(`EFT Reference copied: Zap Sauce ${ref}\n\nBank: Lesotho Post Bank\nAccount: 1036202900018\nBranch: BONHOMME\nSwift: LESHLSMMXXX\nAcc Holder: Makhauhelo Moima\n\nMPESA: 57031600`)
   }
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/26600000000?text=Hello%20Zap%20Sauce%20Support%20⚡', '_blank')
+    window.open('https://wa.me/26657031600?text=Hello%20Zap%20Sauce%20Support%20⚡%20I%20need%20help', '_blank')
   }
 
   const isLocked = (recipeId: string) => {
@@ -41,7 +39,6 @@ export default function HomePage() {
 
   return (
     <div className="bg-black min-h-[100dvh] text-white">
-      {/* TOP NAV WITH PORTALS - FIXED */}
       <div className="bg-gray-900/90 border-b border-[#00A651]/40 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -90,7 +87,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* REMOVED "TRADITIONAL WELLNESS FROM LESOTHO" */}
       <div className="bg-gradient-to-r from-[#00A651]/20 via-[#00E06D]/10 to-[#00A651]/20 py-6 border-y border-[#00A651]/40">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <p className="text-xl md:text-2xl font-black text-[#00E06D]">
@@ -141,12 +137,11 @@ export default function HomePage() {
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-8">
           <h2 className="text-4xl font-black text-white mb-3">FEATURED RECIPES</h2>
-          <p className="text-gray-400 text-lg">MPESA *200# or EFT Bank Transfer</p>
+          <p className="text-gray-400 text-lg">MPESA 57031600 or EFT Bank Transfer</p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {featuredRecipes.map((recipe) => (
             <div key={recipe.id} className="border-2 border-[#00A651]/60 bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl shadow-xl hover:border-[#00E06D] transition-all relative">
-              {/* LOCKED OVERLAY */}
               {isLocked(recipe.id) && (
                 <div className="absolute inset-0 bg-black/80 backdrop-blur-sm rounded-2xl flex items-center justify-center z-10">
                   <div className="text-center">
@@ -282,8 +277,14 @@ export default function HomePage() {
       {showEFT && (
         <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4" onClick={() => setShowEFT(null)}>
           <div className="bg-gray-900 border-3 border-[#00A651] rounded-2xl p-8 max-w-md w-full shadow-2xl shadow-[#00E06D]/30" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-4xl font-black text-[#00E06D] mb-6 text-center">EFT Bank Transfer</h2>
+            <h2 className="text-4xl font-black text-[#00E06D] mb-6 text-center">Payment Details</h2>
             <div className="space-y-4 text-lg">
+              <div className="bg-green-900/30 p-4 rounded-xl border-[#00A651]">
+                <p className="text-[#00C85F] font-black text-sm mb-2">MPESA PAYMENT:</p>
+                <p className="text-white text-3xl font-black">57031600</p>
+                <p className="text-gray-400 text-xs mt-1">Use reference: Zap Sauce {RECIPES[showEFT]._ref}</p>
+              </div>
+
               <div className="bg-black/60 p-4 rounded-xl">
                 <p className="text-[#00C85F] font-bold text-sm">Bank:</p>
                 <p className="text-white text-xl font-black">Lesotho Post Bank</p>
@@ -297,6 +298,14 @@ export default function HomePage() {
                 <p className="text-white text-xl font-black">BONHOMME</p>
               </div>
               <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Swift:</p>
+                <p className="text-white text-xl font-black">LESHLSMMXXX</p>
+              </div>
+              <div className="bg-black/60 p-4 rounded-xl">
+                <p className="text-[#00C85F] font-bold text-sm">Acc Holder:</p>
+                <p className="text-white text-xl font-black">Makhauhelo Moima</p>
+              </div>
+              <div className="bg-black/60 p-4 rounded-xl">
                 <p className="text-[#00C85F] font-bold text-sm">Reference:</p>
                 <p className="text-white text-xl font-black">Zap Sauce {RECIPES[showEFT]._ref}</p>
               </div>
@@ -304,7 +313,6 @@ export default function HomePage() {
                 <p className="text-[#00C85F] font-bold text-sm">Amount:</p>
                 <p className="text-white text-3xl font-black">M{RECIPES[showEFT].cost}</p>
               </div>
-            </div>
             <button onClick={() => copyEFT(RECIPES[showEFT]._ref)} className="bg-[#00A651] hover:bg-[#00C85F] text-white font-black px-6 py-4 rounded-xl text-xl w-full mt-6 transition-all">
               Copy Reference
             </button>
