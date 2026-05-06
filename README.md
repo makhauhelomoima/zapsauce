@@ -4,7 +4,7 @@
 
 ## 🧪 What is Zap Sauce?
 
-**Zap Sauce** is a traditional Basotho immunity tonic selling healing recipes via MPESA.
+**Zap Sauce** is a traditional home-made immunity tonic selling healing recipes via MPESA.
 
 **The Mission:** 1 tablespoon daily keeps the doctor away. Save families M378+ monthly on pharmacy runs.
 
