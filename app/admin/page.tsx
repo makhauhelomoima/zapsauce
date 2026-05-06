@@ -14,7 +14,7 @@ export default function AdminPage() {
   }, [])
 
   const handleLogin = () => {
-    if (pin === '2026') {
+    if (pin === 'HEAL120') {
       localStorage.setItem('zapSauceAdmin', 'true')
       setIsAuthed(true)
     } else {
