@@ -12,6 +12,7 @@ export interface Recipe {
   affiliationEligible?: boolean
   disclaimer?: string
   costBreakdown?: string
+  includes?: string[]
 }
 
 export const recipes: Recipe[] = [
@@ -35,15 +36,14 @@ export const recipes: Recipe[] = [
       'STEP 2: ADD THE SPARK: Fold in grated ginger until paste forms',
       'STEP 3: CHARGE IT: Slowly stir in honey 60sec until smooth like your photo',
       'STEP 4: BOTTLE THE LIGHTNING: Clean glass jar. Label "ZAP SAUCE". Pantry 6 months.',
-      'DOSE PROTOCOL: Adults: 1 tsp morning empty stomach. Kids 5+: 1/2 tsp in rooibos. Kids 2-5: 1/4 tsp in porridge. Sick: 1 tsp every 3 hours until flu gets ZAPPED.'
+      'DOSE: Adults: 1 tsp morning empty stomach. Kids 5+: 1/2 tsp in rooibos. Kids 2-5: 1/4 tsp in porridge. Sick: 1 tsp every 3 hours until flu gets ZAPPED.'
     ],
     category: 'paid',
     affiliationEligible: false,
     disclaimer: 'Traditional immunity tonic for education. Not medical advice. Not a cure for disease. Do NOT use if: gallstones, blood thinners, before surgery, stomach ulcers. Honey never for babies under 1. Consult clinic if pregnant or on diabetes/BP meds - turmeric interacts.',
     costBreakdown: 'TOTAL COST TO MAKE: M71 | MAKES: 30 doses of 1 tsp each | COST PER DOSE: M2.37 | PHARMACY COST PER DOSE: M15.00 | YOU SAVE: M378+ monthly for family of 4'
   },
-  
-  // MASTER BASE - YOUR EXACT COPY
+  // MASTER BASE
   {
     id: 'master-base',
     name: 'ZAP SAUCE MASTER BASE',
@@ -52,28 +52,28 @@ export const recipes: Recipe[] = [
     time: '15 mins',
     benefits: 'This is what "1 tbsp Zap Sauce Master Base" means in every recipe. DO NOT SUBSTITUTE. DO NOT ADD SUGAR. DO NOT USE ROOIBOS.',
     ingredients: [
-      'Raw Honey: 120ml - Local Lesotho honey only. Unpasteurized.',
-      'Turmeric Powder: 40g - Organic, high curcumin.',
-      'Cayenne Pepper: 8g - 40,000 SHU. No paprika substitute.',
-      'Cinnamon: 12g - Ceylon cinnamon only. No cassia.',
-      'Black Pepper: 4g - Freshly ground. Activates turmeric.',
-      'Ginger Powder: 8g - Organic. Anti-inflammatory.',
-      'Lemon Juice: 20ml - Fresh squeezed. Preservative + Vitamin C.',
-      'Apple Cider Vinegar: 10ml - With "mother". Shelf life.'
+      'Raw Honey: 120ml - Local Lesotho, unpasteurized',
+      'Turmeric Powder: 40g - Organic, high curcumin',
+      'Cayenne Pepper: 8g - 40,000 SHU, no paprika',
+      'Cinnamon: 12g - Ceylon only, no cassia',
+      'Black Pepper: 4g - Freshly ground',
+      'Ginger Powder: 8g - Organic',
+      'Lemon Juice: 20ml - Fresh squeezed',
+      'Apple Cider Vinegar: 10ml - With "mother"'
     ],
     instructions: [
-      'Sterilize jar + spoon: Boil 10 mins. Air dry.',
-      'Mix dry: Turmeric + Cayenne + Cinnamon + Black Pepper + Ginger in jar.',
-      'Add wet: Raw honey + Lemon juice + ACV.',
-      'Stir 3 mins with wooden spoon until no lumps. Metal kills enzymes.',
-      'Seal. Label: "ZAP SAUCE BASE - Made [DATE]"',
-      'Store: Cool dark place. Shake before every use.',
-      'Shelf Life: 6 months unopened. 3 months after opening.'
+      'Sterilize jar + wooden spoon: Boil 10 mins',
+      'Mix dry ingredients in jar',
+      'Add wet ingredients',
+      'Stir 3 mins with wooden spoon',
+      'Seal, label, date',
+      'Store cool dark place',
+      'Shake before every use',
+      'Shelf life: 6 months sealed'
     ],
     category: 'free',
-    costBreakdown: 'COST PER BATCH: ~M85 | COST PER TBSP: ~M5.30 | SELL PRICE: M120+ per 250ml jar = 42% profit minimum'
+    costBreakdown: 'COST PER BATCH: ~M85 | COST PER TBSP: ~M5.30 | SELL: M120+ per 250ml = 42% profit minimum'
   },
-
   // FREE SAMPLES
   {
     id: 'free-001',
@@ -97,8 +97,7 @@ export const recipes: Recipe[] = [
     instructions: ['Steep Zap Sauce in hot water 3 mins', 'Add lemon', 'Sip slowly'],
     category: 'free'
   },
-
-  // PAID RECIPES USING MASTER BASE
+  // PAID RECIPES
   {
     id: 'zap-002',
     name: 'SAVORY HEAL',
@@ -326,7 +325,8 @@ export const recipes: Recipe[] = [
     ingredients: ['All 12 Recipe Formulas', 'Affiliate Rights', 'Lifetime Updates'],
     instructions: ['Purchase once', 'Unlock all 12 recipes', 'Get 30% on every referral', 'Build your empire'],
     category: 'bundle',
-    affiliationEligible: true
+    affiliationEligible: true,
+    includes: ['zap-001', 'zap-002', 'zap-003', 'zap-004', 'zap-005', 'zap-006', 'zap-007', 'zap-008', 'zap-009', 'zap-010', 'zap-011', 'zap-012']
   },
   {
     id: 'excl-001',
