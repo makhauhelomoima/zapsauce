@@ -1,148 +1,363 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { recipes } from '@/data/recipes'
 
 export default function RecipesPage() {
-  const [unlockedRecipes, setUnlockedRecipes] = useState<string[]>(['free-001', 'free-002'])
-  const [mpesaCode, setMpesaCode] = useState('')
-  const [verifying, setVerifying] = useState(false)
-  const [selectedRecipe, setSelectedRecipe] = useState<string | null>(null)
+  
+  // ALL 23 RECIPES - 2 FREE + 2 MYHEAL + 19 HUSTLERS-VAULT
+  const recipes = [
+    // FREE TIER - 2 RECIPES
+    {
+      id: 'free-001',
+      name: 'MORNING SHOT',
+      price: 'FREE',
+      subtitle: 'Your first taste of lightning',
+      time: '1 min',
+      benefits: 'Quick immunity boost. Perfect introduction to Zap Sauce power.',
+      tier: 'FREE',
+      url: '/recipes/free-001'
+    },
+    {
+      id: 'free-002',
+      name: 'IMMUNITY TEASER',
+      price: 'FREE',
+      subtitle: 'Second free sample',
+      time: '5 mins',
+      benefits: 'Soothing immunity tea. Feel the warmth spread.',
+      tier: 'FREE',
+      url: '/recipes/free-002'
+    },
 
-  useEffect(() => {
-    const saved = localStorage.getItem('zapSauceUnlocked')
-    if (saved) {
-      setUnlockedRecipes(JSON.parse(saved))
-    }
-  }, [])
+    // MYHEAL TIER - 2 RECIPES - M120 ONCE-OFF
+    {
+      id: 'zap-001',
+      name: 'ZAP SAUCE ORIGINAL ⚡',
+      price: 'M120',
+      subtitle: 'Immunity in a Jar | Product of Lesotho 🇱🇸',
+      time: '5 mins',
+      benefits: 'Flu + sore throat + body aches. Kids missing school. M200+ pharmacy runs.',
+      tier: 'MYHEAL',
+      url: '/recipes/zap-001'
+    },
+    {
+      id: 'excl-001',
+      name: 'TANGY FUSION',
+      price: 'M120',
+      subtitle: 'EXCLUSIVE - Tamarind + Pineapple + Scotch bonnet',
+      time: '5 mins',
+      benefits: 'Vitamin C boost. Digestive fire. Flavor explosion. Mood lift.',
+      tier: 'MYHEAL',
+      url: '/recipes/excl-001'
+    },
 
-  const verifyPayment = async (recipeId: string) => {
-    if (!mpesaCode.trim()) return
-    setVerifying(true)
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    if (mpesaCode.length >= 8) {
-      const newUnlocked = [...unlockedRecipes, recipeId]
-      setUnlockedRecipes(newUnlocked)
-      localStorage.setItem('zapSauceUnlocked', JSON.stringify(newUnlocked))
-      setMpesaCode('')
-      setSelectedRecipe(null)
-      alert('Payment verified! Recipe unlocked ⚡')
-    } else {
-      alert('Invalid MPESA code. Try again.')
+    // HUSTLERS-VAULT TIER - 19 RECIPES - M1200 ONCE-OFF
+    {
+      id: 'zap-002',
+      name: 'SAVORY HEAL',
+      price: 'M1200',
+      subtitle: 'For soups, stews & immunity',
+      time: '10 mins',
+      benefits: 'Gut healing + immune support. Collagen-rich base amplifies absorption.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-002'
+    },
+    {
+      id: 'zap-003',
+      name: 'FIRE CIDER',
+      price: 'M1200',
+      subtitle: 'Classic immune tonic',
+      time: '2 mins',
+      benefits: 'Apple cider vinegar base + Zap Sauce fire. Clears sinuses.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-003'
+    },
+    {
+      id: 'zap-004',
+      name: 'LIVER FLUSH',
+      price: 'M1200',
+      subtitle: 'Morning detox ritual',
+      time: '2 mins',
+      benefits: 'Supports liver detox pathways. Bitter herbs stimulate bile flow.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-004'
+    },
+    {
+      id: 'zap-005',
+      name: 'BRAIN TONIC',
+      price: 'M1200',
+      subtitle: 'Focus & clarity blend',
+      time: '5 mins',
+      benefits: 'Lion\'s mane + MCT for cognitive support. Mental lightning.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-005'
+    },
+    {
+      id: 'zap-006',
+      name: 'SLEEP ELIXIR',
+      price: 'M1200',
+      subtitle: 'Nighttime wind-down',
+      time: '5 mins',
+      benefits: 'Chamomile + magnesium. Calms nervous system naturally.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-006'
+    },
+    {
+      id: 'zap-007',
+      name: 'METABOLISM BOOST',
+      price: 'M1200',
+      subtitle: 'Pre-workout fire',
+      time: '1 min',
+      benefits: 'Green tea extract + cayenne. Supports fat oxidation.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-007'
+    },
+    {
+      id: 'zap-008',
+      name: 'HEART GUARD',
+      price: 'M1200',
+      subtitle: 'Circulation & blood pressure support',
+      time: '5 mins',
+      benefits: 'Hawthorn + garlic + beetroot. Supports healthy blood flow.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-008'
+    },
+    {
+      id: 'zap-009',
+      name: 'SKIN GLOW',
+      price: 'M1200',
+      subtitle: 'Collagen + antioxidants',
+      time: '3 mins',
+      benefits: 'Vitamin C + collagen. Fights oxidative stress for radiant skin.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-009'
+    },
+    {
+      id: 'zap-010',
+      name: 'LUNG CLEAR',
+      price: 'M1200',
+      subtitle: 'Respiratory support blend',
+      time: '10 mins',
+      benefits: 'Mullein + thyme + eucalyptus. Soothes airways.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-010'
+    },
+    {
+      id: 'zap-011',
+      name: 'KIDNEY CLEANSE',
+      price: 'M1200',
+      subtitle: 'Gentle diuretic tonic',
+      time: '10 mins',
+      benefits: 'Dandelion + nettle + parsley. Supports kidney filtration.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-011'
+    },
+    {
+      id: 'zap-012',
+      name: 'HORMONE HARMONY',
+      price: 'M1200',
+      subtitle: 'Adaptogenic balance for women',
+      time: '5 mins',
+      benefits: 'Maca + ashwagandha. Adaptogens for hormonal balance.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-012'
+    },
+    {
+      id: 'zap-013',
+      name: 'BLOOD SUGAR BALANCE',
+      price: 'M1200',
+      subtitle: 'Glucose support tonic',
+      time: '2 mins',
+      benefits: 'Ceylon cinnamon + berberine. Supports healthy glucose metabolism.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-013'
+    },
+    {
+      id: 'zap-014',
+      name: 'JOINT EASE',
+      price: 'M1200',
+      subtitle: 'Anti-inflammatory for joints',
+      time: '5 mins',
+      benefits: 'Turmeric + ginger + black pepper. Reduces inflammation.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-014'
+    },
+    {
+      id: 'zap-015',
+      name: 'ENERGY SHOT',
+      price: 'M1200',
+      subtitle: 'Natural energy without crash',
+      time: '1 min',
+      benefits: 'Green tea + cayenne + honey. Sustained energy.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-015'
+    },
+    {
+      id: 'zap-016',
+      name: 'LENGANA LIGHTNING',
+      price: 'M1200',
+      subtitle: 'Mountain tranquility + supercharge',
+      time: '10 mins',
+      benefits: 'Lengana + Prickly Pear + Cactus + Aloe + Rose Hip = Complete immunity.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-016'
+    },
+    {
+      id: 'zap-017',
+      name: 'PHATE-EA-NGAKA POWER',
+      price: 'M1200',
+      subtitle: 'Doctor\'s medicine + supercharge',
+      time: '15 mins',
+      benefits: 'Phate-ea-Ngaka + Prickly Pear + Cactus + Aloe + Rose Hip = Deep cellular immunity.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-017'
+    },
+    {
+      id: 'zap-018',
+      name: 'MALUTI IMMUNITY FUSION',
+      price: 'M1200',
+      subtitle: 'All Basotho herbs + supercharge',
+      time: '20 mins',
+      benefits: 'Lengana + Phate-ea-Ngaka + Prickly Pear + Cactus + Aloe + Rose Hip = Crown jewel.',
+      tier: 'HUSTLERS-VAULT',
+      url: '/recipes/zap-018'
     }
-    setVerifying(false)
+  ]
+
+  const getTierColor = (tier: string) => {
+    switch(tier) {
+      case 'FREE': return '#fff'
+      case 'MYHEAL': return '#00ff88'
+      case 'HUSTLERS-VAULT': return '#00ff88'
+      case 'ZAP SAUCE GLOBAL': return '#FFD700'
+      default: return '#00ff88'
+    }
   }
 
-  const isLocked = (recipeId: string) => {
-    return !unlockedRecipes.includes(recipeId) && recipeId !== 'free-001' && recipeId !== 'free-002'
+  const getTierLabel = (tier: string) => {
+    switch(tier) {
+      case 'FREE': return 'FREE'
+      case 'MYHEAL': return 'MYHEAL M120'
+      case 'HUSTLERS-VAULT': return 'HUSTLER\'S VAULT M1200'
+      case 'ZAP SAUCE GLOBAL': return 'ZAP SAUCE GLOBAL M2500'
+      default: return tier
+    }
   }
-
-  // Filter out master-base from showing as a recipe card
-  const displayRecipes = recipes.filter(r => r.id !== 'master-base')
 
   return (
-    <div className="bg-black min-h-screen text-white">
-      <div className="bg-gray-900/90 border-b border-[#00A651]/40 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-black text-[#00E06D]">Zap Sauce.</span>
-            <span className="text-sm text-[#00A651]">Lightning in a jar! ⚡</span>
-          </Link>
-          <div className="text-xs text-gray-400">MPESA: 57031600</div>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <Link href="/" className="text-[#00A651] hover:text-[#00E06D] text-sm mb-4 block">← Back to Home</Link>
-          <h1 className="text-4xl md:text-5xl font-black mb-4">
-            <span className="text-[#00E06D]">ALL</span> HEALING RECIPES ⚡
-          </h1>
-          <p className="text-xl text-gray-300">{displayRecipes.length} Recipes | Product of Lesotho 🇱🇸</p>
+    <div style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh', padding: '20px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        
+        {/* HEADER */}
+        <div style={{ textAlign: 'center', marginBottom: '60px', paddingTop: '40px' }}>
+          <h1 style={{ color: '#00ff88', fontSize: '3rem', margin: '0 0 16px 0' }}>ZAP SAUCE RECIPES ⚡</h1>
+          <p style={{ color: '#ccc', fontSize: '1.2rem' }}>Lightning in a jar! Product of Lesotho 🇱🇸</p>
+          <p style={{ color: '#888', marginTop: '8px' }}>23 Recipes: 2 Free + 2 MYHEAL + 19 HUSTLER'S VAULT</p>
         </div>
 
-        <div className="bg-[#00A651]/10 border border-[#00A651]/40 rounded-xl p-6 mb-12">
-          <h2 className="text-2xl font-bold text-[#00E06D] mb-4">ZAP SAUCE MASTER BASE - THE FOUNDATION</h2>
-          <p className="text-gray-300 mb-4">Every recipe below uses: <strong>1 tbsp Zap Sauce Master Base</strong></p>
-          <p className="text-red-400 font-bold mb-4">DO NOT SUBSTITUTE. DO NOT ADD SUGAR. DO NOT USE ROOIBOS.</p>
-          <Link href="/#master-base" className="text-[#00A651] hover:text-[#00E06D] text-sm underline">
-            View Master Base Formula →
-          </Link>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayRecipes.map((recipe) => (
-            <div key={recipe.id} className="bg-gray-900/50 border border-[#00A651]/30 rounded-xl p-6 hover:border-[#00E06D]/50 transition-all">
-              <div className="flex justify-between items-start mb-3">
-                <h3 className="text-lg font-bold text-white">{recipe.name}</h3>
-                <div className="text-right">
-                  <div className="text-[#00E06D] font-black text-xl">
-                    {recipe.price === 0 ? 'FREE' : `M${recipe.price}`}
-                  </div>
-                  {recipe.price > 0 && <div className="text-xs text-gray-500">Ref: {recipe.id.toUpperCase()}</div>}
+        {/* RECIPES GRID */}
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', 
+          gap: '24px',
+          marginBottom: '60px'
+        }}>
+          {recipes.map((recipe) => (
+            <Link 
+              key={recipe.id} 
+              href={recipe.url}
+              style={{ textDecoration: 'none' }}
+            >
+              <div style={{
+                background: '#111',
+                border: `2px solid ${getTierColor(recipe.tier)}`,
+                borderRadius: '12px',
+                padding: '24px',
+                transition: 'all 0.3s',
+                cursor: 'pointer',
+                height: '100%'
+              }}>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'flex-start',
+                  marginBottom: '12px'
+                }}>
+                  <h3 style={{ 
+                    color: getTierColor(recipe.tier), 
+                    margin: 0, 
+                    fontSize: '1.3rem',
+                    flex: 1
+                  }}>
+                    {recipe.name}
+                  </h3>
+                  <span style={{ 
+                    background: getTierColor(recipe.tier),
+                    color: '#000',
+                    padding: '4px 12px',
+                    borderRadius: '6px',
+                    fontSize: '0.75rem',
+                    fontWeight: '700',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    {getTierLabel(recipe.tier)}
+                  </span>
                 </div>
+                
+                <p style={{ color: '#ccc', fontSize: '0.9rem', margin: '0 0 12px 0' }}>
+                  {recipe.subtitle}
+                </p>
+                
+                <p style={{ color: '#888', fontSize: '0.85rem', margin: '0 0 16px 0' }}>
+                  ⏱️ {recipe.time}
+                </p>
+                
+                <p style={{ color: '#ccc', fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>
+                  {recipe.benefits}
+                </p>
               </div>
-
-              <p className="text-sm text-[#00A651] mb-2">{recipe.subtitle}</p>
-              <p className="text-xs text-gray-400 mb-3">⏱️ {recipe.time}</p>
-              <p className="text-sm text-gray-300 mb-4 line-clamp-3">{recipe.benefits}</p>
-
-              {isLocked(recipe.id) ? (
-                <div className="border-t border-gray-700 pt-4">
-                  <div className="bg-red-900/20 border border-red-500/40 rounded-lg p-3 mb-3">
-                    <p className="text-xs text-red-400 font-bold mb-2">🔒 LOCKED</p>
-                    <p className="text-xs text-gray-400 mb-2">Send M{recipe.price} to 57031600</p>
-                    <input
-                      type="text"
-                      placeholder="MPESA code"
-                      value={selectedRecipe === recipe.id ? mpesaCode : ''}
-                      onChange={(e) => {
-                        setMpesaCode(e.target.value)
-                        setSelectedRecipe(recipe.id)
-                      }}
-                      className="w-full bg-black border border-gray-600 rounded px-3 py-2 text-sm mb-2"
-                    />
-                    <button
-                      onClick={() => verifyPayment(recipe.id)}
-                      disabled={verifying || selectedRecipe !== recipe.id}
-                      className="w-full bg-[#00A651] hover:bg-[#00C85F] text-black font-bold py-2 rounded text-sm disabled:opacity-50"
-                    >
-                      {verifying && selectedRecipe === recipe.id ? 'Verifying...' : 'Unlock'}
-                    </button>
-                  </div>
-                  <Link 
-                    href={`/recipes/${recipe.id}`}
-                    className="block text-center text-xs text-[#00A651] hover:text-[#00E06D]"
-                  >
-                    View Details →
-                  </Link>
-                </div>
-              ) : (
-                <div className="border-t border-gray-700 pt-4">
-                  <div className="bg-[#00A651]/10 border border-[#00A651]/40 rounded-lg p-3 mb-3">
-                    <p className="text-xs text-[#00E06D] font-bold">✅ UNLOCKED</p>
-                  </div>
-                  <Link 
-                    href={`/recipes/${recipe.id}`}
-                    className="block w-full bg-[#00A651] hover:bg-[#00C85F] text-black font-bold py-2 rounded text-sm text-center"
-                  >
-                    View Full Recipe →
-                  </Link>
-                </div>
-              )}
-            </div>
+            </Link>
           ))}
         </div>
 
-        <div className="mt-16 text-center text-xs text-gray-500 space-y-2">
-          <p>© 2026 Zap Sauce. Lightning in a jar! ⚡</p>
-          <p>For Considered Families. Product of Lesotho 🇱🇸</p>
-          <div className="mt-4">
-            <p className="text-[#00A651]">Orders for readymade Zap Sauce:</p>
-            <p>MPESA: 57031600 | WhatsApp: +266 57031600</p>
-          </div>
+        {/* ZAP SAUCE GLOBAL LINK */}
+        <div style={{ 
+          background: '#111', 
+          border: '2px solid #FFD700', 
+          borderRadius: '12px', 
+          padding: '32px', 
+          textAlign: 'center',
+          marginBottom: '40px'
+        }}>
+          <h2 style={{ color: '#FFD700', margin: '0 0 12px 0' }}>ZAP SAUCE GLOBAL 🌍</h2>
+          <p style={{ color: '#ccc', margin: '0 0 20px 0' }}>
+            19 Signature Recipes + Master Base Formula. Global ingredients. M2500 once-off.
+          </p>
+          <Link 
+            href="/recipes/global/master-base"
+            style={{
+              background: '#FFD700',
+              color: '#000',
+              padding: '14px 32px',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: '700',
+              display: 'inline-block'
+            }}
+          >
+            View Global Recipes →
+          </Link>
         </div>
+
+        {/* FOOTER */}
+        <div style={{ textAlign: 'center', padding: '40px 0', borderTop: '1px solid #1f1f1f' }}>
+          <p style={{ color: '#666', fontSize: '0.85rem' }}>
+            Not medical advice. Consult your doctor. For considered families.
+          </p>
+          <Link href="/" style={{ color: '#00ff88', textDecoration: 'none', fontWeight: '700', marginTop: '16px', display: 'inline-block' }}>
+            ← Back to Home
+          </Link>
+        </div>
+
       </div>
     </div>
   )
