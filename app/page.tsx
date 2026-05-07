@@ -1,258 +1,172 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
-import { recipes, packages } from '../data/recipes'
 
 export default function HomePage() {
-  const [freeModal, setFreeModal] = useState<string | null>(null)
-
-  // FREE SAMPLES - Modal only, no routing
-  const freeSamples = [
-    {
-      id: 'morning-shot',
-      name: 'MORNING SHOT',
-      subtitle: 'Your first taste of lightning',
-      desc: 'Quick immunity boost. Perfect introduction to Zap Sauce power.',
-      fullRecipe: 'Mix: 1 tsp Fresh Ginger juice + 1 tsp Lemon juice + Pinch Cayenne + 1 tbsp Raw Honey. Stir and shoot it back. Feel the lightning! ⚡'
-    },
-    {
-      id: 'immunity-teaser',
-      name: 'IMMUNITY TEASER',
-      subtitle: 'Second free sample',
-      desc: 'Soothing immunity tea. Feel the warmth spread through chest.',
-      fullRecipe: 'Steep: 1 tsp Turmeric powder + Pinch Black pepper + 1 cup Hot water + 1 tsp Honey. Sip slow. Let it warm your soul. Product of Lesotho 🇱🇸'
-    }
-  ]
-
-  // MAIN HORIZONTAL ROW: TANGY FUSION → MONTHLY HEAL → FRANCHISE KIT
-  const mainRow = [
-    recipes.find(r => r.id === 'tangy-fusion'),
-    packages['monthly-heal'],
-    packages['franchise-kit']
-  ].filter(Boolean)
-
-  // OTHER PAID RECIPES - FILTER OUT FREEBIES
-  const otherRecipes = recipes.filter(r =>
-    r.id!== 'tangy-fusion' &&
-    r.id!== 'morning-shot' &&
-    r.id!== 'immunity-teaser'
-  ).slice(0, 2)
-
   return (
-    <div className="bg-black min-h-[100dvh] text-white">
-      {/* Header */}
-      <div className="bg-black border-b border-[#00A651]/40 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-black text-[#00A651]">Zap Sauce.</span>
-            <span className="text-sm text-[#00E06D]" style={{fontFamily: 'Comic Sans MS, cursive'}}>
-              *Zap Sauce.*
-            </span>
-          </div>
-          <div className="flex gap-4">
-            <Link href="/admin" className="text-sm text-gray-400 hover:text-[#00A651]">Admin</Link>
-            <a href="https://wa.me/26657031600" className="text-sm text-[#00E06D] font-bold">WhatsApp</a>
-          </div>
+    <div style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh', padding: '20px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        
+        {/* HEADER */}
+        <div style={{ textAlign: 'center', marginBottom: '60px', paddingTop: '60px' }}>
+          <h1 style={{ color: '#00ff88', fontSize: '3.5rem', margin: '0 0 16px 0' }}>
+            Zap Sauce ⚡
+          </h1>
+          <p style={{ color: '#ccc', fontSize: '1.3rem', margin: '0 0 8px 0' }}>
+            Lightning in a jar!
+          </p>
+          <p style={{ color: '#888', fontSize: '1rem' }}>
+            Traditional Wellness from Lesotho 🇱🇸
+          </p>
         </div>
-      </div>
 
-      {/* Hero */}
-      <div className="text-center py-12 px-4">
-        <h1 className="text-4xl md:text-5xl font-black text-[#00A651] mb-2">Lightning in a jar! ⚡</h1>
-        <p className="text-lg text-gray-300">Traditional Wellness from Lesotho 🇱🇸</p>
-      </div>
-
-      {/* FREE SAMPLES - MODAL ONLY */}
-      <div className="max-w-6xl mx-auto px-4 mb-12">
-        <h2 className="text-2xl font-black text-[#00A651] text-center mb-6">FREE SAMPLES</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {freeSamples.map((sample) => (
-            <div key={sample.id} className="bg-gray-900 border-2 border-[#00E06D]/50 rounded-xl p-6 shadow-lg shadow-[#00E06D]/20">
-              <div className="flex justify-between items-start mb-3">
-                <h3 className="text-2xl font-black text-[#00E06D]">{sample.name}</h3>
-                <span className="bg-[#00A651] text-black text-xs font-black px-3 py-1 rounded-full">FREE</span>
-              </div>
-              <p className="text-gray-200 text-lg mb-2 font-bold">{sample.subtitle}</p>
-              <p className="text-gray-400 text-base mb-6">{sample.desc}</p>
-              <button
-                onClick={() => setFreeModal(sample.id)}
-                className="w-full bg-[#00A651] text-black font-black py-4 rounded-lg hover:bg-[#00E06D] transition text-xl shadow-lg"
-              >
-                Get Free Recipe →
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* MAIN HORIZONTAL ROW - WITH HEAL120 PROMO */}
-      <div className="max-w-7xl mx-auto px-4 mb-12">
-        <div className="grid md:grid-cols-3 gap-6">
-          {mainRow.map((item: any) => (
-            <ProductCard key={item.id} item={item} />
-          ))}
-        </div>
-      </div>
-
-      {/* OTHER RECIPES - NO FREEBIES */}
-      <div className="max-w-6xl mx-auto px-4 mb-16">
-        <h2 className="text-2xl font-black text-white text-center mb-6">MORE HEALING RECIPES</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {otherRecipes.map((recipe: any) => (
-            <div key={recipe.id} className="bg-gray-900 border border-[#00A651]/30 rounded-xl p-6">
-              <h3 className="text-xl font-black text-[#00E06D] mb-2">{recipe.name}</h3>
-              <p className="text-gray-400 text-sm mb-3">
-                {recipe['description'] || recipe['subtitle'] || 'Traditional healing recipe from Lesotho'}
-              </p>
-              <p className="text-2xl font-black text-white mb-4">M{recipe.price}</p>
-              <Link href={`/recipes/${recipe.id}`}>
-                <button className="w-full bg-[#00A651] text-black font-black py-3 rounded-lg hover:bg-[#00E06D] transition">
-                  Unlock Recipe
-                </button>
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* FREE RECIPE MODAL */}
-      {freeModal && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setFreeModal(null)}>
-          <div className="bg-gray-900 border-2 border-[#00A651] rounded-xl p-8 max-w-lg w-full" onClick={(e) => e.stopPropagation()}>
-            <div className="text-center mb-4">
-              <span className="bg-[#00A651] text-black text-xs font-black px-4 py-2 rounded-full">FREE SAMPLE</span>
-            </div>
-            <h3 className="text-3xl font-black text-[#00E06D] mb-4 text-center">
-              {freeSamples.find(f => f.id === freeModal)?.name}
-            </h3>
-            <p className="text-gray-300 text-base mb-2 text-center">
-              {freeSamples.find(f => f.id === freeModal)?.subtitle}
+        {/* 3 TIERS - NO MONTHLY HEAL */}
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+          gap: '30px',
+          marginBottom: '60px'
+        }}>
+          
+          {/* MYHEAL */}
+          <div style={{
+            background: '#111',
+            border: '2px solid #00ff88',
+            borderRadius: '16px',
+            padding: '32px',
+            textAlign: 'center'
+          }}>
+            <h2 style={{ color: '#00ff88', fontSize: '1.8rem', margin: '0 0 12px 0' }}>MYHEAL</h2>
+            <p style={{ color: '#FFD700', fontSize: '2rem', fontWeight: '700', margin: '0 0 8px 0' }}>M120</p>
+            <p style={{ color: '#ccc', margin: '0 0 20px 0', fontSize: '0.9rem' }}>Once-off. Own forever.</p>
+            <p style={{ color: '#ccc', lineHeight: '1.6', marginBottom: '24px' }}>
+              ORIGINAL + TANGY FUSION<br/>
+              Perfect for families starting their healing journey.
             </p>
-            <div className="bg-black/50 border border-[#00E06D]/30 rounded-lg p-6 my-6">
-              <p className="text-white text-lg leading-relaxed">
-                {freeSamples.find(f => f.id === freeModal)?.fullRecipe}
-              </p>
-            </div>
-            <p className="text-[#00E06D] text-sm text-center mb-6">
-              Love it? Get 14 more recipes below ⚡
-            </p>
-            <button
-              onClick={() => setFreeModal(null)}
-              className="w-full bg-[#00A651] text-black font-black py-4 rounded-lg hover:bg-[#00E06D] transition text-lg"
+            <Link 
+              href="/recipes/zap-001"
+              style={{
+                background: '#00ff88',
+                color: '#000',
+                padding: '14px 32px',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: '700',
+                display: 'inline-block'
+              }}
             >
-              Close & Browse Paid Recipes
-            </button>
+              Get MYHEAL - M120
+            </Link>
+          </div>
+
+          {/* HUSTLER'S VAULT */}
+          <div style={{
+            background: '#111',
+            border: '2px solid #00ff88',
+            borderRadius: '16px',
+            padding: '32px',
+            textAlign: 'center'
+          }}>
+            <h2 style={{ color: '#00ff88', fontSize: '1.8rem', margin: '0 0 12px 0' }}>HUSTLER'S VAULT</h2>
+            <p style={{ color: '#FFD700', fontSize: '2rem', fontWeight: '700', margin: '0 0 8px 0' }}>M1200</p>
+            <p style={{ color: '#ccc', margin: '0 0 20px 0', fontSize: '0.9rem' }}>Once-off. 30% Affiliation.</p>
+            <p style={{ color: '#ccc', lineHeight: '1.6', marginBottom: '24px' }}>
+              19 Recipes Total<br/>
+              Earn M360 per sale. For serious healers & hustlers.
+            </p>
+            <Link 
+              href="/recipes"
+              style={{
+                background: '#00ff88',
+                color: '#000',
+                padding: '14px 32px',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: '700',
+                display: 'inline-block'
+              }}
+            >
+              View 19 Recipes
+            </Link>
+          </div>
+
+          {/* ZAP SAUCE GLOBAL */}
+          <div style={{
+            background: '#111',
+            border: '2px solid #FFD700',
+            borderRadius: '16px',
+            padding: '32px',
+            textAlign: 'center'
+          }}>
+            <h2 style={{ color: '#FFD700', fontSize: '1.8rem', margin: '0 0 12px 0' }}>ZAP SAUCE GLOBAL</h2>
+            <p style={{ color: '#FFD700', fontSize: '2rem', fontWeight: '700', margin: '0 0 8px 0' }}>M2500</p>
+            <p style={{ color: '#ccc', margin: '0 0 20px 0', fontSize: '0.9rem' }}>Once-off. NOT RESELLABLE.</p>
+            <p style={{ color: '#ccc', lineHeight: '1.6', marginBottom: '24px' }}>
+              Master Base + 18 Signature Recipes<br/>
+              Global ingredients. Personal empire use only.
+            </p>
+            <Link 
+              href="/recipes/global/master-base"
+              style={{
+                background: '#FFD700',
+                color: '#000',
+                padding: '14px 32px',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: '700',
+                display: 'inline-block'
+              }}
+            >
+              Get GLOBAL - M2500
+            </Link>
           </div>
         </div>
-      )}
 
-      {/* Footer */}
-      <footer className="border-t border-gray-800 py-8">
-        <div className="max-w-6xl mx-auto px-4 text-center text-xs text-gray-500">
-          <p>© 2026 Zap Sauce. Traditional wellness. Product of Lesotho 🇱🇸</p>
-          <p className="mt-1">Not medical advice. Consult your doctor. For considered families.</p>
-          <p className="mt-2 text-[#00A651]">WhatsApp Support: +266 57031600 | 6am-10pm CAT</p>
-        </div>
-      </footer>
-    </div>
-  )
-}
-
-// SEPARATE COMPONENT FOR PROMO LOGIC - CLEAN
-function ProductCard({ item }: { item: any }) {
-  const [showPromo, setShowPromo] = useState(false)
-  const [promoCode, setPromoCode] = useState('')
-  const [appliedPrice, setAppliedPrice] = useState(item.price)
-
-  const applyPromo = () => {
-    if (promoCode.toUpperCase() === 'HEAL120' && item.id === 'monthly-heal') {
-      setAppliedPrice(90)
-      setShowPromo(false)
-    }
-  }
-
-  const handleWhatsAppOrder = () => {
-    const finalPrice = item.id === 'monthly-heal'? appliedPrice : item.price
-    const msg = `Hi Makhauhelo! I want to order: ${item.name} - M${finalPrice}${appliedPrice === 90? ' (HEAL120 applied)' : ''} from Zap Sauce. Please send payment details for MPESA/EFT.`
-    window.open(`https://wa.me/26657031600?text=${encodeURIComponent(msg)}`, '_blank')
-  }
-
-  return (
-    <div className="bg-gray-900 border border-[#00A651]/40 rounded-xl p-6 shadow-lg shadow-[#00A651]/10">
-      <div className="flex justify-between items-start mb-3">
-        <h3 className="text-xl font-black text-[#00E06D]">{item.name}</h3>
-        {item.id === 'franchise-kit' && (
-          <span className="bg-yellow-500 text-black text-xs font-black px-3 py-1 rounded-full">GLOBAL</span>
-        )}
-        {item.id === 'monthly-heal' && (
-          <span className="bg-yellow-500 text-black text-xs font-black px-3 py-1 rounded-full">POPULAR</span>
-        )}
-        {item.id === 'tangy-fusion' && (
-          <span className="bg-[#00A651] text-black text-xs font-black px-3 py-1 rounded-full">EXCLUSIVE</span>
-        )}
-      </div>
-
-      {/* PRICE WITH PROMO FOR MONTHLY HEAL */}
-      <div className="mb-3">
-        {item.id === 'monthly-heal' && appliedPrice === 90? (
-          <div>
-            <p className="text-2xl font-black text-gray-500 line-through">M120/mo</p>
-            <p className="text-3xl font-black text-[#00E06D]">M90/mo</p>
-            <p className="text-xs text-[#00E06D]">HEAL120 Applied - Save M30!</p>
-          </div>
-        ) : (
-          <p className="text-3xl font-black text-white">M{item.price}{item.id === 'monthly-heal'? '/mo' : ''}</p>
-        )}
-      </div>
-
-      <p className="text-gray-300 text-sm mb-4">
-        {item['description'] || item['subtitle'] || 'Premium Zap Sauce healing recipe'}
-      </p>
-
-      {/* HEAL120 PROMO INPUT */}
-      {item.id === 'monthly-heal' &&!showPromo && appliedPrice === 120 && (
-        <button
-          onClick={() => setShowPromo(true)}
-          className="text-xs text-[#00E06D] underline mb-3 block"
-        >
-          Have a promo code?
-        </button>
-      )}
-
-      {item.id === 'monthly-heal' && showPromo && (
-        <div className="mb-3 flex gap-2">
-          <input
-            type="text"
-            value={promoCode}
-            onChange={(e) => setPromoCode(e.target.value)}
-            placeholder="HEAL120"
-            className="flex-1 bg-black border border-[#00A651]/50 rounded px-2 py-1 text-white text-sm"
-          />
-          <button
-            onClick={applyPromo}
-            className="bg-[#00A651] text-black font-black px-3 py-1 rounded text-sm"
+        {/* FREE SAMPLES */}
+        <div style={{ 
+          background: '#111', 
+          border: '1px solid #1f1f1f', 
+          borderRadius: '12px', 
+          padding: '32px', 
+          textAlign: 'center',
+          marginBottom: '60px'
+        }}>
+          <h3 style={{ color: '#00ff88', margin: '0 0 16px 0' }}>Try Free First</h3>
+          <p style={{ color: '#ccc', margin: '0 0 20px 0' }}>MORNING SHOT + IMMUNITY TEASER - No payment needed</p>
+          <Link 
+            href="/recipes/free-001"
+            style={{
+              background: 'transparent',
+              color: '#00ff88',
+              border: '2px solid #00ff88',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: '700',
+              display: 'inline-block'
+            }}
           >
-            Apply
-          </button>
+            Get Free Recipe →
+          </Link>
         </div>
-      )}
 
-      {/* PACKAGES = WhatsApp | RECIPES = Paywall */}
-      {item.id === 'franchise-kit' || item.id === 'monthly-heal' || item.id === 'hustlers-vault'? (
-        <button
-          onClick={handleWhatsAppOrder}
-          className="w-full bg-yellow-500 text-black font-black py-3 rounded-lg hover:bg-yellow-400 transition"
-        >
-          Order via WhatsApp
-        </button>
-      ) : (
-        <Link href={`/recipes/${item.id}`}>
-          <button className="w-full bg-[#00A651] text-black font-black py-3 rounded-lg hover:bg-[#00E06D] transition">
-            View Recipe - M{item.price}
-          </button>
-        </Link>
-      )}
+        {/* FOOTER */}
+        <div style={{ textAlign: 'center', padding: '40px 0', borderTop: '1px solid #1f1f1f' }}>
+          <p style={{ color: '#666', fontSize: '0.85rem', margin: '0 0 8px 0' }}>
+            © 2026 Zap Sauce. Traditional wellness. Product of Lesotho 🇱🇸
+          </p>
+          <p style={{ color: '#666', fontSize: '0.85rem', margin: 0 }}>
+            Not medical advice. Consult your doctor. For considered families.
+          </p>
+          <a 
+            href="https://wa.me/26657031600"
+            style={{ color: '#00ff88', textDecoration: 'none', fontWeight: '700', marginTop: '16px', display: 'inline-block' }}
+          >
+            WhatsApp Support: +266 57031600
+          </a>
+        </div>
+
+      </div>
     </div>
   )
 }
