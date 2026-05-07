@@ -54,7 +54,7 @@ export default function RecipesPage() {
     {
       id: 'zap-002',
       name: 'SAVORY HEAL',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'For soups, stews & immunity',
       time: '10 mins',
       benefits: 'Gut healing + immune support. Collagen-rich base amplifies absorption.',
@@ -64,7 +64,7 @@ export default function RecipesPage() {
     {
       id: 'zap-003',
       name: 'FIRE CIDER',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Classic immune tonic',
       time: '2 mins',
       benefits: 'Apple cider vinegar base + Zap Sauce fire. Clears sinuses.',
@@ -74,7 +74,7 @@ export default function RecipesPage() {
     {
       id: 'zap-004',
       name: 'LIVER FLUSH',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Morning detox ritual',
       time: '2 mins',
       benefits: 'Supports liver detox pathways. Bitter herbs stimulate bile flow.',
@@ -84,7 +84,7 @@ export default function RecipesPage() {
     {
       id: 'zap-005',
       name: 'BRAIN TONIC',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Focus & clarity blend',
       time: '5 mins',
       benefits: 'Lion\'s mane + MCT for cognitive support. Mental lightning.',
@@ -94,7 +94,7 @@ export default function RecipesPage() {
     {
       id: 'zap-006',
       name: 'SLEEP ELIXIR',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Nighttime wind-down',
       time: '5 mins',
       benefits: 'Chamomile + magnesium. Calms nervous system naturally.',
@@ -104,7 +104,7 @@ export default function RecipesPage() {
     {
       id: 'zap-007',
       name: 'METABOLISM BOOST',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Pre-workout fire',
       time: '1 min',
       benefits: 'Green tea extract + cayenne. Supports fat oxidation.',
@@ -114,7 +114,7 @@ export default function RecipesPage() {
     {
       id: 'zap-008',
       name: 'HEART GUARD',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Circulation & blood pressure support',
       time: '5 mins',
       benefits: 'Hawthorn + garlic + beetroot. Supports healthy blood flow.',
@@ -124,7 +124,7 @@ export default function RecipesPage() {
     {
       id: 'zap-009',
       name: 'SKIN GLOW',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Collagen + antioxidants',
       time: '3 mins',
       benefits: 'Vitamin C + collagen. Fights oxidative stress for radiant skin.',
@@ -134,7 +134,7 @@ export default function RecipesPage() {
     {
       id: 'zap-010',
       name: 'LUNG CLEAR',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Respiratory support blend',
       time: '10 mins',
       benefits: 'Mullein + thyme + eucalyptus. Soothes airways.',
@@ -144,7 +144,7 @@ export default function RecipesPage() {
     {
       id: 'zap-011',
       name: 'KIDNEY CLEANSE',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Gentle diuretic tonic',
       time: '10 mins',
       benefits: 'Dandelion + nettle + parsley. Supports kidney filtration.',
@@ -154,7 +154,7 @@ export default function RecipesPage() {
     {
       id: 'zap-012',
       name: 'HORMONE HARMONY',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Adaptogenic balance for women',
       time: '5 mins',
       benefits: 'Maca + ashwagandha. Adaptogens for hormonal balance.',
@@ -164,7 +164,7 @@ export default function RecipesPage() {
     {
       id: 'zap-013',
       name: 'BLOOD SUGAR BALANCE',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Glucose support tonic',
       time: '2 mins',
       benefits: 'Ceylon cinnamon + berberine. Supports healthy glucose metabolism.',
@@ -174,7 +174,7 @@ export default function RecipesPage() {
     {
       id: 'zap-014',
       name: 'JOINT EASE',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Anti-inflammatory for joints',
       time: '5 mins',
       benefits: 'Turmeric + ginger + black pepper. Reduces inflammation.',
@@ -184,7 +184,7 @@ export default function RecipesPage() {
     {
       id: 'zap-015',
       name: 'ENERGY SHOT',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Natural energy without crash',
       time: '1 min',
       benefits: 'Green tea + cayenne + honey. Sustained energy.',
@@ -194,7 +194,7 @@ export default function RecipesPage() {
     {
       id: 'zap-016',
       name: 'LENGANA LIGHTNING',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Mountain tranquility + supercharge',
       time: '10 mins',
       benefits: 'Lengana + Prickly Pear + Cactus + Aloe + Rose Hip = Complete immunity.',
@@ -204,7 +204,7 @@ export default function RecipesPage() {
     {
       id: 'zap-017',
       name: 'PHATE-EA-NGAKA POWER',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'Doctor\'s medicine + supercharge',
       time: '15 mins',
       benefits: 'Phate-ea-Ngaka + Prickly Pear + Cactus + Aloe + Rose Hip = Deep cellular immunity.',
@@ -214,7 +214,7 @@ export default function RecipesPage() {
     {
       id: 'zap-018',
       name: 'MALUTI IMMUNITY FUSION',
-      price: 'M1200',
+      price: 'M0',
       subtitle: 'All Basotho herbs + supercharge',
       time: '20 mins',
       benefits: 'Lengana + Phate-ea-Ngaka + Prickly Pear + Cactus + Aloe + Rose Hip = Crown jewel.',
@@ -350,7 +350,7 @@ export default function RecipesPage() {
 
         {/* FOOTER */}
         <div style={{ textAlign: 'center', padding: '40px 0', borderTop: '1px solid #1f1f1f' }}>
-          <p style={{ color: '#666', fontSize: '0.85rem' }}>
+          <p style={{ color: '#666', fontSize: '1.85rem' }}>
             Not medical advice. Consult your doctor. For considered families.
           </p>
           <Link href="/" style={{ color: '#00ff88', textDecoration: 'none', fontWeight: '700', marginTop: '16px', display: 'inline-block' }}>
