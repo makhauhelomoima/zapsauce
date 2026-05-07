@@ -46,7 +46,7 @@ export default function HomePage() {
               Admin
             </Link>
             <Link href="/portal" style={{ background: '#1f1f1f', color: '#00ff88', padding: '8px 16px', borderRadius: '6px', textDecoration: 'none', fontWeight: '700', fontSize: '0.85rem', border: '1px solid #00ff88' }}>
-              Customer Portal
+              Affiliate Portal
             </Link>
           </div>
         </div>
@@ -89,12 +89,12 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ONE RECIPE CARD - ONE ZAP SAUCE. */}
+        {/* ONE RECIPE CARD - THE ONLY ONE */}
         <div style={{ background: '#111', border: '3px solid #FFD700', borderRadius: '16px', padding: '40px', marginBottom: '40px', textAlign: 'center' }}>
           <h2 style={{ color: '#FFD700', fontSize: '2rem', margin: '0 0 20px 0' }}>Zap Sauce. ORIGIN</h2>
           <p style={{ color: '#ccc', fontSize: '1.1rem', margin: '0 0 30px 0', lineHeight: '1.6' }}>
             Lightning in a jar! ⚡<br/>
-            Wisdom in a modern jar. For families with lightning immune systems. Lesotho Product 🇱🇸
+            Wisdom in a modern jar. For families with lightning immune systems.
           </p>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
@@ -103,19 +103,19 @@ export default function HomePage() {
               <h3 style={{ color: '#00ff88', margin: '0 0 12px 0' }}>ORIGIN PDF</h3>
               <p style={{ color: '#FFD700', fontSize: '2rem', fontWeight: '700', margin: '0 0 16px 0' }}>M250</p>
               <p style={{ color: '#ccc', fontSize: '0.9rem', margin: '0 0 20px 0', lineHeight: '1.6' }}>
-                Complete recipe + method + cost calculator + warnings. Make it yourself. Own forever.
+                <span style={{ color: '#00ff88', fontWeight: '700' }}>LOCKED:</span> Complete recipe + exact measurements + 7-step method + cost calculator + warnings. Make it yourself. Own forever.
               </p>
               <button onClick={handleBuyPDF} style={{ background: '#00ff88', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: '700', width: '100%', cursor: 'pointer', fontSize: '1rem' }}>
-                Get PDF via WhatsApp
+                Unlock Recipe via WhatsApp
               </button>
-              <p style={{ color: '#888', fontSize: '0.75rem', marginTop: '12px' }}>Instant delivery after MPESA</p>
+              <p style={{ color: '#888', fontSize: '0.75rem', marginTop: '12px' }}>Instant PDF delivery after MPESA</p>
             </div>
 
             <div style={{ background: '#0a0a0a', border: '2px solid #FFD700', borderRadius: '12px', padding: '24px' }}>
               <h3 style={{ color: '#FFD700', margin: '0 0 12px 0' }}>Ready-Made Jar</h3>
               <p style={{ color: '#FFD700', fontSize: '2rem', fontWeight: '700', margin: '0 0 16px 0' }}>M120+</p>
               <p style={{ color: '#ccc', fontSize: '0.9rem', margin: '0 0 20px 0', lineHeight: '1.6' }}>
-                250ml jar. Made fresh. Sterilized. Labelled. 6 months shelf life. 42% profit.
+                250ml jar. Made fresh with secret formula. Sterilized. Labelled. 6 months shelf life. 42% profit.
               </p>
               <button onClick={handleBuyJar} style={{ background: '#FFD700', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: '700', width: '100%', cursor: 'pointer', fontSize: '1rem' }}>
                 Order Jar via WhatsApp
@@ -125,50 +125,29 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* FULL RECIPE */}
-        <details style={{ background: '#111', border: '1px solid #1f1f1f', borderRadius: '12px', padding: '24px', marginBottom: '30px' }}>
-          <summary style={{ color: '#00ff88', fontSize: '1.3rem', fontWeight: '700', cursor: 'pointer', marginBottom: '16px' }}>
-            VIEW FULL RECIPE + INGREDIENTS + METHOD ▼
-          </summary>
-          
-          <div style={{ color: '#ccc', lineHeight: '1.8' }}>
-            <h4 style={{ color: '#FFD700', marginTop: '20px' }}>INGREDIENTS - LIGHTNING FORMULA:</h4>
-            <p>1. Raw Honey - 250ml | M40 | The conductor + armor</p>
-            <p>2. Turmeric Powder - 3 tbsp | M15 | The voltage + inflammation killer</p>
-            <p>3. Fresh Ginger Grated - 2 tbsp | M8 | The spark + cough zapper</p>
-            <p>4. Black Pepper Ground - 1/2 tsp | M3 | The switch + activates turmeric</p>
-            <p>5. Ceylon Cinnamon - 1 tsp | M5 | The smooth current + blood sugar</p>
-            <p>6. Apple cider vinegar - 1 tbsp | M5 | With 'Mother' + shelf life</p>
-            <p>7. Lemon juice - 2ml | M5 | Freshly squeezed + Vitamin C + Preservative</p>
-            <p>8. Cayenne Pepper - 8 g | M4 | 40,000 SHU, no paprika substitute</p>
-
-            <h4 style={{ color: '#FFD700', marginTop: '20px' }}>EQUIPMENT:</h4>
-            <p>Glass Jar 300ml Sterilized | Wooden Spoon Sterilized | Funnel sterilized</p>
-
-            <h4 style={{ color: '#FFD700', marginTop: '20px' }}>PREPARATION - EXACT METHOD:</h4>
-            <p>1. Sterilize jar + spoon: Boil 10 mins. The air is dry.</p>
-            <p>2. Mix dry: Turmeric + Cayenne + Cinnamon + Black Pepper + Ginger in a jar.</p>
-            <p>3. Add wet: Raw honey + Lemon juice + ACV.</p>
-            <p>4. Stir 3 mins with a wooden spoon until no lumps. Metal kills enzymes.</p>
-            <p>5. Seal. Label: "ZAP SAUCE. ORIGIN - Made [DATE]"</p>
-            <p>6. Store: Cool dark place. Shake before every use.</p>
-            <p>7. Shelf Life: 6 months unopened. 3 months after opening.</p>
-
-            <h4 style={{ color: '#FFD700', marginTop: '20px' }}>COST CALCULATOR:</h4>
-            <p>TOTAL COST TO MAKE: M85</p>
-            <p>MAKES: 30 doses of 1 tsp each</p>
-            <p>COST PER DOSE: M5.30</p>
-            <p>PHARMACY COST PER DOSE: M25.00</p>
-            <p style={{ color: '#00ff88', fontWeight: '700' }}>YOU SAVE: M750+ monthly for family of 4</p>
-
-            <h4 style={{ color: '#ff4444', marginTop: '20px' }}>WARNING - NO SUBSTITUTIONS:</h4>
-            <p>❌ No white sugar - feeds inflammation</p>
-            <p>❌ No cassia cinnamon - liver toxic in daily doses</p>
-            <p>❌ No paprika instead of cayenne - no capsaicin</p>
-            <p>❌ No metal spoons - kills raw honey enzymes</p>
-            <p>❌ No Rooibos - dilutes potency, not part of formula</p>
+        {/* LOCKED RECIPE TEASER - NO FULL RECIPE HERE */}
+        <div style={{ background: '#111', border: '2px solid #ff4444', borderRadius: '12px', padding: '30px', marginBottom: '30px', textAlign: 'center' }}>
+          <h3 style={{ color: '#ff4444', fontSize: '1.5rem', margin: '0 0 16px 0' }}>🔒 SECRET FORMULA LOCKED</h3>
+          <p style={{ color: '#ccc', fontSize: '1.1rem', margin: '0 0 20px 0', lineHeight: '1.6' }}>
+            The 8 exact ingredients + measurements + 7-step method<br/>
+            that zaps flu, coughs, and M200 pharmacy bills?<br/>
+            <span style={{ color: '#FFD700', fontWeight: '700' }}>That knowledge costs M250.</span>
+          </p>
+          <div style={{ background: '#0a0a0a', border: '1px solid #1f1f1f', borderRadius: '8px', padding: '20px', marginBottom: '24px' }}>
+            <p style={{ color: '#00ff88', fontSize: '0.95rem', margin: '0 0 8px 0', fontWeight: '700' }}>INSIDE THE PDF:</p>
+            <p style={{ color: '#888', fontSize: '0.9rem', margin: '4px 0' }}>✓ 8 Ingredients with exact gram/ml measurements</p>
+            <p style={{ color: '#888', fontSize: '0.9rem', margin: '4px 0' }}>✓ 7-Step method - no guesswork</p>
+            <p style={{ color: '#888', fontSize: '0.9rem', margin: '4px 0' }}>✓ Cost calculator - save M750+/month</p>
+            <p style={{ color: '#888', fontSize: '0.9rem', margin: '4px 0' }}>✓ Shelf life + storage + warnings</p>
+            <p style={{ color: '#888', fontSize: '0.9rem', margin: '4px 0' }}>✓ No substitutions allowed - why each matters</p>
           </div>
-        </details>
+          <button onClick={handleBuyPDF} style={{ background: '#00ff88', color: '#000', padding: '14px 32px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer', fontSize: '1.1rem' }}>
+            Unlock Full Recipe for M250
+          </button>
+          <p style={{ color: '#666', fontSize: '0.8rem', marginTop: '16px' }}>
+            Your M250 pays for itself in 1 week. Families save M750+ monthly.
+          </p>
+        </div>
 
         {/* PAYMENT + WHATSAPP SUPPORT */}
         <div style={{ background: '#111', border: '1px solid #1f1f1f', borderRadius: '12px', padding: '24px', textAlign: 'center', marginBottom: '40px' }}>
@@ -178,7 +157,7 @@ export default function HomePage() {
           <a href="https://wa.me/26657031600" style={{ color: '#00ff88', textDecoration: 'none', fontWeight: '700', fontSize: '1.1rem', display: 'inline-block', marginTop: '12px' }}>
             WhatsApp Support: +266 57031600
           </a>
-          <p style={{ color: '#888', fontSize: '0.85rem', marginTop: '16px' }}>Send proof of payment via WhatsApp for instant delivery</p>
+          <p style={{ color: '#888', fontSize: '0.85rem', marginTop: '16px' }}>Send proof of payment via WhatsApp for instant PDF delivery</p>
         </div>
 
         {/* FOOTER */}
