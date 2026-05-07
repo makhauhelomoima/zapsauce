@@ -24,7 +24,7 @@ export default function HomePage() {
               style={{
                 color: '#00ff88',
                 textDecoration: 'none',
-                fontSize: '0.9rem',
+                fontSize: '1.2rem',
                 fontWeight: '600',
                 padding: '8px 16px',
                 border: '1px solid #00ff88',
@@ -38,7 +38,7 @@ export default function HomePage() {
               style={{
                 color: '#888',
                 textDecoration: 'none',
-                fontSize: '0.9rem',
+                fontSize: '1.2rem',
                 fontWeight: '600'
               }}
             >
@@ -49,7 +49,7 @@ export default function HomePage() {
               style={{
                 color: '#fff',
                 textDecoration: 'none',
-                fontSize: '0.9rem',
+                fontSize: '1.2rem',
                 fontWeight: '600'
               }}
             >
@@ -60,13 +60,13 @@ export default function HomePage() {
 
         {/* HEADER */}
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <h1 style={{ color: '#00ff88', fontSize: '3.5rem', margin: '0 0 16px 0' }}>
+          <h1 style={{ color: '#00ff88', fontSize: '3.9rem', margin: '0 0 16px 0' }}>
             Zap Sauce ⚡
           </h1>
-          <p style={{ color: '#ccc', fontSize: '1.3rem', margin: '0 0 8px 0' }}>
+          <p style={{ color: '#ccc', fontSize: '1.9rem', margin: '0 0 8px 0' }}>
             Lightning in a jar! ⚡
           </p>
-          <p style={{ color: '#888', fontSize: '1rem' }}>
+          <p style={{ color: '#888', fontSize: '1.2rem' }}>
             Product of Lesotho 🇱🇸
           </p>
         </div>
@@ -208,7 +208,7 @@ export default function HomePage() {
         {/* FOOTER */}
         <div style={{ textAlign: 'center', padding: '40px 0', borderTop: '1px solid #1f1f1f' }}>
           <p style={{ color: '#666', fontSize: '0.85rem', margin: '0 0 8px 0' }}>
-            © 2026 Zap Sauce. Traditional wellness. Product of Lesotho 🇱🇸
+            © 2026 Zap Sauce. Lightning in a jar!⚡. Not Medicine. Product of Lesotho 🇱🇸
           </p>
           <p style={{ color: '#666', fontSize: '0.85rem', margin: 0 }}>
             Not medical advice. Consult your doctor. For considered families.
