@@ -39,7 +39,7 @@ export default function RecipePage() {
     'zap-001': {
       id: 'zap-001',
       name: 'ZAP SAUCE ORIGINAL ⚡',
-      price: 120,
+      price: 0,
       subtitle: 'Immunity in a Jar | Product of Lesotho 🇱🇸',
       time: '5 mins',
       benefits: '✓ Morning flu + sore throat + body aches ✓ Coughs + chest congestion + winter chills ✓ Low immunity + kids missing school ✓ Inflammation + joint pain ✓ M200+ weekly pharmacy runs for family',
@@ -63,7 +63,7 @@ export default function RecipePage() {
     'excl-001': {
       id: 'excl-001',
       name: 'TANGY FUSION',
-      price: 120,
+      price: 0,
       subtitle: 'EXCLUSIVE - Secret blend base + Tamarind + Pineapple + Scotch bonnet',
       time: '5 mins',
       benefits: 'Vitamin C boost. Digestive fire. Flavor explosion. Mood lift.',
@@ -77,7 +77,7 @@ export default function RecipePage() {
     'zap-002': {
       id: 'zap-002',
       name: 'SAVORY HEAL',
-      price: 1200,
+      price: 0,
       subtitle: 'For soups, stews & immunity',
       time: '10 mins',
       benefits: 'Gut healing + immune support. Collagen-rich base amplifies absorption.',
@@ -89,7 +89,7 @@ export default function RecipePage() {
     'zap-003': {
       id: 'zap-003',
       name: 'FIRE CIDER',
-      price: 1200,
+      price: 0,
       subtitle: 'Classic immune tonic',
       time: '2 mins',
       benefits: 'Apple cider vinegar base + Zap Sauce fire. Clears sinuses.',
@@ -101,7 +101,7 @@ export default function RecipePage() {
     'zap-004': {
       id: 'zap-004',
       name: 'LIVER FLUSH',
-      price: 1200,
+      price: 0,
       subtitle: 'Morning detox ritual',
       time: '2 mins',
       benefits: 'Supports liver detox pathways. Bitter herbs stimulate bile flow.',
@@ -113,7 +113,7 @@ export default function RecipePage() {
     'zap-005': {
       id: 'zap-005',
       name: 'BRAIN TONIC',
-      price: 1200,
+      price: 0,
       subtitle: 'Focus & clarity blend',
       time: '5 mins',
       benefits: 'Lion\'s mane + MCT for cognitive support. Mental lightning.',
@@ -125,7 +125,7 @@ export default function RecipePage() {
     'zap-006': {
       id: 'zap-006',
       name: 'SLEEP ELIXIR',
-      price: 1200,
+      price: 0,
       subtitle: 'Nighttime wind-down',
       time: '5 mins',
       benefits: 'Chamomile + magnesium. Calms nervous system naturally.',
@@ -137,7 +137,7 @@ export default function RecipePage() {
     'zap-007': {
       id: 'zap-007',
       name: 'METABOLISM BOOST',
-      price: 1200,
+      price: 0,
       subtitle: 'Pre-workout fire',
       time: '1 min',
       benefits: 'Green tea extract + cayenne. Supports fat oxidation.',
@@ -149,7 +149,7 @@ export default function RecipePage() {
     'zap-008': {
       id: 'zap-008',
       name: 'HEART GUARD',
-      price: 1200,
+      price: 0,
       subtitle: 'Circulation & blood pressure support',
       time: '5 mins',
       benefits: 'Hawthorn + garlic + beetroot. Supports healthy blood flow.',
@@ -161,7 +161,7 @@ export default function RecipePage() {
     'zap-009': {
       id: 'zap-009',
       name: 'SKIN GLOW',
-      price: 1200,
+      price: 0,
       subtitle: 'Collagen + antioxidants',
       time: '3 mins',
       benefits: 'Vitamin C + collagen. Fights oxidative stress for radiant skin.',
@@ -173,7 +173,7 @@ export default function RecipePage() {
     'zap-010': {
       id: 'zap-010',
       name: 'LUNG CLEAR',
-      price: 1200,
+      price: 0,
       subtitle: 'Respiratory support blend',
       time: '10 mins',
       benefits: 'Mullein + thyme + eucalyptus. Soothes airways.',
@@ -185,7 +185,7 @@ export default function RecipePage() {
     'zap-011': {
       id: 'zap-011',
       name: 'KIDNEY CLEANSE',
-      price: 1200,
+      price: 0,
       subtitle: 'Gentle diuretic tonic',
       time: '10 mins',
       benefits: 'Dandelion + nettle + parsley. Supports kidney filtration.',
@@ -197,7 +197,7 @@ export default function RecipePage() {
     'zap-012': {
       id: 'zap-012',
       name: 'HORMONE HARMONY',
-      price: 1200,
+      price: 0,
       subtitle: 'Adaptogenic balance for women',
       time: '5 mins',
       benefits: 'Maca + ashwagandha. Adaptogens for hormonal balance.',
@@ -209,7 +209,7 @@ export default function RecipePage() {
     'zap-013': {
       id: 'zap-013',
       name: 'BLOOD SUGAR BALANCE',
-      price: 1200,
+      price: 0,
       subtitle: 'Glucose support tonic',
       time: '2 mins',
       benefits: 'Ceylon cinnamon + berberine. Supports healthy glucose metabolism.',
@@ -221,7 +221,7 @@ export default function RecipePage() {
     'zap-014': {
       id: 'zap-014',
       name: 'JOINT EASE',
-      price: 1200,
+      price: 0,
       subtitle: 'Anti-inflammatory for joints',
       time: '5 mins',
       benefits: 'Turmeric + ginger + black pepper. Reduces inflammation.',
@@ -233,7 +233,7 @@ export default function RecipePage() {
     'zap-015': {
       id: 'zap-015',
       name: 'ENERGY SHOT',
-      price: 1200,
+      price: 0,
       subtitle: 'Natural energy without crash',
       time: '1 min',
       benefits: 'Green tea + cayenne + honey. Sustained energy.',
@@ -245,7 +245,7 @@ export default function RecipePage() {
     'zap-016': {
       id: 'zap-016',
       name: 'LENGANA LIGHTNING',
-      price: 1200,
+      price: 0,
       subtitle: 'Mountain tranquility + supercharge',
       time: '10 mins',
       benefits: 'Lengana + Prickly Pear + Cactus + Aloe + Rose Hip = Complete immunity.',
@@ -257,7 +257,7 @@ export default function RecipePage() {
     'zap-017': {
       id: 'zap-017',
       name: 'PHATE-EA-NGAKA POWER',
-      price: 1200,
+      price: 0,
       subtitle: 'Doctor\'s medicine + supercharge',
       time: '15 mins',
       benefits: 'Phate-ea-Ngaka + Prickly Pear + Cactus + Aloe + Rose Hip = Deep cellular immunity.',
@@ -269,7 +269,7 @@ export default function RecipePage() {
     'zap-018': {
       id: 'zap-018',
       name: 'MALUTI IMMUNITY FUSION',
-      price: 1200,
+      price: 0,
       subtitle: 'All Basotho herbs + supercharge',
       time: '20 mins',
       benefits: 'Lengana + Phate-ea-Ngaka + Prickly Pear + Cactus + Aloe + Rose Hip = Crown jewel.',
@@ -380,7 +380,7 @@ export default function RecipePage() {
 
         {/* FOOTER */}
         <div style={{ textAlign: 'center', padding: '40px 0', borderTop: '1px solid #1f1f1f' }}>
-          <p style={{ color: '#666', fontSize: '0.85rem' }}>
+          <p style={{ color: '#666', fontSize: '1.85rem' }}>
             Not medical advice. Consult your doctor. For considered families.
           </p>
           <Link href="/recipes" style={{ color: '#00ff88', textDecoration: 'none', fontWeight: '700', marginTop: '16px', display: 'inline-block' }}>
