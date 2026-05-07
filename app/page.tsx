@@ -32,13 +32,12 @@ export default function HomePage() {
     packages['franchise-kit']
   ].filter(Boolean)
 
-  // Other paid recipes
-  const otherRecipes = recipes.filter(r => r.id !== 'tangy-fusion').slice(0, 2)
-
-  const handleWhatsApp = (productName: string, price: number) => {
-    const msg = `Hi Makhauhelo! I want to order: ${productName} - M${price} from Zap Sauce. Please send payment details for MPESA/EFT.`
-    window.open(`https://wa.me/26657031600?text=${encodeURIComponent(msg)}`, '_blank')
-  }
+  // OTHER PAID RECIPES - FILTER OUT FREEBIES
+  const otherRecipes = recipes.filter(r =>
+    r.id!== 'tangy-fusion' &&
+    r.id!== 'morning-shot' &&
+    r.id!== 'immunity-teaser'
+  ).slice(0, 2)
 
   return (
     <div className="bg-black min-h-[100dvh] text-white">
@@ -58,13 +57,13 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Hero - GREEN SECTIONS REMOVED */}
+      {/* Hero */}
       <div className="text-center py-12 px-4">
         <h1 className="text-4xl md:text-5xl font-black text-[#00A651] mb-2">Lightning in a jar! ⚡</h1>
         <p className="text-lg text-gray-300">Traditional Wellness from Lesotho 🇱🇸</p>
       </div>
 
-      {/* FREE SAMPLES - BIGGER TEXT + MODAL ONLY */}
+      {/* FREE SAMPLES - MODAL ONLY */}
       <div className="max-w-6xl mx-auto px-4 mb-12">
         <h2 className="text-2xl font-black text-[#00A651] text-center mb-6">FREE SAMPLES</h2>
         <div className="grid md:grid-cols-2 gap-6">
@@ -87,49 +86,16 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* MAIN HORIZONTAL ROW - BRACKET NOTATION TO BYPASS TYPES */}
+      {/* MAIN HORIZONTAL ROW - WITH HEAL120 PROMO */}
       <div className="max-w-7xl mx-auto px-4 mb-12">
         <div className="grid md:grid-cols-3 gap-6">
           {mainRow.map((item: any) => (
-            <div key={item.id} className="bg-gray-900 border border-[#00A651]/40 rounded-xl p-6 shadow-lg shadow-[#00A651]/10">
-              <div className="flex justify-between items-start mb-3">
-                <h3 className="text-xl font-black text-[#00E06D]">{item.name}</h3>
-                {item.id === 'franchise-kit' && (
-                  <span className="bg-yellow-500 text-black text-xs font-black px-3 py-1 rounded-full">GLOBAL</span>
-                )}
-                {item.id === 'monthly-heal' && (
-                  <span className="bg-yellow-500 text-black text-xs font-black px-3 py-1 rounded-full">POPULAR</span>
-                )}
-                {item.id === 'tangy-fusion' && (
-                  <span className="bg-[#00A651] text-black text-xs font-black px-3 py-1 rounded-full">EXCLUSIVE</span>
-                )}
-              </div>
-              <p className="text-3xl font-black text-white mb-3">M{item.price}{item.id === 'monthly-heal' ? '/mo' : ''}</p>
-              <p className="text-gray-300 text-sm mb-6">
-                {item['description'] || item['subtitle'] || 'Premium Zap Sauce healing recipe'}
-              </p>
-
-              {/* PACKAGES = WhatsApp | RECIPES = Paywall */}
-              {item.id === 'franchise-kit' || item.id === 'monthly-heal' || item.id === 'hustlers-vault' ? (
-                <button
-                  onClick={() => handleWhatsApp(item.name, item.price)}
-                  className="w-full bg-yellow-500 text-black font-black py-3 rounded-lg hover:bg-yellow-400 transition"
-                >
-                  Order via WhatsApp
-                </button>
-              ) : (
-                <Link href={`/recipes/${item.id}`}>
-                  <button className="w-full bg-[#00A651] text-black font-black py-3 rounded-lg hover:bg-[#00E06D] transition">
-                    View Recipe - M{item.price}
-                  </button>
-                </Link>
-              )}
-            </div>
+            <ProductCard key={item.id} item={item} />
           ))}
         </div>
       </div>
 
-      {/* OTHER RECIPES - BRACKET NOTATION TO BYPASS TYPES */}
+      {/* OTHER RECIPES - NO FREEBIES */}
       <div className="max-w-6xl mx-auto px-4 mb-16">
         <h2 className="text-2xl font-black text-white text-center mb-6">MORE HEALING RECIPES</h2>
         <div className="grid md:grid-cols-2 gap-6">
@@ -150,7 +116,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* FREE RECIPE MODAL - NO ROUTING */}
+      {/* FREE RECIPE MODAL */}
       {freeModal && (
         <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4" onClick={() => setFreeModal(null)}>
           <div className="bg-gray-900 border-2 border-[#00A651] rounded-xl p-8 max-w-lg w-full" onClick={(e) => e.stopPropagation()}>
@@ -189,6 +155,104 @@ export default function HomePage() {
           <p className="mt-2 text-[#00A651]">WhatsApp Support: +266 57031600 | 6am-10pm CAT</p>
         </div>
       </footer>
+    </div>
+  )
+}
+
+// SEPARATE COMPONENT FOR PROMO LOGIC - CLEAN
+function ProductCard({ item }: { item: any }) {
+  const [showPromo, setShowPromo] = useState(false)
+  const [promoCode, setPromoCode] = useState('')
+  const [appliedPrice, setAppliedPrice] = useState(item.price)
+
+  const applyPromo = () => {
+    if (promoCode.toUpperCase() === 'HEAL120' && item.id === 'monthly-heal') {
+      setAppliedPrice(90)
+      setShowPromo(false)
+    }
+  }
+
+  const handleWhatsAppOrder = () => {
+    const finalPrice = item.id === 'monthly-heal'? appliedPrice : item.price
+    const msg = `Hi Makhauhelo! I want to order: ${item.name} - M${finalPrice}${appliedPrice === 90? ' (HEAL120 applied)' : ''} from Zap Sauce. Please send payment details for MPESA/EFT.`
+    window.open(`https://wa.me/26657031600?text=${encodeURIComponent(msg)}`, '_blank')
+  }
+
+  return (
+    <div className="bg-gray-900 border border-[#00A651]/40 rounded-xl p-6 shadow-lg shadow-[#00A651]/10">
+      <div className="flex justify-between items-start mb-3">
+        <h3 className="text-xl font-black text-[#00E06D]">{item.name}</h3>
+        {item.id === 'franchise-kit' && (
+          <span className="bg-yellow-500 text-black text-xs font-black px-3 py-1 rounded-full">GLOBAL</span>
+        )}
+        {item.id === 'monthly-heal' && (
+          <span className="bg-yellow-500 text-black text-xs font-black px-3 py-1 rounded-full">POPULAR</span>
+        )}
+        {item.id === 'tangy-fusion' && (
+          <span className="bg-[#00A651] text-black text-xs font-black px-3 py-1 rounded-full">EXCLUSIVE</span>
+        )}
+      </div>
+
+      {/* PRICE WITH PROMO FOR MONTHLY HEAL */}
+      <div className="mb-3">
+        {item.id === 'monthly-heal' && appliedPrice === 90? (
+          <div>
+            <p className="text-2xl font-black text-gray-500 line-through">M120/mo</p>
+            <p className="text-3xl font-black text-[#00E06D]">M90/mo</p>
+            <p className="text-xs text-[#00E06D]">HEAL120 Applied - Save M30!</p>
+          </div>
+        ) : (
+          <p className="text-3xl font-black text-white">M{item.price}{item.id === 'monthly-heal'? '/mo' : ''}</p>
+        )}
+      </div>
+
+      <p className="text-gray-300 text-sm mb-4">
+        {item['description'] || item['subtitle'] || 'Premium Zap Sauce healing recipe'}
+      </p>
+
+      {/* HEAL120 PROMO INPUT */}
+      {item.id === 'monthly-heal' &&!showPromo && appliedPrice === 120 && (
+        <button
+          onClick={() => setShowPromo(true)}
+          className="text-xs text-[#00E06D] underline mb-3 block"
+        >
+          Have a promo code?
+        </button>
+      )}
+
+      {item.id === 'monthly-heal' && showPromo && (
+        <div className="mb-3 flex gap-2">
+          <input
+            type="text"
+            value={promoCode}
+            onChange={(e) => setPromoCode(e.target.value)}
+            placeholder="HEAL120"
+            className="flex-1 bg-black border border-[#00A651]/50 rounded px-2 py-1 text-white text-sm"
+          />
+          <button
+            onClick={applyPromo}
+            className="bg-[#00A651] text-black font-black px-3 py-1 rounded text-sm"
+          >
+            Apply
+          </button>
+        </div>
+      )}
+
+      {/* PACKAGES = WhatsApp | RECIPES = Paywall */}
+      {item.id === 'franchise-kit' || item.id === 'monthly-heal' || item.id === 'hustlers-vault'? (
+        <button
+          onClick={handleWhatsAppOrder}
+          className="w-full bg-yellow-500 text-black font-black py-3 rounded-lg hover:bg-yellow-400 transition"
+        >
+          Order via WhatsApp
+        </button>
+      ) : (
+        <Link href={`/recipes/${item.id}`}>
+          <button className="w-full bg-[#00A651] text-black font-black py-3 rounded-lg hover:bg-[#00E06D] transition">
+            View Recipe - M{item.price}
+          </button>
+        </Link>
+      )}
     </div>
   )
 }
