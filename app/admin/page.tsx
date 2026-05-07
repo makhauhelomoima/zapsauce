@@ -25,9 +25,9 @@ export default function AdminPage() {
   const fetchSales = async () => {
     setLoading(true)
     const { data, error } = await supabase
- .from('sales')
- .select('*')
- .order('sale_date', { ascending: false })
+.from('sales')
+.select('*')
+.order('sale_date', { ascending: false })
     
     if (error) console.error('Error:', error)
     else setSales(data || [])
@@ -71,18 +71,20 @@ export default function AdminPage() {
     }
   }
 
-  const totalRevenue = sales.reduce((sum, sale) => sum + sale.amount, 0)
-  const pdfSales = sales.filter(s => s.amount === 250).length
-  const jarSales = sales.filter(s => s.amount >= 120 && s.amount < 250).length
+  const totalRevenue = sales.reduce((sum, sale) => sum + Number(sale.amount), 0)
+  const pdfSales = sales.filter(s => Number(sale.amount) === 250).length
+  const jarSales = sales.filter(s => Number(sale.amount) >= 120 && Number(sale.amount) < 250).length
 
   const affiliationPayouts = sales
 .filter(sale => sale.affiliate_name!== 'You')
 .reduce((acc, sale) => {
-      const commission = sale.amount * 0.30
+      const commission = Number(sale.amount) * 0.30
       if (!acc[sale.affiliate_name]) acc[sale.affiliate_name] = 0
       acc[sale.affiliate_name] += commission
       return acc
     }, {} as Record<string, number>)
+
+  const totalCommission = Object.values(affiliationPayouts).reduce((sum: number, amount: number) => sum + amount, 0)
 
   if (!isAuthenticated) {
     return (
@@ -132,10 +134,10 @@ export default function AdminPage() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '30px' }}>
           <div style={{ background: '#111', border: '2px solid #FFD700', borderRadius: '12px', padding: '24px' }}>
             <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 8px 0' }}>Total Revenue</p>
-            <p style={{ color: '#FFD700', fontSize: '2.5rem', fontWeight: '700', margin: 0 }}>M{totalRevenue}</p>
+            <p style={{ color: '#FFD700', fontSize: '2.5rem', fontWeight: '700', margin: 0 }}>M{Number(totalRevenue).toFixed(2)}</p>
           </div>
           <div style={{ background: '#111', border: '2px solid #00ff88', borderRadius: '12px', padding: '24px' }}>
-            <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 8px 0' }}>PDF Sales (M250)</p>
+            <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 8px 0' }}>PDF Sales (M250)</p>
             <p style={{ color: '#00ff88', fontSize: '2.5rem', fontWeight: '700', margin: 0 }}>{pdfSales}</p>
           </div>
           <div style={{ background: '#111', border: '2px solid #00ff88', borderRadius: '12px', padding: '24px' }}>
@@ -197,7 +199,7 @@ export default function AdminPage() {
                     <tr key={sale.id} style={{ borderBottom: '1px solid #1f1f1f' }}>
                       <td style={{ padding: '12px', color: '#ccc' }}>{sale.customer_name}</td>
                       <td style={{ padding: '12px', color: '#00ff88' }}>Zap Sauce ORIGIN</td>
-                      <td style={{ padding: '12px', color: '#FFD700', fontWeight: '700' }}>M{sale.amount}</td>
+                      <td style={{ padding: '12px', color: '#FFD700', fontWeight: '700' }}>M{Number(sale.amount).toFixed(2)}</td>
                       <td style={{ padding: '12px', color: '#ccc' }}>{sale.affiliate_name}</td>
                       <td style={{ padding: '12px', color: '#888', fontSize: '0.85rem' }}>{sale.mpesa_code || '-'}</td>
                       <td style={{ padding: '12px', color: '#888' }}>{sale.sale_date}</td>
@@ -231,7 +233,7 @@ export default function AdminPage() {
                   Object.entries(affiliationPayouts).map(([name, amount]) => (
                     <tr key={name} style={{ borderBottom: '1px solid #1f1f1f' }}>
                       <td style={{ padding: '12px', color: '#ccc' }}>{name}</td>
-                      <td style={{ padding: '12px', color: '#FFD700', fontWeight: '700' }}>M{amount.toFixed(2)}</td>
+                      <td style={{ padding: '12px', color: '#FFD700', fontWeight: '700' }}>M{Number(amount).toFixed(2)}</td>
                       <td style={{ padding: '12px' }}>
                         <span style={{ background: '#00ff88', color: '#000', padding: '4px 12px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '700' }}>
                           Ready to Pay
