@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 export default function HomePage() {
-  // STATE FOR PORTALS
+  // MAIN PAGE STATE
   const [affiliateName, setAffiliateName] = useState('')
   const [affiliateLink, setAffiliateLink] = useState('')
   const [customerPass, setCustomerPass] = useState('')
@@ -10,9 +10,24 @@ export default function HomePage() {
   const [customerError, setCustomerError] = useState('')
   const [adminError, setAdminError] = useState('')
 
-  // HIDDEN PASSWORDS - NOT IN HTML
+  // DASHBOARD STATE
+  const [showCustomerDashboard, setShowCustomerDashboard] = useState(false)
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false)
+
+  // HIDDEN PASSWORDS
   const CUSTOMER_PASSWORD = 'LIGHTNING2026'
   const ADMIN_PASSWORD = 'HEAL120'
+
+  // FAKE DATA - REPLACE WITH REAL DATABASE LATER
+  const [salesData] = useState([
+    { customer: 'Thabo M.', product: 'ORIGIN PDF', amount: 'M250', affiliate: 'Duduca', mpesa: '85xxx123', date: '08 May' },
+    { customer: 'Lineo K.', product: 'FIREBALL PDF', amount: 'M350', affiliate: 'You', mpesa: '86xxx456', date: '08 May' },
+  ])
+
+  const [affiliateData] = useState([
+    { name: 'Duduca Moima', earned: 'M75', status: 'Paid' },
+    { name: 'You', earned: 'M105', status: 'Pending' },
+  ])
 
   // BUTTON FUNCTIONS
   const handleGetLink = () => {
@@ -23,13 +38,14 @@ export default function HomePage() {
     const link = `https://zapsauce.vercel.app?ref=${affiliateName.replace(/\s+/g, '')}`
     setAffiliateLink(link)
     navigator.clipboard.writeText(link)
-    alert('Link copied! Share and earn M75/M105 per sale ⚡')
+    alert('Affiliate link copied! Share this link. You earn M75 for ORIGIN M250. M105 for FIREBALL M350. Link: ' + link)
   }
 
   const handleCustomerAccess = () => {
     if (customerPass === CUSTOMER_PASSWORD) {
       setCustomerError('')
-      window.location.href = 'https://drive.google.com/YOUR_PDF_FOLDER_LINK'
+      setShowCustomerDashboard(true)
+      setShowAdminDashboard(false)
     } else {
       setCustomerError('Wrong password. Check email after purchase 🥺')
     }
@@ -38,20 +54,156 @@ export default function HomePage() {
   const handleAdminAccess = () => {
     if (adminPass === ADMIN_PASSWORD) {
       setAdminError('')
-      window.location.href = 'https://docs.google.com/spreadsheets/YOUR_SALES_SHEET'
+      setShowAdminDashboard(true)
+      setShowCustomerDashboard(false)
     } else {
       setAdminError('Wrong password my Queen 🔒')
     }
   }
 
+  const handleLogout = () => {
+    setShowCustomerDashboard(false)
+    setShowAdminDashboard(false)
+    setCustomerPass('')
+    setAdminPass('')
+  }
+
+  // CUSTOMER DASHBOARD VIEW
+  if (showCustomerDashboard) {
+    return (
+      <main style={{ background: '#000', color: '#fff', minHeight: '100vh', fontFamily: 'system-ui', padding: '40px 20px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+            <h1 style={{ color: '#00ff88', fontSize: '2rem', margin: 0 }}>Customer Portal ⚡</h1>
+            <button onClick={handleLogout} style={{ background: '#ff4444', color: '#fff', padding: '10px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>
+              Logout
+            </button>
+          </div>
+
+          <div style={{ background: '#0a0a0a', border: '2px solid #FFD700', borderRadius: '16px', padding: '32px', marginBottom: '24px' }}>
+            <h3 style={{ color: '#FFD700', fontSize: '1.5rem', margin: '0 0 16px 0' }}>Your Zap Sauce ORIGIN PDF</h3>
+            <p style={{ color: '#ccc', margin: '0 0 24px 0' }}>Complete recipe + exact measurements + 7-step method + cost calculator + warnings. Make unlimited batches. Own forever.</p>
+            <a href="/Zap-Sauce-Origin-Recipe.pdf" download
+              style={{ background: '#00ff88', color: '#000', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', display: 'inline-block' }}>
+              📥 Download ORIGIN PDF
+            </a>
+          </div>
+
+          <div style={{ background: '#0a0a0a', border: '2px solid #ff4500', borderRadius: '16px', padding: '32px', marginBottom: '24px' }}>
+            <h3 style={{ color: '#ff4500', fontSize: '1.5rem', margin: '0 0 16px 0' }}>Your Zap Sauce FIREBALL™ PDF</h3>
+            <p style={{ color: '#ccc', margin: '0 0 24px 0' }}>Party hot sauce recipe. Turn bland braai into legend. + 5 bonus recipes.</p>
+            <a href="/Zap-Sauce-Fireball-Recipe.pdf" download
+              style={{ background: '#ff4500', color: '#fff', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', display: 'inline-block' }}>
+              📥 Download FIREBALL PDF
+            </a>
+          </div>
+
+          <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '32px' }}>
+            <h3 style={{ color: '#00ff88', fontSize: '1.5rem', margin: '0 0 16px 0' }}>Bonus Vault</h3>
+            <p style={{ color: '#ccc', margin: '0 0 16px 0' }}>Mohoete Fire, Morning Spread, Throat Fire, Lightning Tonic, Braai Boss Guide</p>
+            <a href="/Bonus-Recipes.pdf" download
+              style={{ background: '#FFD700', color: '#000', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', display: 'inline-block' }}>
+              📥 Download All Bonuses
+            </a>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
+  // ADMIN DASHBOARD VIEW
+  if (showAdminDashboard) {
+    return (
+      <main style={{ background: '#000', color: '#fff', minHeight: '100vh', fontFamily: 'system-ui', padding: '40px 20px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+            <h1 style={{ color: '#ff4444', fontSize: '2rem', margin: 0 }}>Admin Dashboard 🔒</h1>
+            <button onClick={handleLogout} style={{ background: '#ff4444', color: '#fff', padding: '10px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>
+              Logout
+            </button>
+          </div>
+
+          <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '24px', marginBottom: '24px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h3 style={{ color: '#00ff88', fontSize: '1.3rem', margin: 0 }}>Recent Sales</h3>
+              <button style={{ background: '#00ff88', color: '#000', padding: '8px 16px', borderRadius: '6px', border: 'none', fontWeight: 'bold', cursor: 'pointer' }}>
+                + Add Sale
+              </button>
+            </div>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ borderBottom: '1px solid #333' }}>
+                    <th style={{ color: '#888', padding: '12px', textAlign: 'left' }}>Customer</th>
+                    <th style={{ color: '#888', padding: '12px', textAlign: 'left' }}>Product</th>
+                    <th style={{ color: '#888', padding: '12px', textAlign: 'left' }}>Amount</th>
+                    <th style={{ color: '#888', padding: '12px', textAlign: 'left' }}>Affiliate</th>
+                    <th style={{ color: '#888', padding: '12px', textAlign: 'left' }}>MPESA</th>
+                    <th style={{ color: '#888', padding: '12px', textAlign: 'left' }}>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {salesData.map((sale, idx) => (
+                    <tr key={idx} style={{ borderBottom: '1px solid #1a1a1a' }}>
+                      <td style={{ color: '#fff', padding: '12px' }}>{sale.customer}</td>
+                      <td style={{ color: '#ccc', padding: '12px' }}>{sale.product}</td>
+                      <td style={{ color: '#FFD700', padding: '12px', fontWeight: 'bold' }}>{sale.amount}</td>
+                      <td style={{ color: '#00ff88', padding: '12px' }}>{sale.affiliate}</td>
+                      <td style={{ color: '#888', padding: '12px' }}>{sale.mpesa}</td>
+                      <td style={{ color: '#888', padding: '12px' }}>{sale.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div style={{ background: '#0a0a0a', border: '2px solid #FFD700', borderRadius: '16px', padding: '24px' }}>
+            <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 16px 0' }}>Affiliation Payouts - 30%</h3>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ borderBottom: '1px solid #333' }}>
+                    <th style={{ color: '#888', padding: '12px', textAlign: 'left' }}>Affiliate</th>
+                    <th style={{ color: '#888', padding: '12px', textAlign: 'left' }}>Total Earned</th>
+                    <th style={{ color: '#888', padding: '12px', textAlign: 'left' }}>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {affiliateData.map((aff, idx) => (
+                    <tr key={idx} style={{ borderBottom: '1px solid #1a1a1a' }}>
+                      <td style={{ color: '#fff', padding: '12px' }}>{aff.name}</td>
+                      <td style={{ color: '#FFD700', padding: '12px', fontWeight: 'bold' }}>{aff.earned}</td>
+                      <td style={{ color: aff.status === 'Paid'? '#00ff88' : '#ff4444', padding: '12px' }}>{aff.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {affiliateData.length === 0 && (
+              <p style={{ color: '#666', textAlign: 'center', padding: '20px' }}>
+                No affiliate sales yet. Share your link to start earning.
+              </p>
+            )}
+          </div>
+
+          <p style={{ color: '#666', textAlign: 'center', fontSize: '0.8rem', margin: '32px 0 0 0' }}>
+            © 2026 Zap Sauce ORIGIN Admin | Lightning in a jar ⚡
+          </p>
+        </div>
+      </main>
+    )
+  }
+
+  // MAIN HOMEPAGE VIEW - 2 PRODUCTS ONLY
   return (
     <main style={{ background: '#000', color: '#fff', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
       {/* WHATSAPP SUPPORT FLOATING BUTTON */}
-      <a 
-        href="https://wa.me/26657031600?text=Hi%20Makhauhelo%2C%20I%20need%20help%20with%20Zap%20Sauce" 
-        style={{ 
-          position: 'fixed', bottom: '20px', right: '20px', background: '#25d366', 
+      <a
+        href="https://wa.me/26657031600?text=Hi%20Makhauhelo%2C%20I%20need%20help%20with%20Zap%20Sauce"
+        style={{
+          position: 'fixed', bottom: '20px', right: '20px', background: '#25d366',
           color: '#fff', padding: '16px', borderRadius: '50%', fontSize: '24px',
           textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,0.4)', zIndex: 1000
         }}
@@ -72,14 +224,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PRICING SECTION */}
+      {/* PRICING SECTION - 2 PRODUCTS ONLY */}
       <section style={{ background: '#000', padding: '60px 20px', borderTop: '1px solid #1f1f1f' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <h2 style={{ color: '#FFD700', fontSize: '2.5rem', margin: '0 0 40px 0' }}>
             Choose Your Lightning ⚡
           </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px', marginBottom: '40px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
 
             <div style={{ background: '#111', border: '2px solid #FFD700', borderRadius: '16px', padding: '40px 24px' }}>
               <h3 style={{ color: '#FFD700', fontSize: '1.8rem', margin: '0 0 16px 0' }}>ORIGIN PDF</h3>
@@ -87,7 +239,7 @@ export default function HomePage() {
               <p style={{ color: '#ccc', fontSize: '1rem', margin: '0 0 24px 0', lineHeight: '1.6' }}>
                 Daily Immunity Recipe. 1 tsp daily keeps pharmacy away. + 5 bonus recipes.
               </p>
-              <a href="https://wa.me/26657031600?text=I%20want%20Zap%20Sauce%20ORIGIN%20PDF%20M250%20-%20Ref:MakhauheloMoima" 
+              <a href="https://wa.me/26657031600?text=I%20want%20Zap%20Sauce%20ORIGIN%20PDF%20M250%20-%20Ref:MakhauheloMoima"
                 style={{ background: '#00ff88', color: '#000', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', display: 'inline-block' }}>
                 Get Origin PDF
               </a>
@@ -100,29 +252,14 @@ export default function HomePage() {
               <h3 style={{ color: '#ff4500', fontSize: '1.8rem', margin: '16px 0 16px 0' }}>FIREBALL™ PDF</h3>
               <p style={{ color: '#ff4500', fontSize: '3rem', margin: '0 0 16px 0', fontWeight: 'bold' }}>M350</p>
               <p style={{ color: '#ccc', fontSize: '1rem', margin: '0 0 24px 0', lineHeight: '1.6' }}>
-                Party Hot Sauce Recipe. Turn bland braai into legend. + 1 bonus recipe.
+                Party Hot Sauce Recipe. Turn bland braai into legend. + 5 bonus recipes.
               </p>
-              <a href="https://wa.me/26657031600?text=I%20want%20Zap%20Sauce%20FIREBALL%20PDF%20M350%20-%20Ref:MakhauheloMoima" 
+              <a href="https://wa.me/26657031600?text=I%20want%20Zap%20Sauce%20FIREBALL%20PDF%20M350%20-%20Ref:MakhauheloMoima"
                 style={{ background: '#ff4500', color: '#fff', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', display: 'inline-block' }}>
                 Get FIREBALL PDF
               </a>
             </div>
 
-          </div>
-
-          <div style={{ background: '#111', border: '2px solid #00ff88', borderRadius: '16px', padding: '40px 24px', maxWidth: '500px', margin: '0 auto' }}>
-            <h3 style={{ color: '#00ff88', fontSize: '1.8rem', margin: '0 0 16px 0' }}>Ready-Made Jar</h3>
-            <p style={{ color: '#00ff88', fontSize: '3rem', margin: '0 0 16px 0', fontWeight: 'bold' }}>M120</p>
-            <p style={{ color: '#ccc', fontSize: '1rem', margin: '0 0 24px 0', lineHeight: '1.6' }}>
-              Skip kitchen. We bottle. You enjoy. 250ml jar. 6 months shelf life.
-            </p>
-            <a href="https://wa.me/26657031600?text=Hi%20Makhauhelo%2C%20I%20want%20a%20Ready-Made%20Jar%20M120.%20Ref%3A%20" 
-              style={{ background: '#FFD700', color: '#000', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', display: 'inline-block' }}>
-              Order Jar on WhatsApp
-            </a>
-            <p style={{ color: '#666', fontSize: '0.8rem', margin: '12px 0 0 0' }}>
-              Type "Zap-Origin" or "Zap-Fireball" in chat
-            </p>
           </div>
 
         </div>
@@ -131,7 +268,7 @@ export default function HomePage() {
       {/* BENEFITS SECTION - 3 ORIGIN + 3 FIREBALL */}
       <section style={{ background: '#000', padding: '60px 20px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-          
+
           <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '32px', marginBottom: '32px' }}>
             <h3 style={{ color: '#00ff88', fontSize: '1.5rem', margin: '0 0 24px 0', textAlign: 'center', fontWeight: 'bold' }}>
               ORIGIN: LIGHTNING FOR LIFE ⚡
@@ -175,7 +312,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AFFILIATION SECTION - WORKING */}
+      {/* AFFILIATION SECTION */}
       <section style={{ background: '#111', padding: '60px 20px', borderTop: '1px solid #1f1f1f' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ background: '#000', border: '2px solid #FFD700', borderRadius: '16px', padding: '32px' }}>
@@ -186,14 +323,14 @@ export default function HomePage() {
               Share your link. Earn M75 for ORIGIN M250. M105 for FIREBALL M350.
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
-              <input 
-                type="text" 
-                placeholder="Your Name" 
+              <input
+                type="text"
+                placeholder="Your Name"
                 value={affiliateName}
                 onChange={(e) => setAffiliateName(e.target.value)}
                 style={{ background: '#111', border: '1px solid #333', color: '#fff', padding: '12px 16px', borderRadius: '8px', fontSize: '1rem', minWidth: '200px' }}
               />
-              <button 
+              <button
                 onClick={handleGetLink}
                 style={{ background: '#FFD700', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
                 Get Link
@@ -208,7 +345,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CUSTOMER PORTAL - WORKING + SECURE */}
+      {/* CUSTOMER PORTAL */}
       <section style={{ background: '#000', padding: '60px 20px', borderTop: '1px solid #1f1f1f' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '32px' }}>
@@ -219,14 +356,14 @@ export default function HomePage() {
               Paid customers: Access your PDFs, bonuses, and updates here.
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
-              <input 
-                type="password" 
-                placeholder="Enter Password" 
+              <input
+                type="password"
+                placeholder="Enter Password"
                 value={customerPass}
                 onChange={(e) => setCustomerPass(e.target.value)}
                 style={{ background: '#111', border: '1px solid #333', color: '#fff', padding: '12px 16px', borderRadius: '8px', fontSize: '1rem', minWidth: '200px' }}
               />
-              <button 
+              <button
                 onClick={handleCustomerAccess}
                 style={{ background: '#00ff88', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
                 Access Portal
@@ -240,7 +377,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ADMIN PORTAL - WORKING + SECURE */}
+      {/* ADMIN PORTAL */}
       <section style={{ background: '#111', padding: '60px 20px', borderTop: '1px solid #1f1f1f' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ background: '#000', border: '2px solid #ff4444', borderRadius: '16px', padding: '32px' }}>
@@ -251,14 +388,14 @@ export default function HomePage() {
               Makhauhelo only. Track sales, affiliates, downloads.
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
-              <input 
-                type="password" 
-                placeholder="Admin Password" 
+              <input
+                type="password"
+                placeholder="Admin Password"
                 value={adminPass}
                 onChange={(e) => setAdminPass(e.target.value)}
                 style={{ background: '#111', border: '1px solid #333', color: '#fff', padding: '12px 16px', borderRadius: '8px', fontSize: '1rem', minWidth: '200px' }}
               />
-              <button 
+              <button
                 onClick={handleAdminAccess}
                 style={{ background: '#ff4444', color: '#fff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
                 Enter Dashboard
@@ -294,8 +431,8 @@ export default function HomePage() {
         </p>
         <script dangerouslySetInnerHTML={{__html: `
           fetch('https://api.countapi.xyz/hit/zapsauce-lesotho/visits')
-          .then(r => r.json())
-          .then(r => {document.getElementById('visits').innerText = r.value})
+       .then(r => r.json())
+       .then(r => {document.getElementById('visits').innerText = r.value})
         `}} />
       </section>
 
