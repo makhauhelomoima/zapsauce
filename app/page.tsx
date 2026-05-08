@@ -61,15 +61,179 @@ export default function HomePage() {
 
         {/* WHAT IT ZAPS */}
         <div style={{ background: '#111', border: '2px solid #00ff88', borderRadius: '12px', padding: '30px', marginBottom: '30px' }}>
-          <h2 style={{ color: '#00ff88', margin: '0 0 20px 0', textAlign: 'center' }}>WHAT ZAP SAUCE ORIGIN ZAPS:</h2>
-          <div style={{ color: '#ccc', fontSize: '1.1rem', lineHeight: '1.8' }}>
-            <p>✓ Morning flu + sore throat + body aches</p>
-            <p>✓ Coughs + chest congestion + winter chills</p>
-            <p>✓ Low immunity + kids missing school</p>
-            <p>✓ Inflammation + joint pain</p>
-            <p>✓ M200+ weekly pharmacy runs for the family</p>
-          </div>
-        </div>
+          <h2 style={{ color: '#00ff88', margin: '0 0 20px 0', textAlign: 'center' }}>WHAT ZAP SAUCE. ORIGIN DOES: {/* PAIN PICKER SECTION - START */}
+<section style={{ background: '#000', padding: '60px 20px', borderTop: '4px solid #FFD700' }}>
+  <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    
+    {/* HEADLINE */}
+    <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+      <h2 style={{ color: '#FFD700', fontSize: '2.5rem', margin: '0 0 12px 0', fontWeight: 'bold' }}>
+        PICK YOUR PAIN POINT
+      </h2>
+      <p style={{ color: '#ccc', fontSize: '1.3rem', margin: '0 0 8px 0' }}>
+        WHAT'S STEALING YOUR LIFE?
+      </p>
+      <p style={{ color: '#00ff88', fontSize: '1.1rem', margin: '0 0 32px 0', fontWeight: 'bold' }}>
+        Zap Sauce ORIGIN is not "just for flu". It's Lightning for Life! ⚡
+      </p>
+      <p style={{ color: '#888', fontSize: '1rem', margin: '0 0 40px 0' }}>
+        Find your pain below. 1 tsp daily zaps it:
+      </p>
+    </div>
+
+    {/* PAIN GRID */}
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+      
+      {/* FLU FAMILIES */}
+      <div style={{ background: '#111', border: '2px solid #1f1f1f', borderRadius: '12px', padding: '24px' }}>
+        <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 12px 0' }}>😷 FOR FLU SEASON FAMILIES</h3>
+        <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong style={{ color: '#ccc' }}>Pain:</strong> M200+ weekly clinic bills. Kids always coughing. Missed work days.
+        </p>
+        <p style={{ color: '#00ff88', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong>✓ Zap Sauce:</strong> Builds "lightning immune system". Zaps flu/colds before they start.
+        </p>
+        <p style={{ color: '#FFD700', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
+          1 tsp daily = M750+/month saved. 3am coughing stops.
+        </p>
+      </div>
+
+      {/* CHEST PROBLEMS */}
+      <div style={{ background: '#111', border: '2px solid #1f1f1f', borderRadius: '12px', padding: '24px' }}>
+        <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 12px 0' }}>🤧 FOR CHEST & BREATHING PROBLEMS</h3>
+        <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong style={{ color: '#ccc' }}>Pain:</strong> Stubborn mucus. Can't breathe at night. Wheezing. Post-COVID lungs.
+        </p>
+        <p style={{ color: '#00ff88', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong>✓ Zap Sauce:</strong> Clears chest congestion overnight. Soothes airways. Rebuilds lung strength.
+        </p>
+        <p style={{ color: '#FFD700', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
+          1 tsp morning + night = Breathe deep again.
+        </p>
+      </div>
+
+      {/* BODY ACHES */}
+      <div style={{ background: '#111', border: '2px solid #1f1f1f', borderRadius: '12px', padding: '24px' }}>
+        <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 12px 0' }}>😫 FOR BODY ACHES & INFLAMMATION</h3>
+        <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong style={{ color: '#ccc' }}>Pain:</strong> Joint pain in cold. Back ache. Headaches. Period cramps. Fever.
+        </p>
+        <p style={{ color: '#00ff88', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong>✓ Zap Sauce:</strong> Calms inflammation naturally. Eases pain without pills.
+        </p>
+        <p style={{ color: '#FFD700', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
+          1 tsp every 4 hours = Move freely. Periods manageable.
+        </p>
+      </div>
+
+      {/* TIRED PEOPLE */}
+      <div style={{ background: '#111', border: '2px solid #1f1f1f', borderRadius: '12px', padding: '24px' }}>
+        <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 12px 0' }}>😴 FOR ALWAYS TIRED PEOPLE</h3>
+        <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong style={{ color: '#ccc' }}>Pain:</strong> Wake up exhausted. 3pm crash. No motivation. Coffee doesn't work.
+        </p>
+        <p style={{ color: '#00ff88', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong>✓ Zap Sauce:</strong> Boosts natural energy without jitters. Fights fatigue at root.
+        </p>
+        <p style={{ color: '#FFD700', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
+          1 tsp morning = Liquid motivation. Energy lasts all day.
+        </p>
+      </div>
+
+      {/* WEEKEND WARRIORS */}
+      <div style={{ background: '#111', border: '2px solid #1f1f1f', borderRadius: '12px', padding: '24px' }}>
+        <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 12px 0' }}>🍺 FOR WEEKEND WARRIORS & PARTY PEOPLE</h3>
+        <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong style={{ color: '#ccc' }}>Pain:</strong> Hangovers killing Monday. Body shakes. Nausea. Wasted weekends.
+        </p>
+        <p style={{ color: '#00ff88', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong>✓ Zap Sauce:</strong> Zaps hangover fast. Rehydrates. Settles stomach. Detox support.
+        </p>
+        <p style={{ color: '#FFD700', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
+          1 tsp morning after = Back to work fresh.
+        </p>
+      </div>
+
+      {/* STRESSED MOTHERS */}
+      <div style={{ background: '#111', border: '2px solid #1f1f1f', borderRadius: '12px', padding: '24px' }}>
+        <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 12px 0' }}>💃 FOR STRESSED MOTHERS</h3>
+        <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong style={{ color: '#ccc' }}>Pain:</strong> Kids always sick. No sleep. Anxiety about bills. Burnout.
+        </p>
+        <p style={{ color: '#00ff88', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong>✓ Zap Sauce:</strong> Stops "always sick" cycle. You sleep when kids sleep. M750 saved = Less stress.
+        </p>
+        <p style={{ color: '#FFD700', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
+          1 tsp daily for whole family = Peace of mind.
+        </p>
+      </div>
+
+      {/* MEN'S VITALITY */}
+      <div style={{ background: '#111', border: '2px solid #1f1f1f', borderRadius: '12px', padding: '24px' }}>
+        <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 12px 0' }}>👨 FOR MEN'S VITALITY & CIRCULATION</h3>
+        <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong style={{ color: '#ccc' }}>Pain:</strong> Low energy. Poor stamina. Stress affecting confidence. Circulation worries.
+        </p>
+        <p style={{ color: '#00ff88', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong>✓ Zap Sauce:</strong> Traditional ingredients support healthy blood flow, energy, vitality.
+        </p>
+        <p style={{ color: '#FFD700', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
+          1 tsp daily = Natural confidence support. NOT medicine. Ask doctor if on BP meds.
+        </p>
+      </div>
+
+      {/* GRANDPARENTS */}
+      <div style={{ background: '#111', border: '2px solid #1f1f1f', borderRadius: '12px', padding: '24px' }}>
+        <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 12px 0' }}>👴 FOR GRANDPARENTS</h3>
+        <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong style={{ color: '#ccc' }}>Pain:</strong> Arthritis in cold. Slow recovery. Weak immunity. Chronic cough.
+        </p>
+        <p style={{ color: '#00ff88', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong>✓ Zap Sauce:</strong> Reduces morning stiffness. Speeds healing 2x. Boosts immunity. Eases cough.
+        </p>
+        <p style={{ color: '#FFD700', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
+          1 tsp daily = More independent days. More time with grandkids.
+        </p>
+      </div>
+
+      {/* DIGESTION */}
+      <div style={{ background: '#111', border: '2px solid #1f1f1f', borderRadius: '12px', padding: '24px' }}>
+        <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 12px 0' }}>🤢 FOR DIGESTION & BLOATING</h3>
+        <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong style={{ color: '#ccc' }}>Pain:</strong> Gas after meals. Bloated stomach. Heartburn. Slow digestion.
+        </p>
+        <p style={{ color: '#00ff88', fontSize: '0.9rem', margin: '0 0 12px 0', lineHeight: '1.5' }}>
+          <strong>✓ Zap Sauce:</strong> Settles stomach. Kills bloat. Improves nutrient absorption. Gentle detox.
+        </p>
+        <p style={{ color: '#FFD700', fontSize: '0.95rem', margin: 0, fontWeight: 'bold' }}>
+          1 tsp after heavy meals = Comfort. Eat without fear.
+        </p>
+      </div>
+
+    </div>
+
+    {/* CLOSING CTA */}
+    <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '12px', padding: '32px', textAlign: 'center' }}>
+      <p style={{ color: '#ccc', fontSize: '1.2rem', margin: '0 0 16px 0', lineHeight: '1.6' }}>
+        <strong style={{ color: '#FFD700' }}>REAL TALK:</strong> You don't need 12 different products.
+      </p>
+      <p style={{ color: '#ccc', fontSize: '1.2rem', margin: '0 0 24px 0', lineHeight: '1.6' }}>
+        You need <strong style={{ color: '#00ff88' }}>1 Lightning formula</strong> that zaps 12 pains.
+      </p>
+      <p style={{ color: '#FFD700', fontSize: '1.4rem', margin: '0 0 8px 0', fontWeight: 'bold' }}>
+        One jar = M60 ingredients = 30 days = M2 per day
+      </p>
+      <p style={{ color: '#888', fontSize: '1rem', margin: '0 0 24px 0' }}>
+        Pharmacy for 12 problems = M2,000+/month
+      </p>
+      <p style={{ color: '#00ff88', fontSize: '1.5rem', margin: 0, fontWeight: 'bold' }}>
+        Math is math. 1 tsp daily keeps pharmacy away. ⚡
+      </p>
+    </div>
+
+  </div>
+</section>
+{/* PAIN PICKER SECTION - END */}
 
         {/* AFFILIATION BOX */}
         <div style={{ background: '#111', border: '2px solid #FFD700', borderRadius: '12px', padding: '24px', marginBottom: '30px', textAlign: 'center' }}>
