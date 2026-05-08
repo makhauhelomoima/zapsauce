@@ -3,7 +3,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Zap Sauce ⚡ | Lightning in a jar! | Lesotho',
-  description: 'ORIGIN for immunity M250. FIREBALL for braai M350. Ready-Made Jar M120. Pick your lightning from Lesotho.',
+  description: 'ORIGIN for immunity M250. FIREBALL for braai M350. Pick your lightning from Lesotho.',
 }
 
 export default function RootLayout({
