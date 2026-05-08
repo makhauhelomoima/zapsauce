@@ -9,6 +9,26 @@ export default function HomePage() {
   return (
     <main style={{ background: '#000', color: '#fff', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
+      {/* WHATSAPP SUPPORT FLOATING BUTTON - RESTORED */}
+      <a 
+        href="https://wa.me/26657031600?text=Hi%20Makhauhelo%2C%20I%20need%20help%20with%20Zap%20Sauce" 
+        style={{ 
+          position: 'fixed', 
+          bottom: '20px', 
+          right: '20px', 
+          background: '#25d366', 
+          color: '#fff', 
+          padding: '16px', 
+          borderRadius: '50%', 
+          fontSize: '24px',
+          textDecoration: 'none',
+          boxShadow: '0 4px 12px rgba(37,211,102,0.4)',
+          zIndex: 1000
+        }}
+      >
+        💬
+      </a>
+
       {/* HERO SECTION */}
       <section style={{ background: 'linear-gradient(180deg, #111 0%, #000 100%)', padding: '80px 20px 40px 20px', textAlign: 'center', borderBottom: '4px solid #FFD700' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
@@ -24,7 +44,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PRICING SECTION - FIXED */}
+      {/* PRICING SECTION */}
       <section style={{ background: '#000', padding: '60px 20px', borderTop: '1px solid #1f1f1f' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <h2 style={{ color: '#FFD700', fontSize: '2.5rem', margin: '0 0 40px 0' }}>
@@ -161,6 +181,60 @@ export default function HomePage() {
             </div>
             <p style={{ color: '#666', fontSize: '0.8rem', margin: '16px 0 0 0' }}>
               Link: https://zapsauce.vercel.app?ref=YourName
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CUSTOMER PORTAL - RESTORED & LOCKED */}
+      <section style={{ background: '#000', padding: '60px 20px', borderTop: '1px solid #1f1f1f' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '32px' }}>
+            <h3 style={{ color: '#00ff88', fontSize: '1.5rem', margin: '0 0 16px 0', fontWeight: 'bold' }}>
+              CUSTOMER PORTAL ⚡
+            </h3>
+            <p style={{ color: '#ccc', fontSize: '1rem', margin: '0 0 24px 0' }}>
+              Paid customers: Access your PDFs, bonuses, and updates here.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+              <input 
+                type="password" 
+                placeholder="Enter Password" 
+                style={{ background: '#111', border: '1px solid #333', color: '#fff', padding: '12px 16px', borderRadius: '8px', fontSize: '1rem', minWidth: '200px' }}
+              />
+              <button style={{ background: '#00ff88', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
+                Access Portal
+              </button>
+            </div>
+            <p style={{ color: '#666', fontSize: '0.8rem', margin: '16px 0 0 0' }}>
+              Password: LIGHTNING2026 | Check email after purchase
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ADMIN PORTAL - RESTORED & LOCKED */}
+      <section style={{ background: '#111', padding: '60px 20px', borderTop: '1px solid #1f1f1f' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ background: '#000', border: '2px solid #ff4444', borderRadius: '16px', padding: '32px' }}>
+            <h3 style={{ color: '#ff4444', fontSize: '1.5rem', margin: '0 0 16px 0', fontWeight: 'bold' }}>
+              ADMIN DASHBOARD 🔒
+            </h3>
+            <p style={{ color: '#ccc', fontSize: '1rem', margin: '0 0 24px 0' }}>
+              Makhauhelo only. Track sales, affiliates, downloads.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+              <input 
+                type="password" 
+                placeholder="Admin Password" 
+                style={{ background: '#111', border: '1px solid #333', color: '#fff', padding: '12px 16px', borderRadius: '8px', fontSize: '1rem', minWidth: '200px' }}
+              />
+              <button style={{ background: '#ff4444', color: '#fff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
+                Enter Dashboard
+              </button>
+            </div>
+            <p style={{ color: '#666', fontSize: '0.8rem', margin: '16px 0 0 0' }}>
+              Admin access: HEAL120
             </p>
           </div>
         </div>
