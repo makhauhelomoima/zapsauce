@@ -6,6 +6,8 @@
 > "Let food be thy medicine" - Hippocrates  
 > **Original Recipe: 1 tsp daily keeps pharmacy away**
 
+___
+
 ## 🥄 BUSINESS MODEL - ONE PRODUCT EMPIRE
 
 ### **Two Ways to Buy:**
@@ -27,9 +29,6 @@
 2. Share link → Earn **M75** for every M250 PDF sale
 3. **Minimum payout: M225** (3 sales) - "Clean my Jar" rule 🥄🍯
 4. Track earnings in `/portal` → WhatsApp admin for payout
-
-**Example:**  
-Duduca shares link → 3 customers buy PDF = M750 revenue → Duduca earns M225 → You keep M525
 
 ---
 
