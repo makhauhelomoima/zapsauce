@@ -1,4 +1,4 @@
-# Zap Sauce ORIGIN ⚡🥄🍯
+# Zap Sauce. | ORIGIN ⚡🥄🍯
 
 **Lightning in a jar!** Lightning-fast natural defense from Lesotho 🇱🇸  
 **For families with lightning immune systems.**
