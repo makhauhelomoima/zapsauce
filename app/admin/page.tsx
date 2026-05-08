@@ -25,9 +25,9 @@ export default function AdminPage() {
   const fetchSales = async () => {
     setLoading(true)
     const { data, error } = await supabase
-.from('sales')
-.select('*')
-.order('sale_date', { ascending: false })
+     .from('sales')
+     .select('*')
+     .order('sale_date', { ascending: false })
     
     if (error) console.error('Error:', error)
     else setSales(data || [])
@@ -71,16 +71,16 @@ export default function AdminPage() {
     }
   }
 
-  const totalRevenue = sales.reduce((sum, sale) => sum + Number(sale.amount), 0)
-  const pdfSales = sales.filter(s => Number(sale.amount) === 250).length
-  const jarSales = sales.filter(s => Number(sale.amount) >= 120 && Number(sale.amount) < 250).length
+  const totalRevenue = sales.reduce((sum, s) => sum + Number(s.amount), 0)
+  const pdfSales = sales.filter(s => Number(s.amount) === 250).length
+  const jarSales = sales.filter(s => Number(s.amount) >= 120 && Number(s.amount) < 250).length
 
   const affiliationPayouts = sales
-.filter(sale => sale.affiliate_name!== 'You')
-.reduce((acc, sale) => {
-      const commission = Number(sale.amount) * 0.30
-      if (!acc[sale.affiliate_name]) acc[sale.affiliate_name] = 0
-      acc[sale.affiliate_name] += commission
+   .filter(s => s.affiliate_name!== 'You')
+   .reduce((acc, s) => {
+      const commission = Number(s.amount) * 0.30
+      if (!acc[s.affiliate_name]) acc[s.affiliate_name] = 0
+      acc[s.affiliate_name] += commission
       return acc
     }, {} as Record<string, number>)
 
@@ -195,14 +195,14 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {sales.map(sale => (
-                    <tr key={sale.id} style={{ borderBottom: '1px solid #1f1f1f' }}>
-                      <td style={{ padding: '12px', color: '#ccc' }}>{sale.customer_name}</td>
+                  {sales.map(s => (
+                    <tr key={s.id} style={{ borderBottom: '1px solid #1f1f1f' }}>
+                      <td style={{ padding: '12px', color: '#ccc' }}>{s.customer_name}</td>
                       <td style={{ padding: '12px', color: '#00ff88' }}>Zap Sauce ORIGIN</td>
-                      <td style={{ padding: '12px', color: '#FFD700', fontWeight: '700' }}>M{Number(sale.amount).toFixed(2)}</td>
-                      <td style={{ padding: '12px', color: '#ccc' }}>{sale.affiliate_name}</td>
-                      <td style={{ padding: '12px', color: '#888', fontSize: '0.85rem' }}>{sale.mpesa_code || '-'}</td>
-                      <td style={{ padding: '12px', color: '#888' }}>{sale.sale_date}</td>
+                      <td style={{ padding: '12px', color: '#FFD700', fontWeight: '700' }}>M{Number(s.amount).toFixed(2)}</td>
+                      <td style={{ padding: '12px', color: '#ccc' }}>{s.affiliate_name}</td>
+                      <td style={{ padding: '12px', color: '#888', fontSize: '0.85rem' }}>{s.mpesa_code || '-'}</td>
+                      <td style={{ padding: '12px', color: '#888' }}>{s.sale_date}</td>
                     </tr>
                   ))}
                 </tbody>
