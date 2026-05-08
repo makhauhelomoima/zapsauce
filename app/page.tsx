@@ -108,7 +108,7 @@ export default function HomePage() {
               <h3 style={{ color: '#ff4500', fontSize: '1.8rem', margin: '16px 0 16px 0' }}>FIREBALL™ PDF</h3>
               <p style={{ color: '#ff4500', fontSize: '3rem', margin: '0 0 16px 0', fontWeight: 'bold' }}>M350</p>
               <p style={{ color: '#ccc', fontSize: '1rem', margin: '0 0 24px 0', lineHeight: '1.6' }}>
-                Party Hot Sauce Recipe. Turn bland braai into legend. + 5 bonus recipes.
+                Party Hot Sauce Recipe. Turn bland braai into legend. + 1 bonus recipe.
               </p>
               <a href="https://wa.me/26657031600?text=I%20want%20Zap%20Sauce%20FIREBALL%20PDF%20M350%20-%20Ref:MakhauheloMoima" 
                 style={{ background: '#ff4500', color: '#fff', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', display: 'inline-block' }}>
