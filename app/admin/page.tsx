@@ -25,9 +25,9 @@ export default function AdminPage() {
   const fetchSales = async () => {
     setLoading(true)
     const { data, error } = await supabase
-     .from('sales')
-     .select('*')
-     .order('sale_date', { ascending: false })
+    .from('sales')
+    .select('*')
+    .order('sale_date', { ascending: false })
     
     if (error) console.error('Error:', error)
     else setSales(data || [])
@@ -76,8 +76,8 @@ export default function AdminPage() {
   const jarSales = sales.filter(s => Number(s.amount) >= 120 && Number(s.amount) < 250).length
 
   const affiliationPayouts = sales
-   .filter(s => s.affiliate_name!== 'You')
-   .reduce((acc, s) => {
+  .filter(s => s.affiliate_name!== 'You')
+  .reduce((acc, s) => {
       const commission = Number(s.amount) * 0.30
       if (!acc[s.affiliate_name]) acc[s.affiliate_name] = 0
       acc[s.affiliate_name] += commission
@@ -212,12 +212,14 @@ export default function AdminPage() {
         </div>
 
         <div style={{ background: '#111', border: '1px solid #1f1f1f', borderRadius: '12px', padding: '24px' }}>
-          <h2 style={{ color: '#FFD700', margin: '0 0 20px 0' }}>Affiliation Payouts - 30%</h2>
+          <h2 style={{ color: '#FFD700', margin: '0 0 8px 0' }}>Affiliation Payouts - 30% | Min: M225</h2>
+          <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 20px 0' }}>Affiliates must earn M225 (3 sales) before payout. "Clean my Jar" rule 🥄🍯⚡</p>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid #1f1f1f' }}>
                   <th style={{ textAlign: 'left', padding: '12px', color: '#888' }}>Affiliate</th>
+                  <th style={{ textAlign: 'left', padding: '12px', color: '#888' }}>Sales</th>
                   <th style={{ textAlign: 'left', padding: '12px', color: '#888' }}>Total Earned</th>
                   <th style={{ textAlign: 'left', padding: '12px', color: '#888' }}>Status</th>
                 </tr>
@@ -225,22 +227,33 @@ export default function AdminPage() {
               <tbody>
                 {Object.entries(affiliationPayouts).length === 0? (
                   <tr>
-                    <td colSpan={3} style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
+                    <td colSpan={4} style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
                       No affiliate sales yet. Share your link to start earning.
                     </td>
                   </tr>
                 ) : (
-                  Object.entries(affiliationPayouts).map(([name, amount]) => (
-                    <tr key={name} style={{ borderBottom: '1px solid #1f1f1f' }}>
-                      <td style={{ padding: '12px', color: '#ccc' }}>{name}</td>
-                      <td style={{ padding: '12px', color: '#FFD700', fontWeight: '700' }}>M{Number(amount).toFixed(2)}</td>
-                      <td style={{ padding: '12px' }}>
-                        <span style={{ background: '#00ff88', color: '#000', padding: '4px 12px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '700' }}>
-                          Ready to Pay
-                        </span>
-                      </td>
-                    </tr>
-                  ))
+                  Object.entries(affiliationPayouts).map(([name, amount]) => {
+                    const salesCount = sales.filter(s => s.affiliate_name === name).length
+                    const canPayout = Number(amount) >= 225
+                    return (
+                      <tr key={name} style={{ borderBottom: '1px solid #1f1f1f' }}>
+                        <td style={{ padding: '12px', color: '#ccc' }}>{name}</td>
+                        <td style={{ padding: '12px', color: '#00ff88', fontWeight: '700' }}>{salesCount}/3</td>
+                        <td style={{ padding: '12px', color: '#FFD700', fontWeight: '700' }}>M{Number(amount).toFixed(2)}</td>
+                        <td style={{ padding: '12px' }}>
+                          {canPayout? (
+                            <span style={{ background: '#00ff88', color: '#000', padding: '4px 12px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '700' }}>
+                              Ready: M225+ 🥄
+                            </span>
+                          ) : (
+                            <span style={{ background: '#ff4444', color: '#fff', padding: '4px 12px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: '700' }}>
+                              Need {3 - salesCount} more 🍯
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    )
+                  })
                 )}
               </tbody>
             </table>
