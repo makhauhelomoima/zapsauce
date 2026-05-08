@@ -221,7 +221,7 @@ export default function HomePage() {
         You need <strong style={{ color: '#00ff88' }}>1 Lightning formula</strong> that zaps 12 pains.
       </p>
       <p style={{ color: '#FFD700', fontSize: '1.4rem', margin: '0 0 8px 0', fontWeight: 'bold' }}>
-        One jar = M60 ingredients = 30 days = M2 per day
+        One jar = M120 ingredients = 30 days = M2 per day
       </p>
       <p style={{ color: '#888', fontSize: '1rem', margin: '0 0 24px 0' }}>
         Pharmacy for 12 problems = M2,000+/month
