@@ -6,16 +6,6 @@
 > "Let food be thy medicine" - Hippocrates  
 > **Original Recipe: 1 tsp daily keeps pharmacy away**
 
----
-
-## ⚡ LIVE DEMO
-
-**Website:** [zapsauce.vercel.app](https://zapsauce.vercel.app)  
-**Admin:** `/admin` - Password: `HEAL120`  
-**Affiliate Portal:** `/portal` - Login with your affiliate name
-
----
-
 ## 🥄 BUSINESS MODEL - ONE PRODUCT EMPIRE
 
 ### **Two Ways to Buy:**
