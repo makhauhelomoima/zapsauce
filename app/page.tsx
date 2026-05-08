@@ -214,6 +214,18 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* VISITOR COUNTER - NEW SECTION ADDED */}
+      <section style={{ background: '#0a0a0a', padding: '20px', textAlign: 'center', borderTop: '1px solid #1f1f1f' }}>
+        <p style={{ color: '#666', fontSize: '0.8rem', margin: 0 }}>
+          ⚡ Lightning viewed by <span id="visits" style={{ color: '#FFD700', fontWeight: 'bold' }}>...</span> considered souls
+        </p>
+        <script dangerouslySetInnerHTML={{__html: `
+          fetch('https://api.countapi.xyz/hit/zapsauce-lesotho/visits')
+          .then(r => r.json())
+          .then(r => {document.getElementById('visits').innerText = r.value})
+        `}} />
+      </section>
+
       {/* FOOTER */}
       <footer style={{ background: '#0a0a0a', padding: '40px 20px', textAlign: 'center', borderTop: '1px solid #1f1f1f' }}>
         <p style={{ color: '#FFD700', fontSize: '1.2rem', margin: '0 0 8px 0', fontWeight: 'bold' }}>
