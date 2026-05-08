@@ -1,11 +1,5 @@
-'use client' // REQUIRED FOR BUTTONS TO WORK
+'use client'
 import { useState } from 'react'
-import { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Zap Sauce ⚡ | Lightning in a jar! | Lesotho',
-  description: 'ORIGIN for immunity M250. FIREBALL for braai M350. Ready-Made Jar M120. Pick your lightning from Lesotho.',
-}
 
 export default function HomePage() {
   // STATE FOR PORTALS
@@ -16,7 +10,7 @@ export default function HomePage() {
   const [customerError, setCustomerError] = useState('')
   const [adminError, setAdminError] = useState('')
 
-  // HIDDEN PASSWORDS - NOT IN HTML ANYMORE
+  // HIDDEN PASSWORDS - NOT IN HTML
   const CUSTOMER_PASSWORD = 'LIGHTNING2026'
   const ADMIN_PASSWORD = 'HEAL120'
 
@@ -35,7 +29,6 @@ export default function HomePage() {
   const handleCustomerAccess = () => {
     if (customerPass === CUSTOMER_PASSWORD) {
       setCustomerError('')
-      // REDIRECT TO YOUR ACTUAL CUSTOMER PORTAL/DOWNLOAD PAGE
       window.location.href = 'https://drive.google.com/YOUR_PDF_FOLDER_LINK'
     } else {
       setCustomerError('Wrong password. Check email after purchase 🥺')
@@ -45,7 +38,6 @@ export default function HomePage() {
   const handleAdminAccess = () => {
     if (adminPass === ADMIN_PASSWORD) {
       setAdminError('')
-      // REDIRECT TO YOUR ACTUAL ADMIN DASHBOARD
       window.location.href = 'https://docs.google.com/spreadsheets/YOUR_SALES_SHEET'
     } else {
       setAdminError('Wrong password my Queen 🔒')
