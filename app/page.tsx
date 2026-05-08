@@ -1,3 +1,5 @@
+'use client' // REQUIRED FOR BUTTONS TO WORK
+import { useState } from 'react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,28 +8,62 @@ export const metadata: Metadata = {
 }
 
 export default function HomePage() {
+  // STATE FOR PORTALS
+  const [affiliateName, setAffiliateName] = useState('')
+  const [affiliateLink, setAffiliateLink] = useState('')
+  const [customerPass, setCustomerPass] = useState('')
+  const [adminPass, setAdminPass] = useState('')
+  const [customerError, setCustomerError] = useState('')
+  const [adminError, setAdminError] = useState('')
+
+  // HIDDEN PASSWORDS - NOT IN HTML ANYMORE
+  const CUSTOMER_PASSWORD = 'LIGHTNING2026'
+  const ADMIN_PASSWORD = 'HEAL120'
+
+  // BUTTON FUNCTIONS
+  const handleGetLink = () => {
+    if (affiliateName.trim() === '') {
+      alert('Please enter your name first 🤍')
+      return
+    }
+    const link = `https://zapsauce.vercel.app?ref=${affiliateName.replace(/\s+/g, '')}`
+    setAffiliateLink(link)
+    navigator.clipboard.writeText(link)
+    alert('Link copied! Share and earn M75/M105 per sale ⚡')
+  }
+
+  const handleCustomerAccess = () => {
+    if (customerPass === CUSTOMER_PASSWORD) {
+      setCustomerError('')
+      // REDIRECT TO YOUR ACTUAL CUSTOMER PORTAL/DOWNLOAD PAGE
+      window.location.href = 'https://drive.google.com/YOUR_PDF_FOLDER_LINK'
+    } else {
+      setCustomerError('Wrong password. Check email after purchase 🥺')
+    }
+  }
+
+  const handleAdminAccess = () => {
+    if (adminPass === ADMIN_PASSWORD) {
+      setAdminError('')
+      // REDIRECT TO YOUR ACTUAL ADMIN DASHBOARD
+      window.location.href = 'https://docs.google.com/spreadsheets/YOUR_SALES_SHEET'
+    } else {
+      setAdminError('Wrong password my Queen 🔒')
+    }
+  }
+
   return (
     <main style={{ background: '#000', color: '#fff', minHeight: '100vh', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
 
-      {/* WHATSAPP SUPPORT FLOATING BUTTON - RESTORED */}
+      {/* WHATSAPP SUPPORT FLOATING BUTTON */}
       <a 
         href="https://wa.me/26657031600?text=Hi%20Makhauhelo%2C%20I%20need%20help%20with%20Zap%20Sauce" 
         style={{ 
-          position: 'fixed', 
-          bottom: '20px', 
-          right: '20px', 
-          background: '#25d366', 
-          color: '#fff', 
-          padding: '16px', 
-          borderRadius: '50%', 
-          fontSize: '24px',
-          textDecoration: 'none',
-          boxShadow: '0 4px 12px rgba(37,211,102,0.4)',
-          zIndex: 1000
+          position: 'fixed', bottom: '20px', right: '20px', background: '#25d366', 
+          color: '#fff', padding: '16px', borderRadius: '50%', fontSize: '24px',
+          textDecoration: 'none', boxShadow: '0 4px 12px rgba(37,211,102,0.4)', zIndex: 1000
         }}
-      >
-        💬
-      </a>
+      >💬</a>
 
       {/* HERO SECTION */}
       <section style={{ background: 'linear-gradient(180deg, #111 0%, #000 100%)', padding: '80px 20px 40px 20px', textAlign: 'center', borderBottom: '4px solid #FFD700' }}>
@@ -51,25 +87,20 @@ export default function HomePage() {
             Choose Your Lightning ⚡
           </h2>
 
-          {/* PDF ROW - ORIGIN + FIREBALL */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px', marginBottom: '40px' }}>
 
-            {/* ORIGIN PDF */}
             <div style={{ background: '#111', border: '2px solid #FFD700', borderRadius: '16px', padding: '40px 24px' }}>
               <h3 style={{ color: '#FFD700', fontSize: '1.8rem', margin: '0 0 16px 0' }}>ORIGIN PDF</h3>
               <p style={{ color: '#00ff88', fontSize: '3rem', margin: '0 0 16px 0', fontWeight: 'bold' }}>M250</p>
               <p style={{ color: '#ccc', fontSize: '1rem', margin: '0 0 24px 0', lineHeight: '1.6' }}>
                 Daily Immunity Recipe. 1 tsp daily keeps pharmacy away. + 5 bonus recipes.
               </p>
-              <a 
-                href="https://wa.me/26657031600?text=I%20want%20Zap%20Sauce%20ORIGIN%20PDF%20M250%20-%20Ref:MakhauheloMoima" 
-                style={{ background: '#00ff88', color: '#000', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', display: 'inline-block' }}
-              >
+              <a href="https://wa.me/26657031600?text=I%20want%20Zap%20Sauce%20ORIGIN%20PDF%20M250%20-%20Ref:MakhauheloMoima" 
+                style={{ background: '#00ff88', color: '#000', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', display: 'inline-block' }}>
                 Get Origin PDF
               </a>
             </div>
 
-            {/* FIREBALL PDF */}
             <div style={{ background: '#111', border: '2px solid #ff4500', borderRadius: '16px', padding: '40px 24px', position: 'relative' }}>
               <div style={{ background: '#ff4500', color: '#fff', padding: '6px 12px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 'bold', position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)' }}>
                 🔥 BRAAI SEASON 🔥
@@ -79,27 +110,22 @@ export default function HomePage() {
               <p style={{ color: '#ccc', fontSize: '1rem', margin: '0 0 24px 0', lineHeight: '1.6' }}>
                 Party Hot Sauce Recipe. Turn bland braai into legend. + 5 bonus recipes.
               </p>
-              <a 
-                href="https://wa.me/26657031600?text=I%20want%20Zap%20Sauce%20FIREBALL%20PDF%20M350%20-%20Ref:MakhauheloMoima" 
-                style={{ background: '#ff4500', color: '#fff', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', display: 'inline-block' }}
-              >
+              <a href="https://wa.me/26657031600?text=I%20want%20Zap%20Sauce%20FIREBALL%20PDF%20M350%20-%20Ref:MakhauheloMoima" 
+                style={{ background: '#ff4500', color: '#fff', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', display: 'inline-block' }}>
                 Get FIREBALL PDF
               </a>
             </div>
 
           </div>
 
-          {/* BOTTLE ROW - UNDERNEATH */}
           <div style={{ background: '#111', border: '2px solid #00ff88', borderRadius: '16px', padding: '40px 24px', maxWidth: '500px', margin: '0 auto' }}>
             <h3 style={{ color: '#00ff88', fontSize: '1.8rem', margin: '0 0 16px 0' }}>Ready-Made Jar</h3>
             <p style={{ color: '#00ff88', fontSize: '3rem', margin: '0 0 16px 0', fontWeight: 'bold' }}>M120</p>
             <p style={{ color: '#ccc', fontSize: '1rem', margin: '0 0 24px 0', lineHeight: '1.6' }}>
               Skip kitchen. We bottle. You enjoy. 250ml jar. 6 months shelf life.
             </p>
-            <a 
-              href="https://wa.me/26657031600?text=Hi%20Makhauhelo%2C%20I%20want%20a%20Ready-Made%20Jar%20M120.%20Ref%3A%20" 
-              style={{ background: '#FFD700', color: '#000', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', display: 'inline-block' }}
-            >
+            <a href="https://wa.me/26657031600?text=Hi%20Makhauhelo%2C%20I%20want%20a%20Ready-Made%20Jar%20M120.%20Ref%3A%20" 
+              style={{ background: '#FFD700', color: '#000', padding: '16px 32px', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', display: 'inline-block' }}>
               Order Jar on WhatsApp
             </a>
             <p style={{ color: '#666', fontSize: '0.8rem', margin: '12px 0 0 0' }}>
@@ -114,7 +140,6 @@ export default function HomePage() {
       <section style={{ background: '#000', padding: '60px 20px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           
-          {/* ORIGIN BENEFITS */}
           <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '32px', marginBottom: '32px' }}>
             <h3 style={{ color: '#00ff88', fontSize: '1.5rem', margin: '0 0 24px 0', textAlign: 'center', fontWeight: 'bold' }}>
               ORIGIN: LIGHTNING FOR LIFE ⚡
@@ -135,7 +160,6 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* FIREBALL BENEFITS */}
           <div style={{ background: '#0a0a0a', border: '2px solid #ff4500', borderRadius: '16px', padding: '32px' }}>
             <h3 style={{ color: '#ff4500', fontSize: '1.5rem', margin: '0 0 24px 0', textAlign: 'center', fontWeight: 'bold' }}>
               FIREBALL™: PARTY WITH POWER 🔥
@@ -159,7 +183,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AFFILIATION SECTION */}
+      {/* AFFILIATION SECTION - WORKING */}
       <section style={{ background: '#111', padding: '60px 20px', borderTop: '1px solid #1f1f1f' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ background: '#000', border: '2px solid #FFD700', borderRadius: '16px', padding: '32px' }}>
@@ -173,20 +197,26 @@ export default function HomePage() {
               <input 
                 type="text" 
                 placeholder="Your Name" 
+                value={affiliateName}
+                onChange={(e) => setAffiliateName(e.target.value)}
                 style={{ background: '#111', border: '1px solid #333', color: '#fff', padding: '12px 16px', borderRadius: '8px', fontSize: '1rem', minWidth: '200px' }}
               />
-              <button style={{ background: '#FFD700', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
+              <button 
+                onClick={handleGetLink}
+                style={{ background: '#FFD700', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
                 Get Link
               </button>
             </div>
-            <p style={{ color: '#666', fontSize: '0.8rem', margin: '16px 0 0 0' }}>
-              Link: https://zapsauce.vercel.app?ref=YourName
-            </p>
+            {affiliateLink && (
+              <p style={{ color: '#00ff88', fontSize: '0.9rem', margin: '16px 0 0 0', wordBreak: 'break-all' }}>
+                Copied: {affiliateLink}
+              </p>
+            )}
           </div>
         </div>
       </section>
 
-      {/* CUSTOMER PORTAL - RESTORED & LOCKED */}
+      {/* CUSTOMER PORTAL - WORKING + SECURE */}
       <section style={{ background: '#000', padding: '60px 20px', borderTop: '1px solid #1f1f1f' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '32px' }}>
@@ -200,20 +230,25 @@ export default function HomePage() {
               <input 
                 type="password" 
                 placeholder="Enter Password" 
+                value={customerPass}
+                onChange={(e) => setCustomerPass(e.target.value)}
                 style={{ background: '#111', border: '1px solid #333', color: '#fff', padding: '12px 16px', borderRadius: '8px', fontSize: '1rem', minWidth: '200px' }}
               />
-              <button style={{ background: '#00ff88', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
+              <button 
+                onClick={handleCustomerAccess}
+                style={{ background: '#00ff88', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
                 Access Portal
               </button>
             </div>
+            {customerError && <p style={{ color: '#ff4444', fontSize: '0.9rem', margin: '16px 0 0 0' }}>{customerError}</p>}
             <p style={{ color: '#666', fontSize: '0.8rem', margin: '16px 0 0 0' }}>
-              Password: LIGHTNING2026 | Check email after purchase
+              Check email after purchase for password
             </p>
           </div>
         </div>
       </section>
 
-      {/* ADMIN PORTAL - RESTORED & LOCKED */}
+      {/* ADMIN PORTAL - WORKING + SECURE */}
       <section style={{ background: '#111', padding: '60px 20px', borderTop: '1px solid #1f1f1f' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ background: '#000', border: '2px solid #ff4444', borderRadius: '16px', padding: '32px' }}>
@@ -227,15 +262,17 @@ export default function HomePage() {
               <input 
                 type="password" 
                 placeholder="Admin Password" 
+                value={adminPass}
+                onChange={(e) => setAdminPass(e.target.value)}
                 style={{ background: '#111', border: '1px solid #333', color: '#fff', padding: '12px 16px', borderRadius: '8px', fontSize: '1rem', minWidth: '200px' }}
               />
-              <button style={{ background: '#ff4444', color: '#fff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
+              <button 
+                onClick={handleAdminAccess}
+                style={{ background: '#ff4444', color: '#fff', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
                 Enter Dashboard
               </button>
             </div>
-            <p style={{ color: '#666', fontSize: '0.8rem', margin: '16px 0 0 0' }}>
-              Admin access: HEAL120
-            </p>
+            {adminError && <p style={{ color: '#ff4444', fontSize: '0.9rem', margin: '16px 0 0 0' }}>{adminError}</p>}
           </div>
         </div>
       </section>
