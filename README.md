@@ -1,88 +1,54 @@
-# Zap Sauce ⚡ | Immunity in a Jar
+# Zap Sauce ORIGIN ⚡🥄🍯
 
-> **Product of Lesotho 🇱🇸** | For Considered Families | Lightning Immunity
+**Lightning in a jar!** Lightning-fast natural defense from Lesotho 🇱🇸  
+**For families with lightning immune systems.**
 
-## 🧪 What is Zap Sauce?
-
-**Zap Sauce** is a traditional home-made immunity tonic selling healing recipes via MPESA.
-
-**The Mission:** 1 tablespoon daily keeps the doctor away. Save families M378+ monthly on pharmacy runs.
+> "Let food be thy medicine" - Hippocrates  
+> **Original Recipe: 1 tsp daily keeps pharmacy away**
 
 ---
 
-## ⚡ 20 Healing Recipes
+## ⚡ LIVE DEMO
 
-### **Free Samples**
-1. **MORNING SHOT** - FREE - Your first taste of lightning
-2. **IMMUNITY TEASER** - FREE - Second free sample
-
-### **Core Collection**
-3. **ZAP SAUCE ORIGINAL** - M120 - Immunity in a Jar
-4. **SAVORY HEAL** - M150 - For soups, stews & immunity
-5. **FIRE CIDER** - M130 - Classic immune tonic
-6. **LIVER FLUSH** - M140 - Morning detox ritual
-7. **BRAIN TONIC** - M145 - Focus & clarity blend
-8. **SLEEP ELIXIR** - M155 - Nighttime wind-down
-9. **METABOLISM BOOST** - M160 - Pre-workout fire
-10. **HEART GUARD** - M165 - Circulation support
-11. **SKIN GLOW** - M170 - Collagen + antioxidants
-12. **LUNG CLEAR** - M175 - Respiratory support
-13. **KIDNEY CLEANSE** - M180 - Gentle diuretic tonic
-14. **HORMONE HARMONY** - M185 - Adaptogenic balance
-15. **BLOOD SUGAR BALANCE** - M190 - Glucose support
-16. **JOINT EASE** - M195 - Anti-inflammatory
-17. **ENERGY SHOT** - M200 - Natural energy
-
-### **Indigenous Heritage**
-18. **LENGANA LIGHTNING** - M205 - Mountain tranquility + supercharge
-19. **PHATE-EA-NGAKA POWER** - M210 - Doctor's medicine + supercharge
-20. **MALUTI IMMUNITY FUSION** - M220 - All Basotho herbs + supercharge
-
-### **Special Offers**
-- **MONTHLY HEAL** - M120/mo - All 20 recipes + EXCLUSIVE access
-- **HUSTLER'S VAULT** - M1200 - 12 Recipes + 30% affiliate rights
-- **TANGY FUSION** - M100 - EXCLUSIVE secret blend
+**Website:** [zapsauce.vercel.app](https://zapsauce.vercel.app)  
+**Admin:** `/admin` - Password: `HEAL120`  
+**Affiliate Portal:** `/portal` - Login with your affiliate name
 
 ---
 
-## 💚 Benefits
+## 🥄 BUSINESS MODEL - ONE PRODUCT EMPIRE
 
-**WHAT ZAP SAUCE ZAPS:**
-✓ Morning flu + sore throat + body aches
-✓ Coughs + chest congestion + winter chills
-✓ Low immunity + kids missing school
-✓ Inflammation + joint pain
-✓ M200+ weekly pharmacy runs for family
+### **Two Ways to Buy:**
 
-**Results:** Day 1-3: Energy up | Day 4-7: Cough gone | Day 14+: No sick days | Day 30: New baseline
+**1. ORIGIN PDF - M250** 🔒  
+- **LOCKED:** Complete recipe + exact measurements + 7-step method + cost calculator + warnings
+- **Delivery:** Instant PDF via WhatsApp after MPESA
+- **Value:** Make it yourself. Own forever. Save M750+/month on pharmacy bills
 
----
+**2. Ready-Made Jar - M120+** 🍯  
+- 250ml jar. Made fresh with secret formula
+- Sterilized. Labelled. 6 months shelf life
+- **42% profit margin** for you
 
-## ⚠️ Important Notice
+### **Affiliate System - 30% Commission**
 
-Zap Sauce recipes are food and beverage ideas for general wellness. **Not intended to diagnose, treat, cure, or prevent any disease.**
+**How it works:**
+1. Enter your name → Get link: `zapsauce.vercel.app?ref=YourName`
+2. Share link → Earn **M75** for every M250 PDF sale
+3. **Minimum payout: M225** (3 sales) - "Clean my Jar" rule 🥄🍯
+4. Track earnings in `/portal` → WhatsApp admin for payout
 
-**Do NOT use if:** gallstones, blood thinners, before surgery, stomach ulcers.
-**Honey never for babies under 1.**
-**Consult clinic if:** pregnant or on diabetes/BP meds.
-
----
-
-## 📞 How to Order
-
-**Step 1:** Choose your recipe above
-**Step 2:** Send MPESA payment to **57031600**
-**Step 3:** Use Ref: **ZAP-001** (or recipe code from list)
-**Step 4:** WhatsApp proof to **+266 57031600**
-**Step 5:** Get instant recipe access ⚡
-
-**Bank:** Lesotho Post Bank 1036202900018
-
-**Orders for readymade Zap Sauce TANGY-FUSION also available**
+**Example:**  
+Duduca shares link → 3 customers buy PDF = M750 revenue → Duduca earns M225 → You keep M525
 
 ---
 
-© 2026 Zap Sauce. Lightning in a jar! ⚡
-For Considered Families. Product of Lesotho 🇱🇸
+## 🔒 RECIPE SECURITY
 
-**"Let food be thy medicine" - Hippocrates**
+**Full formula is LOCKED behind M250 PDF paywall.**  
+Website shows only:
+- ✅ What it zaps: flu, coughs, inflammation, M200+ pharmacy bills
+- ✅ Teaser: "8 ingredients + 7-step method"
+- ❌ NO ingredients, NO measurements, NO method
+
+**PDF contains:** Exact grams, ml, steps, shelf life, warnings, cost calculator, scripts. 
