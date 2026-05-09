@@ -16,7 +16,6 @@ export default function AffiliatePage() {
   const [loading, setLoading] = useState(false)
 
   const PAYOUT_MINIMUM = 225
-  const COMMISSION_PER_SALE = 36
 
   const handleLogin = async () => {
     if (password !== 'ZAP120') {
@@ -51,7 +50,7 @@ export default function AffiliatePage() {
 
   const activateAccount = () => {
     window.open('https://zapsauce.vercel.app', '_blank')
-    alert('After purchasing M120, WhatsApp +266 57031600 with your ref code to activate')
+    alert('After purchasing ORIGIN M250 OR FIREBALL M350, WhatsApp +266 57031600 with your ref code to activate')
   }
 
   const requestPayout = () => {
@@ -60,7 +59,7 @@ export default function AffiliatePage() {
   }
 
   const affiliateLink = `https://zapsauce.vercel.app?ref=${refCode}`
-  const salesNeeded = Math.max(0, Math.ceil((PAYOUT_MINIMUM - (affiliate?.pending_due || 0)) / COMMISSION_PER_SALE))
+  const salesNeeded = Math.max(0, Math.ceil((PAYOUT_MINIMUM - (affiliate?.pending_due || 0)) / 75)) // Based on M75 minimum commission
   const canPayout = (affiliate?.pending_due || 0) >= PAYOUT_MINIMUM
 
   if (loading) return <main style={{ background: '#000', color: '#fff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><p>Loading...</p></main>
@@ -92,8 +91,8 @@ export default function AffiliatePage() {
         {!affiliate?.is_active ? (
           <div style={{ background: '#0a0a0a', border: '2px solid #ff4444', borderRadius: '16px', padding: '32px', textAlign: 'center' }}>
             <h3 style={{ color: '#ff4444', fontSize: '1.3rem', margin: '0 0 16px 0' }}>Activate to Earn</h3>
-            <p style={{ color: '#ccc', margin: '0 0 24px 0' }}>Buy the M120 PDF recipe to activate. Then earn M36 per sale.</p>
-            <button onClick={activateAccount} style={{ background: '#FFD700', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', cursor: 'pointer' }}>Buy M120 to Activate</button>
+            <p style={{ color: '#ccc', margin: '0 0 24px 0' }}>Buy ORIGIN M250 OR FIREBALL M350 to activate. Then earn M75 or M105 per sale.</p>
+            <button onClick={activateAccount} style={{ background: '#FFD700', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', cursor: 'pointer' }}>Buy to Activate</button>
           </div>
         ) : (
           <>
@@ -102,6 +101,7 @@ export default function AffiliatePage() {
               <div style={{ background: '#111', padding: '16px', borderRadius: '8px', marginBottom: '16px' }}>
                 <p style={{ color: '#00ff88', fontSize: '1rem', margin: 0, wordBreak: 'break-all' }}>{affiliateLink}</p>
               </div>
+              <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 16px 0' }}>Earn M75 for ORIGIN | M105 for FIREBALL sales</p>
               <button onClick={() => { navigator.clipboard.writeText(affiliateLink); alert('Copied!') }} style={{ background: '#FFD700', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', cursor: 'pointer', width: '100%' }}>Copy Link</button>
             </div>
 
@@ -114,7 +114,7 @@ export default function AffiliatePage() {
                 <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 8px 0' }}>Pending Payout</p>
                 <p style={{ color: canPayout ? '#00ff88' : '#ff4500', fontSize: '2rem', margin: 0, fontWeight: 'bold' }}>M{affiliate?.pending_due || 0}</p>
                 <p style={{ color: '#666', fontSize: '0.7rem', margin: '4px 0 0 0' }}>
-                  {canPayout ? 'Ready to cash out!' : `${salesNeeded} more sales to M225`}
+                  {canPayout ? 'Ready to cash out!' : `${salesNeeded} more ORIGIN sales to M225`}
                 </p>
               </div>
               <div style={{ background: '#0a0a0a', border: '2px solid #ff4500', borderRadius: '12px', padding: '24px', textAlign: 'center' }}>
@@ -132,13 +132,14 @@ export default function AffiliatePage() {
             <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '32px' }}>
               <h3 style={{ color: '#00ff88', fontSize: '1.3rem', margin: '0 0 16px 0' }}>Your Level 1 Sales</h3>
               {downlines.length === 0 ? (
-                <p style={{ color: '#888' }}>No sales yet. Share your link. Each sale = M36 to you.</p>
+                <p style={{ color: '#888' }}>No sales yet. Share your link. Earn M75 or M105 per sale.</p>
               ) : (
                 <div style={{ overflowX: 'auto' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
                       <tr style={{ borderBottom: '2px solid #333' }}>
                         <th style={{ color: '#888', textAlign: 'left', padding: '12px' }}>Buyer</th>
+                        <th style={{ color: '#888', textAlign: 'left', padding: '12px' }}>Product</th>
                         <th style={{ color: '#888', textAlign: 'left', padding: '12px' }}>Date</th>
                         <th style={{ color: '#888', textAlign: 'left', padding: '12px' }}>Commission</th>
                         <th style={{ color: '#888', textAlign: 'left', padding: '12px' }}>Paid</th>
@@ -148,8 +149,9 @@ export default function AffiliatePage() {
                       {downlines.map((sale, i) => (
                         <tr key={i} style={{ borderBottom: '1px solid #1a1a1a' }}>
                           <td style={{ color: '#fff', padding: '12px' }}>{sale.buyer_name}</td>
+                          <td style={{ color: sale.amount === 250 ? '#00ff88' : '#ff4500', padding: '12px' }}>{sale.amount === 250 ? 'ORIGIN' : 'FIREBALL'}</td>
                           <td style={{ color: '#ccc', padding: '12px' }}>{new Date(sale.created_at).toLocaleDateString()}</td>
-                          <td style={{ color: '#00ff88', padding: '12px', fontWeight: 'bold' }}>M36</td>
+                          <td style={{ color: '#00ff88', padding: '12px', fontWeight: 'bold' }}>M{sale.amount === 250 ? 75 : 105}</td>
                           <td style={{ color: sale.commission_paid ? '#00ff88' : '#ff4500', padding: '12px' }}>{sale.commission_paid ? 'Yes' : 'No'}</td>
                         </tr>
                       ))}
