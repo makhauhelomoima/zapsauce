@@ -16,22 +16,21 @@ export default function AffiliatePage() {
   const [loading, setLoading] = useState(false)
 
   // CONFIG
-  const TEST_MODE = true // Set to false when going live
-  const PAYOUT_MINIMUM = 0 // Set to 225 when going live
+  const TEST_MODE = true 
+  const PAYOUT_MINIMUM = 0
   const COMMISSION_ORIGIN = 75
   const COMMISSION_FIREBALL = 105
   const ORIGIN_PRICE = 250
   const FIREBALL_PRICE = 350
 
   const validateRefCode = (code) => {
-    // Rule: Must contain letters, no pure numbers, 3-20 chars, no spaces
     const hasLetter = /[a-zA-Z]/.test(code)
     const notPureNumber = !/^\d+$/.test(code)
     const validLength = code.length >= 3 && code.length <= 20
     const noSpaces = !/\s/.test(code)
     
     if (!hasLetter) return 'Ref code must contain letters. Use NameSurname format.'
-    if (!notPureNumber) return 'Ref code cannot be numbers only. Scammers use numbers.'
+    if (!notPureNumber) return 'Ref code cannot be numbers only.'
     if (!validLength) return 'Ref code must be 3-20 characters.'
     if (!noSpaces) return 'Ref code cannot have spaces. Use NameSurname.'
     return null
@@ -52,8 +51,9 @@ export default function AffiliatePage() {
   }
 
   const handleLogin = async () => {
+    // FIXED: One password for all. No email check.
     if (password !== 'ZAP120') {
-      alert('Wrong password. Use: ZAP120')
+      alert('Wrong password. The password is: ZAP120')
       return
     }
     
@@ -110,7 +110,7 @@ export default function AffiliatePage() {
       await fetchData(cleanCode)
     } catch (err) {
       console.error('Login error:', err)
-      alert('Error: Check Supabase connection or ref code already exists.')
+      alert('Error: Ref code may not exist. Ask admin to create it.')
     } finally {
       setLoading(false)
     }
