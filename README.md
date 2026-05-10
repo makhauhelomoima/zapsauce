@@ -13,16 +13,13 @@
 #### **1. ⚜️ GoldLux Boutique - Digital Wall Art**
 | **Product** | **Price** | **Affiliate Earns** |
 | --- | --- | --- |
-| **Golden Spiral Single** | M199 | M50 |
-| **Triptych Set** | M599 | M150 |
-| **Golden Vault Collection** | M1199 | M300 |
+| **GoldLux Wall Art** | M199 | M50 |
 **Instant download. Print anywhere. Own forever.**
 
 #### **2. 🔥 Zap Sauce™ - Lightning in a Jar**
 | **Product** | **Price** | **Affiliate Earns** |
 | --- | --- | --- |
-| **Original 250ml** | M150 | M37 |
-| **Family Pack 3x250ml** | M400 | M100 |
+| **Zap Sauce. Recipe pdf** | M150 | M37 |
 **Lightning-fast natural defense from Lesotho 🇱🇸**  
 **For families with lightning immune systems.**  
 *"Let food be thy medicine" - Hippocrates*  
