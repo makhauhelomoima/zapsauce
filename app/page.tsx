@@ -8,20 +8,20 @@ export default function HomePage() {
         
         {/* HEADER */}
         <div className="text-center mb-16">
-          <h1 className="text-6xl font-bold mb-4">⚜️ Gold Luxury Boutique</h1>
-          <p className="text-2xl text-gray-600 mb-4">Gold Luxury Boutique</p>
-          <p className="text-lg text-gray-500">Parent company of Zap Sauce™ & GoldLux Boutique</p>
+          <h1 className="text-6xl font-bold mb-4">⚜️ Gold Luxury Empire</h1>
+          <p className="text-2xl text-gray-600 mb-4">From Lightning in a Jar to Gold on Your Walls</p>
+          <p className="text-lg text-gray-500">Parent company of Zap Sauce™ & Gold Luxury Boutique</p>
           <p className="text-sm text-gray-400 mt-2">Maseru, Lesotho 🇱🇸</p>
         </div>
 
         {/* BRANDS */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           
-          {/* GOLDLUX - FIXED */}
+          {/* GOLD LUXURY BOUTIQUE */}
           <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-yellow-200 hover:scale-105 transition">
             <div className="text-center">
               <div className="text-5xl mb-4">⚜️</div>
-              <h2 className="text-3xl font-bold mb-4">GoldLux Boutique</h2>
+              <h2 className="text-3xl font-bold mb-4">Gold Luxury Boutique</h2>
               <p className="text-gray-600 mb-2">Luxury Wall Art</p>
               <p className="text-4xl font-bold mb-6">M199</p>
               <p className="text-sm text-gray-500 mb-6">Curated collection. Digital download. A4 PDF. New styles added regularly.</p>
@@ -31,7 +31,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* ZAP SAUCE - FIXED */}
+          {/* ZAP SAUCE */}
           <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-green-200 hover:scale-105 transition">
             <div className="text-center">
               <div className="text-5xl mb-4">🔥</div>
@@ -47,7 +47,7 @@ export default function HomePage() {
 
         </div>
 
-        {/* AFFILIATE CTA - FIXED TO 30% */}
+        {/* AFFILIATE CTA */}
         <div className="bg-black text-white rounded-2xl p-12 text-center mb-16">
           <h3 className="text-3xl font-bold mb-4">EARN 30% COMMISSION</h3>
           <p className="text-xl mb-2">M60 per GoldLux M199 sale</p>
@@ -58,10 +58,10 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* MIGRATION BANNER - FIXED */}
+        {/* MIGRATION BANNER */}
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-xl mb-16">
           <p className="font-bold text-lg mb-2">Looking for the old M250 Zap Sauce PDF?</p>
-          <p className="text-gray-700">We've upgraded! Choose from the GoldLux collection for <strong>M199</strong> or get Zap Sauce for <strong>M150</strong> above. Same lightning, more gold 🤍</p>
+          <p className="text-gray-700">We've upgraded! Choose from the Gold Luxury Boutique collection for <strong>M199</strong> or get Zap Sauce for <strong>M150</strong> above. Same lightning, more gold 🤍</p>
         </div>
 
         {/* FOOTER */}
