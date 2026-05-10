@@ -6,9 +6,12 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-6xl mx-auto px-4 py-16">
         
-        {/* HEADER */}
+        {/* HEADER - CENTERED */}
         <div className="text-center mb-16">
-          <h1 className="text-6xl font-bold mb-4">⚜️ Gold Luxury Empire</h1>
+          <div className="flex justify-center mb-4">
+            <span className="text-6xl">⚜️</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold mb-4">Gold Luxury Empire</h1>
           <p className="text-2xl text-gray-600 mb-4">From Lightning in a Jar to Gold on Your Walls</p>
           <p className="text-lg text-gray-500">Parent company of Zap Sauce™ & Gold Luxury Boutique</p>
           <p className="text-sm text-gray-400 mt-2">Maseru, Lesotho 🇱🇸</p>
@@ -73,4 +76,4 @@ export default function HomePage() {
       </div>
     </div>
   )
-          }
+            }
