@@ -1,7 +1,8 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
 
-// 1. CONNECT TO SUPABASE
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -10,7 +11,6 @@ const supabase = createClient(
 type Brand = 'ZapSauce' | 'GoldLux'
 
 export default function AffiliatePage() {
-  // 2. STATE
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [brand, setBrand] = useState<Brand>('ZapSauce')
@@ -20,22 +20,19 @@ export default function AffiliatePage() {
   const [totalCommission, setTotalCommission] = useState(0)
   const [paidCommission, setPaidCommission] = useState(0)
 
-  // 3. LOAD EVERYTHING ON PAGE LOAD
   useEffect(() => {
     async function init() {
-      // Get logged in user
       const { data: { user: authUser } } = await supabase.auth.getUser()
       if (!authUser?.email) {
         setLoading(false)
         return
       }
 
-      // Get affiliate row
       const { data: affiliate } = await supabase
-       .from('affiliates')
-       .select('*')
-       .eq('email', authUser.email)
-       .single()
+      .from('affiliates')
+      .select('*')
+      .eq('email', authUser.email)
+      .single()
 
       if (!affiliate) {
         setLoading(false)
@@ -43,30 +40,24 @@ export default function AffiliatePage() {
       }
       setUser(affiliate)
 
-      // Get all products for both empires
       const { data: prods } = await supabase
-       .from('products')
-       .select('*')
-       .eq('active', true)
-       .order('brand', { ascending: true })
-       .order('price_m', { ascending: true })
+      .from('products')
+      .select('*')
+      .eq('active', true)
+      .order('brand', { ascending: true })
+      .order('price_m', { ascending: true })
 
       setProducts(prods || [])
-
-      // Set default product to first Zap Sauce item
       const firstZap = prods?.find(p => p.brand === 'ZapSauce')
       if (firstZap) setProductId(firstZap.id)
 
-      // Get affiliate sales from view
       const { data: salesData } = await supabase
-       .from('admin_sales_view')
-       .select('*')
-       .eq('ref_code', affiliate.ref_code)
-       .order('created_at', { ascending: false })
+      .from('admin_sales_view')
+      .select('*')
+      .eq('ref_code', affiliate.ref_code)
+      .order('created_at', { ascending: false })
 
       setSales(salesData || [])
-
-      // Calculate totals
       const total = salesData?.reduce((sum, s) => sum + Number(s.commission_m), 0) || 0
       const paid = salesData?.filter(s => s.paid_out).reduce((sum, s) => sum + Number(s.commission_m), 0) || 0
       setTotalCommission(total)
@@ -76,7 +67,6 @@ export default function AffiliatePage() {
     init()
   }, [])
 
-  // 4. FILTER PRODUCTS WHEN BRAND CHANGES
   const brandProducts = products.filter(p => p.brand === brand)
 
   useEffect(() => {
@@ -85,7 +75,6 @@ export default function AffiliatePage() {
     }
   }, [brand, products])
 
-  // 5. SIMULATE SALE BUTTON
   async function handleSimulateSale() {
     const selected = products.find(p => p.id === productId)
     if (!selected ||!user) {
@@ -111,12 +100,11 @@ export default function AffiliatePage() {
 
     alert(`${selected.brand} sale added! You earned M${selected.commission_m} 🤍`)
 
-    // Reload sales
     const { data: salesData } = await supabase
-     .from('admin_sales_view')
-     .select('*')
-     .eq('ref_code', user.ref_code)
-     .order('created_at', { ascending: false })
+    .from('admin_sales_view')
+    .select('*')
+    .eq('ref_code', user.ref_code)
+    .order('created_at', { ascending: false })
 
     setSales(salesData || [])
     const total = salesData?.reduce((sum, s) => sum + Number(s.commission_m), 0) || 0
@@ -125,7 +113,6 @@ export default function AffiliatePage() {
     setPaidCommission(paid)
   }
 
-  // 6. RENDER
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -148,8 +135,6 @@ export default function AffiliatePage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-3xl mx-auto px-4 space-y-6">
-
-        {/* HEADER CARD */}
         <div className="bg-gradient-to-r from-black to-gray-800 text-white p-8 rounded-2xl shadow-lg">
           <h1 className="text-3xl font-bold">Hi {user.name} 🤍</h1>
           <p className="text-sm opacity-80 mt-1">Ref Code: {user.ref_code}</p>
@@ -166,7 +151,6 @@ export default function AffiliatePage() {
           <p className="text-sm opacity-80 mt-2">Pending: M{totalCommission - paidCommission}</p>
         </div>
 
-        {/* SIMULATE SALE CARD */}
         <div className="bg-white p-8 rounded-2xl shadow-lg space-y-6">
           <h2 className="text-2xl font-bold">+ Record New Sale</h2>
 
@@ -206,7 +190,6 @@ export default function AffiliatePage() {
           <p className="text-xs text-gray-500 text-center">For testing. Real MPESA integration comes after TEST_MODE = false</p>
         </div>
 
-        {/* SALES HISTORY CARD */}
         <div className="bg-white p-8 rounded-2xl shadow-lg">
           <h2 className="text-2xl font-bold mb-6">Your Sales History</h2>
           <div className="space-y-3">
@@ -233,7 +216,6 @@ export default function AffiliatePage() {
             ))}
           </div>
         </div>
-
       </div>
     </div>
   )
