@@ -1,43 +1,73 @@
-# Zap Sauce. | ORIGIN ⚡🥄🍯
+# ⚜️ Gold Luxury Empire | ORIGIN 🇱🇸
 
-**Lightning in a jar!** Lightning-fast natural defense from Lesotho 🇱🇸  
-**For families with lightning immune systems.**
+**From Lightning in a Jar to Gold on Your Walls.** A luxury house of brands from the Kingdom of Lesotho.
 
-> "Let food be thy medicine" - Hippocrates  
-> **Original Recipe: 1 tsp daily keeps pharmacy away**
+**For Queens who build generational wealth through beauty and wellness.**
 
-___
-
-## 🥄 BUSINESS MODEL - ONE PRODUCT EMPIRE
-
-### **Two Ways to Buy:**
-
-**1. ORIGIN PDF - M250** 🔒  
-- **LOCKED:** Complete recipe + exact measurements + 7-step method + cost calculator + warnings
-- **Delivery:** Instant PDF via WhatsApp after MPESA
-- **Value:** Make it yourself. Own forever. Save M750+/month on pharmacy bills
-
-**2. Ready-Made Jar - M120+** 🍯  
-- 250ml jar. Made fresh with secret formula
-- Sterilized. Labelled. 6 months shelf life
-- **42% profit margin** for you
-
-### **Affiliate System - 30% Commission**
-
-**How it works:**
-1. Enter your name → Get link: `zapsauce.vercel.app?ref=YourName`
-2. Share link → Earn **M75** for every M250 PDF sale
-3. **Minimum payout: M225** (3 sales) - "Clean my Jar" rule 🥄🍯
-4. Track earnings in `/portal` → WhatsApp admin for payout
+> "She considers a field and buys it; out of her earnings she plants a vineyard" - Proverbs 31:16
 
 ---
 
-## 🔒 RECIPE SECURITY
+### **OUR BRANDS**
 
-**Full formula is LOCKED behind M250 PDF paywall.**  
-Website shows only:
-- ✅ What it zaps: flu, coughs, inflammation, M200+ pharmacy bills
-- ✅ Teaser: "8 ingredients + 7-step method"
-- ❌ NO ingredients, NO measurements, NO method
+#### **1. ⚜️ GoldLux Boutique - Digital Wall Art**
+| **Product** | **Price** | **Affiliate Earns** |
+| --- | --- | --- |
+| **Golden Spiral Single** | M199 | M50 |
+| **Triptych Set** | M599 | M150 |
+| **Golden Vault Collection** | M1199 | M300 |
+**Instant download. Print anywhere. Own forever.**
 
-**PDF contains:** Exact grams, ml, steps, shelf life, warnings, cost calculator, scripts. 
+#### **2. 🔥 Zap Sauce™ - Lightning in a Jar**
+| **Product** | **Price** | **Affiliate Earns** |
+| --- | --- | --- |
+| **Original 250ml** | M150 | M37 |
+| **Family Pack 3x250ml** | M400 | M100 |
+**Lightning-fast natural defense from Lesotho 🇱🇸**  
+**For families with lightning immune systems.**  
+*"Let food be thy medicine" - Hippocrates*  
+**Original Recipe: 1 tsp daily keeps the doctors away**
+
+---
+
+### **AFFILIATE PROGRAM - ONE DASHBOARD, ALL BRANDS**
+
+**25% commission across GoldLux + Zap Sauce. One login. One payout.**
+
+1. **Share:** `gold-luxury-empire.vercel.app/catalog?ref=YOUR_CODE`
+2. **Earn:** M50 from GoldLux M199. M37 from Zap Sauce M150.
+3. **Track:** `gold-luxury-empire.vercel.app/affiliate`
+4. **Get Paid:** Every Friday via M-Pesa
+
+**Tseliso sells both. You profit from both. Empire math.**
+
+---
+
+### **THE STORY**
+
+**2025:** Zap Sauce launched. Families got stronger.  
+**2026:** GoldLux launched. Walls got beautiful.  
+**Now:** Gold Luxury Empire houses both. Because Queens don't choose between health and beauty. They sell both.
+
+---
+
+### **BUILT WITH** 
+
+**Next.js 14 + Supabase + Vercel + M-Pesa + Covenant**
+
+**Origin:** Maseru, Lesotho 🇱🇸  
+**Launched:** May 2026  
+**Founder:** A Queen who refused to pick one lane
+
+---
+
+### **LIVE EMPIRE**
+
+**🛒 Shop All Brands:** https://gold-luxury-empire.vercel.app/catalog  
+**📊 Affiliate Hub:** https://gold-luxury-empire.vercel.app/affiliate  
+**⚙️ Empire Admin:** https://gold-luxury-empire.vercel.app/admin
+
+---
+
+**© 2026 Gold Luxury Empire. Parent company of Zap Sauce™ & GoldLux Boutique.**  
+**Founded by Queens, for Queens. Health is wealth. Beauty is power. 🤍⚜️🔥👑**
