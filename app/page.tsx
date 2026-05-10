@@ -29,7 +29,7 @@ export default function HomePage() {
               <p className="text-4xl font-bold mb-6">M199</p>
               <p className="text-sm text-gray-500 mb-6">Curated collection. Digital download. A4 PDF. New styles added regularly.</p>
               <Link href="/catalog" className="inline-block bg-black text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 w-full">
-                Browse Collection →
+                Shop Collection →
               </Link>
             </div>
           </div>
