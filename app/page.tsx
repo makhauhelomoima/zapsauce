@@ -8,8 +8,8 @@ export default function HomePage() {
         
         {/* HEADER */}
         <div className="text-center mb-16">
-          <h1 className="text-6xl font-bold mb-4">⚜️ Gold Luxury Empire</h1>
-          <p className="text-2xl text-gray-600 mb-4">From Lightning in a Jar to Gold on Your Walls</p>
+          <h1 className="text-6xl font-bold mb-4">⚜️ Gold Luxury Boutique</h1>
+          <p className="text-2xl text-gray-600 mb-4">Gold Luxury Boutique</p>
           <p className="text-lg text-gray-500">Parent company of Zap Sauce™ & GoldLux Boutique</p>
           <p className="text-sm text-gray-400 mt-2">Maseru, Lesotho 🇱🇸</p>
         </div>
