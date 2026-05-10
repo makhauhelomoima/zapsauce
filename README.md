@@ -39,7 +39,7 @@
 3. **Track:** `gold-luxury-empire.vercel.app/affiliate`
 4. **Get Paid:** Every Friday via M-Pesa
 
-**Tseliso sells both. You profit from both. Empire math.**
+**Earn on both products, money goes straight to your wallet.**
 
 ---
 
@@ -48,16 +48,6 @@
 **2025:** Zap Sauce launched. Families got stronger.  
 **2026:** GoldLux launched. Walls got beautiful.  
 **Now:** Gold Luxury Empire houses both. Because Queens don't choose between health and beauty. They sell both.
-
----
-
-### **BUILT WITH** 
-
-**Next.js 14 + Supabase + Vercel + M-Pesa + Covenant**
-
-**Origin:** Maseru, Lesotho 🇱🇸  
-**Launched:** May 2026  
-**Founder:** A Queen who refused to pick one lane
 
 ---
 
