@@ -1,4 +1,4 @@
-# ⚜️ Gold Luxury Empire | ORIGIN 🇱🇸
+# ⚜️ Gold Luxury Empire | 🇱🇸
 
 **From Lightning in a Jar to Gold on Your Walls.** A luxury house of brands from the Kingdom of Lesotho.
 
