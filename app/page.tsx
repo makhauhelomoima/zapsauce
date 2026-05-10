@@ -17,16 +17,16 @@ export default function HomePage() {
         {/* BRANDS */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           
-          {/* GOLDLUX */}
+          {/* GOLDLUX - COLLECTION */}
           <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-yellow-200 hover:scale-105 transition">
             <div className="text-center">
               <div className="text-5xl mb-4">⚜️</div>
               <h2 className="text-3xl font-bold mb-4">GoldLux Boutique</h2>
-              <p className="text-gray-600 mb-2">Luxury Digital Wall Art</p>
+              <p className="text-gray-600 mb-2">Luxury Wall Art</p>
               <p className="text-4xl font-bold mb-6">M199</p>
-              <p className="text-sm text-gray-500 mb-6">Instant download. Print anywhere. Own forever.</p>
+              <p className="text-sm text-gray-500 mb-6">Curated collection. Digital download. A4 PDF. New styles added regularly.</p>
               <Link href="/catalog" className="inline-block bg-black text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 w-full">
-                Shop GoldLux →
+                Browse Collection →
               </Link>
             </div>
           </div>
@@ -38,7 +38,7 @@ export default function HomePage() {
               <h2 className="text-3xl font-bold mb-4">Zap Sauce™</h2>
               <p className="text-gray-600 mb-2">Lightning in a Jar</p>
               <p className="text-4xl font-bold mb-6">M150</p>
-              <p className="text-sm text-gray-500 mb-6">Natural defense. 1 tsp daily. Family health.</p>
+              <p className="text-sm text-gray-500 mb-6">1 tsp daily. Family health. Lesotho made.</p>
               <Link href="/catalog" className="inline-block bg-green-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-green-700 w-full">
                 Shop Zap Sauce →
               </Link>
@@ -49,10 +49,10 @@ export default function HomePage() {
 
         {/* AFFILIATE CTA */}
         <div className="bg-black text-white rounded-2xl p-12 text-center mb-16">
-          <h3 className="text-3xl font-bold mb-4">EARN 25% COMMISSION</h3>
-          <p className="text-xl mb-2">M50 per GoldLux M199 sale</p>
-          <p className="text-xl mb-8">M37 per Zap Sauce M150 sale</p>
-          <p className="mb-8">One dashboard. Both brands. Weekly M-Pesa payouts.</p>
+          <h3 className="text-3xl font-bold mb-4">EARN 30% COMMISSION</h3>
+          <p className="text-xl mb-2">M60 per GoldLux M199 sale</p>
+          <p className="text-xl mb-8">M45 per Zap Sauce M150 sale</p>
+          <p className="mb-8">One dashboard. Two products. Weekly M-Pesa payouts.</p>
           <Link href="/affiliate" className="inline-block bg-white text-black px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100">
             Join Affiliate Program →
           </Link>
@@ -60,8 +60,8 @@ export default function HomePage() {
 
         {/* MIGRATION NOTICE FOR M250 CUSTOMERS */}
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-xl mb-16">
-          <p className="font-bold text-lg mb-2">Looking for the M250 Zap Sauce PDF?</p>
-          <p className="text-gray-700">We've upgraded to Gold Luxury Empire! Get Golden Spiral Single for <strong>M199</strong> or Zap Sauce Original for <strong>M150</strong> above. Same lightning, more gold 🤍</p>
+          <p className="font-bold text-lg mb-2">Looking for the old M250 Zap Sauce PDF?</p>
+          <p className="text-gray-700">We've upgraded! Choose from the GoldLux collection for <strong>M199</strong> or get Zap Sauce for <strong>M150</strong> above. Same lightning, more gold 🤍</p>
         </div>
 
         {/* FOOTER */}
@@ -73,4 +73,4 @@ export default function HomePage() {
       </div>
     </div>
   )
-}
+        }
