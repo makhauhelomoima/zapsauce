@@ -20,7 +20,7 @@ export default function HomePage() {
         {/* BRANDS - DEEP COLORS */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           
-          {/* GOLD LUXURY BOUTIQUE - RICH GOLD */}
+          {/* GOLD LUXURY WALL ART- RICH GOLD */}
           <div className="bg-gradient-to-br from-amber-50 to-yellow-100 rounded-2xl shadow-2xl p-8 border-2 border-amber-400 hover:scale-105 transition duration-300">
             <div className="text-center">
               <div className="text-5xl mb-4 drop-shadow-md">⚜️</div>
@@ -39,7 +39,7 @@ export default function HomePage() {
             <div className="text-center">
               <div className="text-5xl mb-4 drop-shadow-md">🔥</div>
               <h2 className="text-3xl font-bold mb-4 text-emerald-900">Zap Sauce™</h2>
-              <p className="text-emerald-800 mb-2 font-medium">Lightning in a Jar | Two Signature Flavors</p>
+              <p className="text-emerald-800 mb-2 font-medium">Lightning in a Jar. Two Signature Flavors</p>
               <p className="text-5xl font-bold mb-6 text-emerald-950">M150 per pdf</p>
               <p className="text-sm text-emerald-700 mb-6">1 tsp daily. Family health. Lesotho made.</p>
               <Link href="/catalog" className="inline-block bg-emerald-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-emerald-800 w-full shadow-lg">
