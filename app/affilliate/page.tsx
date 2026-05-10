@@ -1,336 +1,240 @@
-'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
 
+// 1. CONNECT TO SUPABASE
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
+type Brand = 'ZapSauce' | 'GoldLux'
+
 export default function AffiliatePage() {
-  const [password, setPassword] = useState('')
-  const [authed, setAuthed] = useState(false)
-  const [refCode, setRefCode] = useState('')
-  const [affiliate, setAffiliate] = useState(null)
-  const [downlines, setDownlines] = useState([])
-  const [loading, setLoading] = useState(false)
+  // 2. STATE
+  const [user, setUser] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [brand, setBrand] = useState<Brand>('ZapSauce')
+  const [products, setProducts] = useState<any[]>([])
+  const [productId, setProductId] = useState('')
+  const [sales, setSales] = useState<any[]>([])
+  const [totalCommission, setTotalCommission] = useState(0)
+  const [paidCommission, setPaidCommission] = useState(0)
 
-  // CONFIG
-  const TEST_MODE = true 
-  const PAYOUT_MINIMUM = 0
-  const COMMISSION_ORIGIN = 75
-  const COMMISSION_FIREBALL = 105
-  const ORIGIN_PRICE = 250
-  const FIREBALL_PRICE = 350
-
-  const validateRefCode = (code) => {
-    const hasLetter = /[a-zA-Z]/.test(code)
-    const notPureNumber = !/^\d+$/.test(code)
-    const validLength = code.length >= 3 && code.length <= 20
-    const noSpaces = !/\s/.test(code)
-    
-    if (!hasLetter) return 'Ref code must contain letters. Use NameSurname format.'
-    if (!notPureNumber) return 'Ref code cannot be numbers only.'
-    if (!validLength) return 'Ref code must be 3-20 characters.'
-    if (!noSpaces) return 'Ref code cannot have spaces. Use NameSurname.'
-    return null
-  }
-
-  const fetchData = async (code) => {
-    const { data: aff } = await supabase.from('affiliates').select('*').eq('ref_code', code).single()
-    setAffiliate(aff)
-    
-    if (aff?.is_active) {
-      const { data: sales } = await supabase
-        .from('purchases')
-        .select('*')
-        .eq('ref_code_used', code)
-        .order('created_at', { ascending: false })
-      setDownlines(sales || [])
-    }
-  }
-
-  const handleLogin = async () => {
-    // FIXED: One password for all. No email check.
-    if (password !== 'ZAP120') {
-      alert('Wrong password. The password is: ZAP120')
-      return
-    }
-    
-    const code = prompt('Enter your unique ref code.\nNEW USER? Create one using NameSurname format:\nExample: ThaboMokhele')
-    if (!code || code.trim() === '') return
-    
-    const cleanCode = code.trim()
-    const validationError = validateRefCode(cleanCode)
-    if (validationError) {
-      alert(validationError)
-      return
-    }
-    
-    setLoading(true)
-    setRefCode(cleanCode)
-    
-    try {
-      let { data: existing, error } = await supabase
-        .from('affiliates')
-        .select('*')
-        .eq('ref_code', cleanCode)
-        .single()
-      
-      if (!existing && error?.code === 'PGRST116') {
-        const name = prompt('Enter your full name for payouts:')
-        if (!name) { setLoading(false); return }
-        const phone = prompt('Enter MPESA number 266XXXXXXXX:')
-        if (!phone) { setLoading(false); return }
-        const email = prompt('Enter email address:')
-        if (!email) { setLoading(false); return }
-        
-        const { data: newAff, error: insertError } = await supabase
-          .from('affiliates')
-          .insert({
-            name: name.trim(),
-            ref_code: cleanCode,
-            phone: phone.trim(),
-            email: email.trim(),
-            is_active: false,
-            total_earned: 0,
-            pending_due: 0
-          })
-          .select()
-          .single()
-        
-        if (insertError) throw insertError
-        existing = newAff
-      } else if (error) {
-        throw error
+  // 3. LOAD EVERYTHING ON PAGE LOAD
+  useEffect(() => {
+    async function init() {
+      // Get logged in user
+      const { data: { user: authUser } } = await supabase.auth.getUser()
+      if (!authUser?.email) {
+        setLoading(false)
+        return
       }
-      
-      setAffiliate(existing)
-      setAuthed(true)
-      await fetchData(cleanCode)
-    } catch (err) {
-      console.error('Login error:', err)
-      alert('Error: Ref code may not exist. Ask admin to create it.')
-    } finally {
+
+      // Get affiliate row
+      const { data: affiliate } = await supabase
+       .from('affiliates')
+       .select('*')
+       .eq('email', authUser.email)
+       .single()
+
+      if (!affiliate) {
+        setLoading(false)
+        return
+      }
+      setUser(affiliate)
+
+      // Get all products for both empires
+      const { data: prods } = await supabase
+       .from('products')
+       .select('*')
+       .eq('active', true)
+       .order('brand', { ascending: true })
+       .order('price_m', { ascending: true })
+
+      setProducts(prods || [])
+
+      // Set default product to first Zap Sauce item
+      const firstZap = prods?.find(p => p.brand === 'ZapSauce')
+      if (firstZap) setProductId(firstZap.id)
+
+      // Get affiliate sales from view
+      const { data: salesData } = await supabase
+       .from('admin_sales_view')
+       .select('*')
+       .eq('ref_code', affiliate.ref_code)
+       .order('created_at', { ascending: false })
+
+      setSales(salesData || [])
+
+      // Calculate totals
+      const total = salesData?.reduce((sum, s) => sum + Number(s.commission_m), 0) || 0
+      const paid = salesData?.filter(s => s.paid_out).reduce((sum, s) => sum + Number(s.commission_m), 0) || 0
+      setTotalCommission(total)
+      setPaidCommission(paid)
       setLoading(false)
     }
-  }
+    init()
+  }, [])
 
-  const testActivate = async () => {
-    if (!TEST_MODE) return
-    const confirm = window.confirm('TEST: Activate your account now? Simulates buying M250/M350.')
-    if (!confirm) return
-    
-    await supabase.from('affiliates').update({ is_active: true }).eq('ref_code', refCode)
-    await fetchData(refCode)
-    alert('Activated! You can now earn commissions.')
-  }
+  // 4. FILTER PRODUCTS WHEN BRAND CHANGES
+  const brandProducts = products.filter(p => p.brand === brand)
 
-  const testSimulateSale = async (productType) => {
-    if (!TEST_MODE) return
-    const buyerName = prompt('Enter test buyer name:')
-    if (!buyerName) return
-    
-    const amount = productType === 'ORIGIN' ? ORIGIN_PRICE : FIREBALL_PRICE
-    const commission = productType === 'ORIGIN' ? COMMISSION_ORIGIN : COMMISSION_FIREBALL
-    
-    await supabase.from('purchases').insert({
-      buyer_name: buyerName,
-      amount: amount,
-      product_name: productType,
-      ref_code_used: refCode,
-      commission_paid: false
+  useEffect(() => {
+    if (brandProducts.length > 0) {
+      setProductId(brandProducts[0].id)
+    }
+  }, [brand, products])
+
+  // 5. SIMULATE SALE BUTTON
+  async function handleSimulateSale() {
+    const selected = products.find(p => p.id === productId)
+    if (!selected ||!user) {
+      alert('Please select a product first')
+      return
+    }
+
+    const { error } = await supabase.from('sales').insert({
+      buyer_name: 'Test Buyer',
+      brand: selected.brand,
+      product_id: selected.id,
+      price_m: selected.price_m,
+      commission_m: selected.commission_m,
+      affiliate_id: user.id,
+      ref_code: user.ref_code,
+      paid_out: false
     })
-    
-    await supabase
-      .from('affiliates')
-      .update({ 
-        total_earned: affiliate.total_earned + commission,
-        pending_due: affiliate.pending_due + commission
-      })
-      .eq('ref_code', refCode)
-    
-    await fetchData(refCode)
-    alert(`Test sale complete! M${commission} added to your wallet.`)
+
+    if (error) {
+      alert('Error: ' + error.message)
+      return
+    }
+
+    alert(`${selected.brand} sale added! You earned M${selected.commission_m} 🤍`)
+
+    // Reload sales
+    const { data: salesData } = await supabase
+     .from('admin_sales_view')
+     .select('*')
+     .eq('ref_code', user.ref_code)
+     .order('created_at', { ascending: false })
+
+    setSales(salesData || [])
+    const total = salesData?.reduce((sum, s) => sum + Number(s.commission_m), 0) || 0
+    const paid = salesData?.filter(s => s.paid_out).reduce((sum, s) => sum + Number(s.commission_m), 0) || 0
+    setTotalCommission(total)
+    setPaidCommission(paid)
   }
 
-  const requestPayout = () => {
-    if (!affiliate || !canPayout) return
-    const message = `PAYOUT REQUEST ⚡%0AName: ${affiliate.name}%0ARef: ${refCode}%0AAmount: M${affiliate.pending_due}%0AMPESA: ${affiliate.phone}`
-    window.open(`https://wa.me/26657031600?text=${message}`, '_blank')
-  }
-
-  const affiliateLink = `https://zapsauce.vercel.app?ref=${refCode}`
-  const canPayout = (affiliate?.pending_due || 0) >= PAYOUT_MINIMUM && affiliate?.is_active
-
-  if (loading) return <main style={{ background: '#000', color: '#fff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><p style={{ color: '#00ff88' }}>Connecting to Supabase...</p></main>
-
-  if (!authed) {
+  // 6. RENDER
+  if (loading) {
     return (
-      <main style={{ background: '#000', color: '#fff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui' }}>
-        <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '32px', maxWidth: '400px', width: '100%', textAlign: 'center' }}>
-          <h1 style={{ color: '#00ff88', fontSize: '1.8rem', margin: '0 0 8px 0' }}>Affiliate Portal ⚡</h1>
-          <p style={{ color: '#FFD700', fontSize: '1.1rem', margin: '0 0 8px 0', fontWeight: 'bold' }}>FREE TO JOIN</p>
-          <p style={{ color: '#ccc', fontSize: '0.8rem', margin: '0 0 16px 0' }}>Use NameSurname for ref code</p>
-          {TEST_MODE && <p style={{ color: '#ff4444', fontSize: '0.8rem', margin: '0 0 16px 0' }}>TEST MODE ACTIVE</p>}
-          <input 
-            type="password" 
-            placeholder="Enter Password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-            style={{ background: '#111', border: '1px solid #333', color: '#fff', padding: '12px 16px', borderRadius: '8px', fontSize: '1rem', width: '100%', marginBottom: '16px' }} 
-          />
-          <button onClick={handleLogin} style={{ background: '#00ff88', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', width: '100%' }}>
-            Access Portal
-          </button>
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-xl">Loading your empire...</p>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Please Login</h1>
+          <p>You need to be an approved affiliate to access this page.</p>
         </div>
-      </main>
+      </div>
     )
   }
 
   return (
-    <main style={{ background: '#000', color: '#fff', minHeight: '100vh', fontFamily: 'system-ui', padding: '40px 20px' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        {TEST_MODE && (
-          <div style={{ background: '#ff4444', color: '#fff', padding: '16px', borderRadius: '8px', textAlign: 'center', marginBottom: '24px' }}>
-            <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>⚠️ TEST MODE ACTIVE</p>
-            <p style={{ margin: 0, fontSize: '0.9rem' }}>Use buttons below to simulate. Data saves to Supabase permanently.</p>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-3xl mx-auto px-4 space-y-6">
+
+        {/* HEADER CARD */}
+        <div className="bg-gradient-to-r from-black to-gray-800 text-white p-8 rounded-2xl shadow-lg">
+          <h1 className="text-3xl font-bold">Hi {user.name} 🤍</h1>
+          <p className="text-sm opacity-80 mt-1">Ref Code: {user.ref_code}</p>
+          <div className="grid grid-cols-2 gap-4 mt-6">
+            <div>
+              <p className="text-sm opacity-80">Total Earned</p>
+              <p className="text-4xl font-bold">M{totalCommission}</p>
+            </div>
+            <div>
+              <p className="text-sm opacity-80">Paid Out</p>
+              <p className="text-4xl font-bold text-green-400">M{paidCommission}</p>
+            </div>
           </div>
-        )}
-        
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
-          <div>
-            <h1 style={{ color: '#00ff88', fontSize: '2rem', margin: 0 }}>Affiliate Dashboard ⚡</h1>
-            <p style={{ color: '#888', margin: '4px 0 0 0' }}>
-              Welcome, {affiliate?.name} | Ref: {refCode} | Status: {affiliate?.is_active ? 'ACTIVE' : 'INACTIVE'}
-            </p>
-          </div>
-          <button onClick={() => setAuthed(false)} style={{ background: '#ff4444', color: '#fff', padding: '10px 20px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>
-            Logout
-          </button>
+          <p className="text-sm opacity-80 mt-2">Pending: M{totalCommission - paidCommission}</p>
         </div>
 
-        {TEST_MODE && !affiliate?.is_active && (
-          <div style={{ background: '#0a0a0a', border: '2px solid #FFD700', borderRadius: '16px', padding: '32px', textAlign: 'center', marginBottom: '24px' }}>
-            <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 16px 0' }}>Test Activation</h3>
-            <p style={{ color: '#ccc', margin: '0 0 24px 0' }}>
-              Click to simulate buying ORIGIN M250 OR FIREBALL M350 and activate your account instantly.
-            </p>
-            <button onClick={testActivate} style={{ background: '#FFD700', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', cursor: 'pointer', fontSize: '1rem' }}>
-              Test Activate Now
-            </button>
-          </div>
-        )}
-        
-        {!TEST_MODE && !affiliate?.is_active && (
-          <div style={{ background: '#0a0a0a', border: '2px solid #ff4444', borderRadius: '16px', padding: '32px', textAlign: 'center' }}>
-            <h3 style={{ color: '#ff4444', fontSize: '1.3rem', margin: '0 0 16px 0' }}>Activate to Earn</h3>
-            <p style={{ color: '#ccc', margin: '0 0 24px 0' }}>
-              Buy ORIGIN M250 OR FIREBALL M350 to activate. Then WhatsApp +266 57031600 with your ref code.
-            </p>
-            <button onClick={() => window.open('https://zapsauce.vercel.app', '_blank')} style={{ background: '#FFD700', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', cursor: 'pointer', fontSize: '1rem' }}>
-              Buy to Activate
-            </button>
-          </div>
-        )}
+        {/* SIMULATE SALE CARD */}
+        <div className="bg-white p-8 rounded-2xl shadow-lg space-y-6">
+          <h2 className="text-2xl font-bold">+ Record New Sale</h2>
 
-        {affiliate?.is_active && (
-          <>
-            {TEST_MODE && (
-              <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '24px', marginBottom: '24px' }}>
-                <h3 style={{ color: '#00ff88', fontSize: '1.3rem', margin: '0 0 16px 0' }}>Test Sales Simulator</h3>
-                <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 16px 0' }}>Click to simulate someone buying with your link. Commission adds instantly.</p>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <button onClick={() => testSimulateSale('ORIGIN')} style={{ background: '#00ff88', color: '#000', padding: '12px', borderRadius: '8px', border: 'none', fontWeight: 'bold', cursor: 'pointer' }}>
-                    + Simulate ORIGIN Sale M75
-                  </button>
-                  <button onClick={() => testSimulateSale('FIREBALL')} style={{ background: '#ff4500', color: '#fff', padding: '12px', borderRadius: '8px', border: 'none', fontWeight: 'bold', cursor: 'pointer' }}>
-                    + Simulate FIREBALL Sale M105
-                  </button>
+          <div>
+            <label className="block text-sm font-semibold mb-2">Select Empire</label>
+            <select
+              value={brand}
+              onChange={e => setBrand(e.target.value as Brand)}
+              className="w-full p-4 border-2 border-gray-200 rounded-xl text-lg focus:border-black outline-none"
+            >
+              <option value="ZapSauce">🔥 Zap Sauce - Hot Sauce</option>
+              <option value="GoldLux">⚜️ GoldLux Boutique - Luxury Wall Art</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold mb-2">Select Product</label>
+            <select
+              value={productId}
+              onChange={e => setProductId(e.target.value)}
+              className="w-full p-4 border-2 border-gray-200 rounded-xl text-lg focus:border-black outline-none"
+            >
+              {brandProducts.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.name} - M{p.price_m} | Your cut: M{p.commission_m}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            onClick={handleSimulateSale}
+            className="w-full bg-black text-white p-5 rounded-xl font-bold text-xl hover:bg-gray-800 transition active:scale-95"
+          >
+            + Simulate Sale
+          </button>
+          <p className="text-xs text-gray-500 text-center">For testing. Real MPESA integration comes after TEST_MODE = false</p>
+        </div>
+
+        {/* SALES HISTORY CARD */}
+        <div className="bg-white p-8 rounded-2xl shadow-lg">
+          <h2 className="text-2xl font-bold mb-6">Your Sales History</h2>
+          <div className="space-y-3">
+            {sales.length === 0 && (
+              <p className="text-gray-500 text-center py-8">No sales yet. Make your first one above ☝️</p>
+            )}
+            {sales.map(s => (
+              <div key={s.id} className="flex justify-between items-center p-4 bg-gray-50 rounded-xl">
+                <div>
+                  <p className="font-semibold">
+                    {s.brand === 'GoldLux'? '⚜️' : '🔥'} {s.brand} - {s.product_name || 'Unknown'}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {new Date(s.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold text-xl text-green-600">+M{s.commission_m}</p>
+                  <p className="text-xs">
+                    {s.paid_out? '✅ Paid' : '⏳ Pending'}
+                  </p>
                 </div>
               </div>
-            )}
+            ))}
+          </div>
+        </div>
 
-            <div style={{ background: '#0a0a0a', border: '2px solid #FFD700', borderRadius: '16px', padding: '32px', marginBottom: '24px' }}>
-              <h3 style={{ color: '#FFD700', fontSize: '1.3rem', margin: '0 0 16px 0' }}>Your Link 🔗</h3>
-              <div style={{ background: '#111', padding: '16px', borderRadius: '8px', marginBottom: '16px' }}>
-                <p style={{ color: '#00ff88', fontSize: '1rem', margin: 0, wordBreak: 'break-all' }}>{affiliateLink}</p>
-              </div>
-              <button onClick={() => { navigator.clipboard.writeText(affiliateLink); alert('Copied! Share with friends.') }} style={{ background: '#FFD700', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', cursor: 'pointer', width: '100%', fontSize: '1rem' }}>
-                Copy Link
-              </button>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-              <div style={{ background: '#0a0a0a', border: '2px solid #FFD700', borderRadius: '12px', padding: '24px', textAlign: 'center' }}>
-                <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 8px 0' }}>Total Earned</p>
-                <p style={{ color: '#FFD700', fontSize: '2rem', margin: 0, fontWeight: 'bold' }}>M{affiliate?.total_earned || 0}</p>
-              </div>
-              <div style={{ background: '#0a0a0a', border: `2px solid ${canPayout ? '#00ff88' : '#ff4500'}`, borderRadius: '12px', padding: '24px', textAlign: 'center' }}>
-                <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 8px 0' }}>Pending Payout</p>
-                <p style={{ color: canPayout ? '#00ff88' : '#ff4500', fontSize: '2rem', margin: 0, fontWeight: 'bold' }}>M{affiliate?.pending_due || 0}</p>
-                <p style={{ color: '#666', fontSize: '0.7rem', margin: '4px 0 0 0' }}>
-                  {PAYOUT_MINIMUM === 0 
-                    ? 'Test Mode: M0 minimum' 
-                    : canPayout 
-                      ? 'Ready to cash out!' 
-                      : `${Math.max(0, Math.ceil((PAYOUT_MINIMUM - (affiliate?.pending_due || 0)) / COMMISSION_ORIGIN))} more ORIGIN sales to M${PAYOUT_MINIMUM}`
-                  }
-                </p>
-              </div>
-              <div style={{ background: '#0a0a0a', border: '2px solid #ff4500', borderRadius: '12px', padding: '24px', textAlign: 'center' }}>
-                <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 8px 0' }}>Level 1 Downlines</p>
-                <p style={{ color: '#ff4500', fontSize: '2rem', margin: 0, fontWeight: 'bold' }}>{downlines.length}</p>
-              </div>
-            </div>
-
-            {canPayout && (
-              <button onClick={requestPayout} style={{ background: '#00ff88', color: '#000', padding: '16px 24px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer', width: '100%', marginBottom: '24px' }}>
-                Request M{affiliate.pending_due} Payout via WhatsApp
-              </button>
-            )}
-
-            <div style={{ background: '#0a0a0a', border: '2px solid #00ff88', borderRadius: '16px', padding: '32px' }}>
-              <h3 style={{ color: '#00ff88', fontSize: '1.3rem', margin: '0 0 16px 0' }}>Your Level 1 Sales</h3>
-              {downlines.length === 0 ? (
-                <p style={{ color: '#888' }}>No sales yet. {TEST_MODE ? 'Use test buttons above.' : 'Share your link.'}</p>
-              ) : (
-                <div style={{ overflowX: 'auto' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead>
-                      <tr style={{ borderBottom: '2px solid #333' }}>
-                        <th style={{ color: '#888', textAlign: 'left', padding: '12px' }}>Buyer</th>
-                        <th style={{ color: '#888', textAlign: 'left', padding: '12px' }}>Product</th>
-                        <th style={{ color: '#888', textAlign: 'left', padding: '12px' }}>Date</th>
-                        <th style={{ color: '#888', textAlign: 'left', padding: '12px' }}>Commission</th>
-                        <th style={{ color: '#888', textAlign: 'left', padding: '12px' }}>Paid</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {downlines.map((sale, i) => (
-                        <tr key={i} style={{ borderBottom: '1px solid #1a1a1a' }}>
-                          <td style={{ color: '#fff', padding: '12px' }}>{sale.buyer_name}</td>
-                          <td style={{ color: sale.amount === ORIGIN_PRICE ? '#00ff88' : '#ff4500', padding: '12px', fontWeight: 'bold' }}>
-                            {sale.product_name}
-                          </td>
-                          <td style={{ color: '#ccc', padding: '12px' }}>{new Date(sale.created_at).toLocaleDateString()}</td>
-                          <td style={{ color: '#00ff88', padding: '12px', fontWeight: 'bold' }}>
-                            M{sale.amount === ORIGIN_PRICE ? COMMISSION_ORIGIN : COMMISSION_FIREBALL}
-                          </td>
-                          <td style={{ color: sale.commission_paid ? '#00ff88' : '#ff4500', padding: '12px' }}>
-                            {sale.commission_paid ? 'Yes' : 'No'}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
-          </>
-        )}
       </div>
-    </main>
+    </div>
   )
 }
