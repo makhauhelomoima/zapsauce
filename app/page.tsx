@@ -11,9 +11,9 @@ export default function HomePage() {
           <div className="flex justify-center mb-4">
             <span className="text-6xl drop-shadow-lg">⚜️</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-gray-900">Gold Luxury Empire</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-gray-900">Gold Luxury Boutique</h1>
           <p className="text-2xl text-gray-700 mb-4 font-medium">From Lightning in a Jar to Gold on Your Walls</p>
-          <p className="text-lg text-gray-600">Parent company of Zap Sauce™ & Gold Luxury Boutique</p>
+          <p className="text-lg text-gray-600">Parent company of Zap Sauce™ pdf & Gold Luxury Art pdf</p>
           <p className="text-sm text-gray-500 mt-2">Maseru, Lesotho 🇱🇸</p>
         </div>
 
