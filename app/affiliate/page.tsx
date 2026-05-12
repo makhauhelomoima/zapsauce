@@ -1,6 +1,7 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 const supabase = createClient(
@@ -8,181 +9,200 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
-type AffiliateData = {
-  name: string
-  ref_code: string
-  mpesa_number: string
-  total_earned: number
-  total_paid: number
+// Generate unique ref code from name
+function generateRefCode(name: string) {
+  const clean = name.toLowerCase().replace(/[^a-z0-9]/g, '')
+  const random = Math.floor(Math.random() * 1000)
+  return `${clean}${random}`
 }
 
-type OrderData = {
-  id: string
-  customer_email: string
-  product_name: string
-  amount: number
-  paid: boolean
-  created_at: string
-}
-
-export default function AffiliatePortal() {
-  const [user, setUser] = useState<any>(null)
-  const [affiliateData, setAffiliateData] = useState<AffiliateData | null>(null)
-  const [orders, setOrders] = useState<OrderData[]>([])
-  const [loading, setLoading] = useState(true)
+export default function AffiliateSignup() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [payoutMethod, setPayoutMethod] = useState('mpesa')
+  const [payoutDetails, setPayoutDetails] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
   const router = useRouter()
 
-  useEffect(() => {
-    checkUser()
-  }, [])
+  async function handleSignup(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
 
-  async function checkUser() {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      router.push('/login')
+    // 1. Create auth user
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+
+    if (authError) {
+      setError(authError.message)
+      setLoading(false)
       return
     }
-    setUser(user)
-    fetchAffiliateData(user.email!)
-  }
 
-  async function fetchAffiliateData(userEmail: string) {
-    setLoading(true)
-    
-    // Find affiliate by matching user email to affiliates table
-    // Note: Add email column to affiliates table if you haven't
-    const { data: affData } = await supabase
-      .from('affiliates')
-      .select('*')
-      .eq('email', userEmail)
-      .single()
-
-    if (affData) {
-      setAffiliateData(affData)
-      
-      const { data: ordersData } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('ref_code', affData.ref_code)
-        .order('created_at', { ascending: false })
-      
-      if (ordersData) setOrders(ordersData)
-    } else {
-      // Not an affiliate, send to signup
-      router.push('/affiliate')
+    if (!authData.user) {
+      setError('Signup failed. Try again.')
+      setLoading(false)
+      return
     }
+
+    // 2. Create affiliate record
+    const refCode = generateRefCode(name)
+    const { error: insertError } = await supabase
+      .from('affiliates')
+      .insert([{
+        email,
+        name,
+        ref_code: refCode,
+        payout_method: payoutMethod,
+        payout_details: payoutDetails,
+        total_earned: 0,
+        total_paid: 0
+      }])
+
+    if (insertError) {
+      setError(insertError.message)
+      setLoading(false)
+      return
+    }
+
+    setSuccess(true)
     setLoading(false)
+    
+    // Redirect to portal after 2 seconds
+    setTimeout(() => {
+      router.push('/portal')
+    }, 2000)
   }
 
-  async function handleLogout() {
-    await supabase.auth.signOut()
-    router.push('/')
+  if (success) {
+    return (
+      <div className="min-h-screen bg-emerald-50 flex items-center justify-center p-4">
+        <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full text-center">
+          <div className="text-6xl mb-4">🎉</div>
+          <h1 className="text-3xl font-bold text-emerald-950 mb-2">Welcome to the Empire!</h1>
+          <p className="text-emerald-700 mb-6">Your affiliate account is ready. Redirecting to your portal...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600 mx-auto"></div>
+        </div>
+      </div>
+    )
   }
-
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading Portal... 🔥</div>
-  if (!affiliateData) return <div className="min-h-screen flex items-center justify-center">No affiliate data found</div>
-
-  const owed = affiliateData.total_earned - affiliateData.total_paid
-  const yourLink = `https://zapsauce.vercel.app/?ref=${affiliateData.ref_code}`
-  const paidOrders = orders.filter(o => o.paid).length
-  const totalClicks = orders.length
 
   return (
-    <div className="min-h-screen bg-emerald-50 p-6">
-      <div className="max-w-6xl mx-auto">
-        
-        <div className="flex justify-between items-center mb-8">
+    <div className="min-h-screen bg-emerald-50 flex items-center justify-center p-4">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full">
+        <div className="text-center mb-6">
+          <div className="text-5xl mb-2">⚡</div>
+          <h1 className="text-3xl font-bold text-emerald-950">Join Zap Sauce™</h1>
+          <p className="text-emerald-700">Earn M45+ per jar. Build your empire.</p>
+        </div>
+
+        <form onSubmit={handleSignup} className="space-y-4">
           <div>
-            <h1 className="text-4xl font-bold text-emerald-950">🔥 {affiliateData.name}</h1>
-            <p className="text-emerald-700">Zap Sauce™ Affiliate Portal</p>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <input
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Makhauhelo Moima"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500"
+            />
           </div>
-          <button onClick={handleLogout} className="text-emerald-700 hover:text-emerald-900 font-medium">Logout</button>
-        </div>
 
-        {/* STATS */}
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-emerald-500">
-            <p className="text-gray-600 text-sm">Total Earned</p>
-            <p className="text-3xl font-bold text-emerald-950">M{affiliateData.total_earned.toFixed(0)}</p>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@email.com"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500"
+            />
           </div>
-          <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-red-500">
-            <p className="text-gray-600 text-sm">Owed to You</p>
-            <p className="text-3xl font-bold text-red-950">M{owed.toFixed(0)}</p>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
-            <p className="text-gray-600 text-sm">Sales Made</p>
-            <p className="text-3xl font-bold text-blue-950">{paidOrders}</p>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-amber-500">
-            <p className="text-gray-600 text-sm">Link Clicks</p>
-            <p className="text-3xl font-bold text-amber-950">{totalClicks}</p>
-          </div>
-        </div>
 
-        {/* YOUR LINK */}
-        <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-          <h2 className="text-xl font-bold mb-4 text-gray-900">Your Affiliate Link</h2>
-          <div className="bg-emerald-100 p-4 rounded-lg flex items-center justify-between">
-            <p className="font-mono text-emerald-950 break-all">{yourLink}</p>
-            <button 
-              onClick={() => navigator.clipboard.writeText(yourLink)}
-              className="ml-4 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-emerald-700"
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <input
+              type="password"
+              required
+              minLength={6}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Minimum 6 characters"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Payout Method</label>
+            <select
+              value={payoutMethod}
+              onChange={(e) => setPayoutMethod(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500"
             >
-              Copy
-            </button>
+              <option value="mpesa">M-Pesa</option>
+              <option value="eft">EFT / Bank Transfer</option>
+            </select>
           </div>
-          <p className="text-sm text-gray-600 mt-2">Share this link. Earn M45 per ORIGIN, M60 per FIREBALL.</p>
-        </div>
 
-        {/* PAYOUT INFO */}
-        <div className="bg-white p-6 rounded-xl shadow-md mb-8">
-          <h2 className="text-xl font-bold mb-4 text-gray-900">Payout Info</h2>
-          <p className="text-gray-700"><strong>M-Pesa:</strong> {affiliateData.mpesa_number}</p>
-          <p className="text-gray-700"><strong>Minimum payout:</strong> M225</p>
-          <p className="text-gray-700"><strong>Frequency:</strong> Weekly on Fridays</p>
-          {owed >= 225 ? (
-            <p className="text-green-700 font-bold mt-2">✅ You qualify for payout this week!</p>
-          ) : (
-            <p className="text-amber-700 mt-2">M{(225 - owed).toFixed(0)} more to reach minimum</p>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {payoutMethod === 'mpesa' ? 'M-Pesa Number' : 'Bank Name + Account Number'}
+            </label>
+            <input
+              type="text"
+              required
+              placeholder={payoutMethod === 'mpesa' ? '266 5703 1600' : 'FNB 62000000000'}
+              value={payoutDetails}
+              onChange={(e) => setPayoutDetails(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-emerald-500"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              {payoutMethod === 'mpesa' 
+                ? 'Enter your M-Pesa registered number' 
+                : 'Example: Standard Bank 123456789'}
+            </p>
+          </div>
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+              {error}
+            </div>
           )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? 'Creating Account...' : 'Start Earning →'}
+          </button>
+        </form>
+
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <p className="text-center text-sm text-gray-600">
+            Already have an account?{' '}
+            <Link href="/login" className="text-emerald-700 font-medium hover:underline">
+              Login here
+            </Link>
+          </p>
         </div>
 
-        {/* YOUR SALES */}
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-bold mb-4 text-gray-900">Your Sales</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-2">Date</th>
-                  <th className="text-left py-2">Product</th>
-                  <th className="text-left py-2">Amount</th>
-                  <th className="text-left py-2">Commission</th>
-                  <th className="text-left py-2">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map(order => (
-                  <tr key={order.id} className="border-b border-gray-100">
-                    <td className="py-3">{new Date(order.created_at).toLocaleDateString()}</td>
-                    <td className="py-3">{order.product_name}</td>
-                    <td className="py-3">M{order.amount}</td>
-                    <td className="py-3 font-bold text-emerald-700">M{(order.amount * 0.3).toFixed(0)}</td>
-                    <td className="py-3">
-                      {order.paid ? (
-                        <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Paid</span>
-                      ) : (
-                        <span className="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs">Pending</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {orders.length === 0 && <p className="text-gray-500 text-center py-8">No sales yet. Share your link! 🔥</p>}
-          </div>
+        <div className="mt-4 bg-emerald-50 p-4 rounded-lg">
+          <p className="text-xs text-emerald-800 font-medium">💰 How you earn:</p>
+          <ul className="text-xs text-emerald-700 mt-1 space-y-1">
+            <li>• M45 commission per ORIGIN jar sold</li>
+            <li>• M60 commission per FIREBALL bottle sold</li>
+            <li>• Weekly payouts every Friday, minimum M225</li>
+            <li>• Your unique link tracks all sales automatically</li>
+          </ul>
         </div>
-
       </div>
     </div>
   )
