@@ -1,173 +1,173 @@
 'use client'
+import { useEffect, useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
+import { useRouter } from 'next/navigation'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
-export default function PortalPage() {
-  const [affiliateName, setAffiliateName] = useState('')
-  const [sales, setSales] = useState<any[]>([])
-  const [loading, setLoading] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+type AffiliateData = {
+  name: string
+  ref_code: string
+  payout_method: string
+  payout_details: string
+  total_earned: number
+  total_paid: number
+}
+
+type Order = {
+  id: string
+  customer_name: string
+  product_name: string
+  amount: number
+  commission_owed: number
+  paid: boolean
+  created_at: string
+}
+
+export default function Portal() {
+  const [affiliateData, setAffiliateData] = useState<AffiliateData | null>(null)
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
-    const savedName = localStorage.getItem('zap_affiliate_name')
-    if (savedName) {
-      setAffiliateName(savedName)
-      setIsLoggedIn(true)
-      fetchSales(savedName)
+    async function loadData() {
+      const { data: { session } } = await supabase.auth.getSession()
+
+      if (!session) {
+        router.push('/login')
+        return
+      }
+
+      // Get affiliate data
+      const { data: affiliate } = await supabase
+       .from('affiliates')
+       .select('*')
+       .eq('email', session.user.email)
+       .single()
+
+      if (!affiliate) {
+        router.push('/affiliate')
+        return
+      }
+
+      setAffiliateData(affiliate)
+
+      // Get orders with this ref_code
+      const { data: orderData } = await supabase
+       .from('orders')
+       .select('*')
+       .eq('ref_code', affiliate.ref_code)
+       .order('created_at', { ascending: false })
+
+      setOrders(orderData || [])
+      setLoading(false)
     }
-  }, [])
 
-  const fetchSales = async (name: string) => {
-    setLoading(true)
-    const { data, error } = await supabase
-     .from('sales')
-     .select('*')
-     .eq('affiliate_name', name)
-     .order('sale_date', { ascending: false })
-    
-    if (error) console.error('Error:', error)
-    else setSales(data || [])
-    setLoading(false)
-  }
+    loadData()
+  }, [router])
 
-  const handleLogin = () => {
-    if (affiliateName.trim()) {
-      localStorage.setItem('zap_affiliate_name', affiliateName)
-      setIsLoggedIn(true)
-      fetchSales(affiliateName)
-    }
-  }
-
-  const handleLogout = () => {
-    localStorage.removeItem('zap_affiliate_name')
-    setIsLoggedIn(false)
-    setAffiliateName('')
-    setSales([])
-  }
-
-  const handleCopyLink = () => {
-    const link = `${window.location.origin}?ref=${encodeURIComponent(affiliateName)}`
-    navigator.clipboard.writeText(link)
-    alert(`Link copied! Share it to earn M75 per M250 sale. Link: ${link}`)
-  }
-
-  const totalEarned = sales.reduce((sum, s) => sum + (Number(s.amount) * 0.30), 0)
-  const salesCount = sales.length
-  const canPayout = totalEarned >= 225
-  const remainingSales = Math.max(0, 3 - salesCount)
-
-  if (!isLoggedIn) {
+  if (loading) {
     return (
-      <div style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-        <div style={{ background: '#111', border: '2px solid #00ff88', borderRadius: '16px', padding: '40px', maxWidth: '400px', width: '100%', textAlign: 'center' }}>
-          <h1 style={{ color: '#00ff88', fontSize: '2rem', margin: '0 0 8px 0' }}>Affiliate Portal ⚡</h1>
-          <p style={{ color: '#888', margin: '0 0 32px 0' }}>Zap Sauce ORIGIN</p>
-          
-          <input
-            type="text"
-            placeholder="Your Affiliate Name"
-            value={affiliateName}
-            onChange={(e) => setAffiliateName(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-            style={{ background: '#0a0a0a', border: '1px solid #1f1f1f', color: '#fff', padding: '14px', borderRadius: '8px', width: '100%', marginBottom: '16px', fontSize: '1rem' }}
-          />
-          
-          <button onClick={handleLogin} style={{ background: '#00ff88', color: '#000', padding: '14px 32px', borderRadius: '8px', border: 'none', fontWeight: '700', width: '100%', cursor: 'pointer', fontSize: '1rem' }}>
-            View My Earnings
-          </button>
-          
-          <p style={{ color: '#666', fontSize: '0.85rem', marginTop: '24px' }}>
-            Enter the exact name you used when sharing your link
-          </p>
-        </div>
+      <div className="min-h-screen bg-emerald-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
       </div>
     )
   }
 
+  if (!affiliateData) return null
+
+  const owed = affiliateData.total_earned - affiliateData.total_paid
+  const refLink = `https://zapsauce.vercel.app?ref=${affiliateData.ref_code}`
+
   return (
-    <div style={{ background: '#0a0a0a', color: '#fff', minHeight: '100vh', padding: '20px' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-          <div>
-            <h1 style={{ color: '#00ff88', fontSize: '2rem', margin: 0 }}>Welcome, {affiliateName} ⚡</h1>
-            <p style={{ color: '#888', margin: '4px 0 0 0' }}>Your Zap Sauce ORIGIN earnings</p>
+    <div className="min-h-screen bg-emerald-50 p-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white p-6 rounded-xl shadow-md mb-6">
+          <h1 className="text-3xl font-bold text-emerald-950 mb-2">
+            Welcome, {affiliateData.name} ⚡
+          </h1>
+          <p className="text-emerald-700">Your Zap Sauce™ Affiliate Portal</p>
+        </div>
+
+        {/* STATS */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <p className="text-sm text-gray-600">Total Earned</p>
+            <p className="text-3xl font-bold text-emerald-600">M{affiliateData.total_earned.toFixed(2)}</p>
           </div>
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <Link href="/" style={{ background: '#FFD700', color: '#000', padding: '10px 20px', borderRadius: '8px', textDecoration: 'none', fontWeight: '700', fontSize: '0.9rem' }}>
-              Home
-            </Link>
-            <button onClick={handleLogout} style={{ background: '#ff4444', color: '#fff', padding: '10px 20px', borderRadius: '8px', border: 'none', fontWeight: '700', fontSize: '0.9rem', cursor: 'pointer' }}>
-              Logout
-            </button>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <p className="text-sm text-gray-600">Total Paid</p>
+            <p className="text-3xl font-bold text-gray-700">M{affiliateData.total_paid.toFixed(2)}</p>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <p className="text-sm text-gray-600">Owed Now</p>
+            <p className="text-3xl font-bold text-amber-600">M{owed.toFixed(2)}</p>
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '30px' }}>
-          <div style={{ background: '#111', border: '2px solid #FFD700', borderRadius: '12px', padding: '24px', textAlign: 'center' }}>
-            <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 8px 0' }}>Total Earned</p>
-            <p style={{ color: '#FFD700', fontSize: '2.5rem', fontWeight: '700', margin: 0 }}>M{Number(totalEarned).toFixed(2)}</p>
-          </div>
-          <div style={{ background: '#111', border: '2px solid #00ff88', borderRadius: '12px', padding: '24px', textAlign: 'center' }}>
-            <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 8px 0' }}>Sales Made</p>
-            <p style={{ color: '#00ff88', fontSize: '2.5rem', fontWeight: '700', margin: 0 }}>{salesCount}/3</p>
-          </div>
-          <div style={{ background: '#111', border: canPayout? '2px solid #00ff88' : '2px solid #ff4444', borderRadius: '12px', padding: '24px', textAlign: 'center' }}>
-            <p style={{ color: '#888', fontSize: '0.9rem', margin: '0 0 8px 0' }}>Payout Status</p>
-            <p style={{ color: canPayout? '#00ff88' : '#ff4444', fontSize: '1.5rem', fontWeight: '700', margin: 0 }}>
-              {canPayout? 'Ready 🥄' : `Need ${remainingSales} more 🍯`}
-            </p>
-          </div>
-        </div>
-
-        {/* M225 THRESHOLD NOTICE */}
-        <div style={{ background: canPayout? '#0a0a0a' : '#111', border: canPayout? '2px solid #00ff88' : '2px solid #ff4444', borderRadius: '12px', padding: '24px', marginBottom: '30px', textAlign: 'center' }}>
-          <h3 style={{ color: canPayout? '#00ff88' : '#FFD700', margin: '0 0 12px 0' }}>
-            {canPayout? '🥄 JAR CLEANED - PAYOUT READY 🥄' : '🍯 CLEAN MY JAR RULE 🍯'}
-          </h3>
-          <p style={{ color: '#ccc', fontSize: '1rem', margin: '0 0 16px 0', lineHeight: '1.6' }}>
-            {canPayout? 
-              `You earned M${Number(totalEarned).toFixed(2)} from ${salesCount} sales. WhatsApp +266 57031600 to claim your payout.` : 
-              `Minimum payout: M225 (3 sales). You need ${remainingSales} more sale${remainingSales===1? '' : 's'} to unlock your M${Number(totalEarned).toFixed(2)}.`
-            }
+        {/* PAYOUT INFO */}
+        <div className="bg-white p-6 rounded-xl shadow-md mb-6">
+          <h2 className="text-xl font-bold mb-4 text-gray-900">Payout Info</h2>
+          <p className="text-gray-700">
+            <strong>Method:</strong> {affiliateData.payout_method?.toUpperCase()}
           </p>
-          <button onClick={handleCopyLink} style={{ background: '#00ff88', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer' }}>
-            Copy My Affiliate Link
+          <p className="text-gray-700">
+            <strong>Details:</strong> {affiliateData.payout_details}
+          </p>
+          <p className="text-gray-700"><strong>Minimum payout:</strong> M225</p>
+          <p className="text-gray-700"><strong>Frequency:</strong> Weekly on Fridays</p>
+          {owed >= 225? (
+            <p className="text-green-700 font-bold mt-2">✅ You qualify for payout this week!</p>
+          ) : (
+            <p className="text-amber-700 mt-2">M{(225 - owed).toFixed(0)} more to reach minimum</p>
+          )}
+        </div>
+
+        {/* REF LINK */}
+        <div className="bg-emerald-600 text-white p-6 rounded-xl shadow-md mb-6">
+          <h2 className="text-xl font-bold mb-2">Your Unique Link</h2>
+          <div className="bg-emerald-700 p-3 rounded-lg break-all text-sm mb-3">
+            {refLink}
+          </div>
+          <button
+            onClick={() => navigator.clipboard.writeText(refLink)}
+            className="bg-white text-emerald-600 px-4 py-2 rounded-lg font-bold hover:bg-emerald-50"
+          >
+            Copy Link
           </button>
         </div>
 
-        <div style={{ background: '#111', border: '1px solid #1f1f1f', borderRadius: '12px', padding: '24px', marginBottom: '30px' }}>
-          <h2 style={{ color: '#00ff88', margin: '0 0 20px 0' }}>My Sales</h2>
-          
-          {loading? (
-            <p style={{ color: '#888', textAlign: 'center', padding: '40px' }}>Loading your sales...</p>
-          ) : sales.length === 0? (
-            <div style={{ textAlign: 'center', padding: '40px' }}>
-              <p style={{ color: '#666', fontSize: '1.1rem', margin: '0 0 16px 0' }}>No sales yet. Share your link to start earning!</p>
-              <button onClick={handleCopyLink} style={{ background: '#00ff88', color: '#000', padding: '12px 24px', borderRadius: '8px', border: 'none', fontWeight: '700', cursor: 'pointer' }}>
-                Copy My Link
-              </button>
-            </div>
+        {/* ORDERS */}
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <h2 className="text-xl font-bold mb-4 text-gray-900">Your Sales</h2>
+          {orders.length === 0? (
+            <p className="text-gray-500">No sales yet. Share your link to start earning!</p>
           ) : (
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
                 <thead>
-                  <tr style={{ borderBottom: '1px solid #1f1f1f' }}>
-                    <th style={{ textAlign: 'left', padding: '12px', color: '#888' }}>Customer</th>
-                    <th style={{ textAlign: 'left', padding: '12px', color: '#888' }}>Amount</th>
-                    <th style={{ textAlign: 'left', padding: '12px', color: '#888' }}>Your Cut (30%)</th>
-                    <th style={{ textAlign: 'left', padding: '12px', color: '#888' }}>Date</th>
+                  <tr className="border-b">
+                    <th className="text-left p-2">Date</th>
+                    <th className="text-left p-2">Customer</th>
+                    <th className="text-left p-2">Product</th>
+                    <th className="text-right p-2">Amount</th>
+                    <th className="text-right p-2">Commission</th>
+                    <th className="text-center p-2">Paid</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {sales.map(s => (
-                    <tr key={s.id} style={{ borderBottom: '1px solid #1f1f1f' }}>
-                      <td style={{ padding: '12px', color: '#ccc' }}>{s.customer_name}</td>
-                      <td style={{ padding: '12px', color: '#FFD700', fontWeight: '700' }}>M{Number(s.amount).toFixed(2)}</td>
-                      <td style={{ padding: '12px', color: '#00ff88', fontWeight: '700' }}>M{(Number(s.amount) * 0.30).toFixed(2)}</td>
-                      <td style={{ padding: '12px', color: '#888' }}>{s.sale_date}</td>
+                  {orders.map((order) => (
+                    <tr key={order.id} className="border-b">
+                      <td className="p-2">{new Date(order.created_at).toLocaleDateString()}</td>
+                      <td className="p-2">{order.customer_name || 'N/A'}</td>
+                      <td className="p-2">{order.product_name}</td>
+                      <td className="p-2 text-right">M{order.amount.toFixed(2)}</td>
+                      <td className="p-2 text-right text-emerald-600 font-bold">M{order.commission_owed.toFixed(2)}</td>
+                      <td className="p-2 text-center">{order.paid? '✅' : '⏳'}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -175,13 +175,6 @@ export default function PortalPage() {
             </div>
           )}
         </div>
-
-        <div style={{ textAlign: 'center', padding: '40px 0', marginTop: '40px' }}>
-          <p style={{ color: '#666', fontSize: '0.85rem' }}>
-            © 2026 Zap Sauce ORIGIN Affiliate Portal | Lightning in a jar! ⚡
-          </p>
-        </div>
-
       </div>
     </div>
   )
