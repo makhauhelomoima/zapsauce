@@ -1,13 +1,61 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
 
-// 🔥 ADMIN EMAIL LOCKED: Only makhauhelomoima@gmail.com can access /admin
+// 🔥 ADMIN EMAIL LOCKED: Only you can access /admin
 const ADMIN_EMAIL = 'makhauhelomoima@gmail.com'
 
 export async function middleware(req: NextRequest) {
-  const res = NextResponse.next()
-  const supabase = createMiddlewareClient({ req, res })
+  let res = NextResponse.next({
+    request: {
+      headers: req.headers,
+    },
+  })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return req.cookies.get(name)?.value
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          req.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+          res = NextResponse.next({
+            request: {
+              headers: req.headers,
+            },
+          })
+          res.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+        },
+        remove(name: string, options: CookieOptions) {
+          req.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+          res = NextResponse.next({
+            request: {
+              headers: req.headers,
+            },
+          })
+          res.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+        },
+      },
+    }
+  )
 
   const { data: { session } } = await supabase.auth.getSession()
 
@@ -23,7 +71,6 @@ export async function middleware(req: NextRequest) {
     if (!session) {
       return NextResponse.redirect(new URL('/login', req.url))
     }
-    // If admin tries to access portal, send to admin dashboard
     if (session.user.email === ADMIN_EMAIL) {
       return NextResponse.redirect(new URL('/admin', req.url))
     }
@@ -31,18 +78,15 @@ export async function middleware(req: NextRequest) {
 
   // 3. SMART REDIRECT FROM /login after successful login
   if (req.nextUrl.pathname === '/login' && session) {
-    // Queen goes to /admin
     if (session.user.email === ADMIN_EMAIL) {
       return NextResponse.redirect(new URL('/admin', req.url))
     }
-    // Affiliates go to /portal
     return NextResponse.redirect(new URL('/portal', req.url))
   }
 
   return res
 }
 
-// Run middleware on these routes only
 export const config = {
   matcher: ['/admin/:path*', '/login', '/portal/:path*']
 }
