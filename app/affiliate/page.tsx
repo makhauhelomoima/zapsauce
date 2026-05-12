@@ -158,7 +158,7 @@ export default function AffiliateSignup() {
             <input
               type="text"
               required
-              placeholder={payoutMethod === 'mpesa' ? '266 5703 1600' : 'FNB 62000000000'}
+              placeholder={payoutMethod === 'mpesa' ? '266 5703 1600' : 'Lesotho Post Bank 1036202900018'}
               value={payoutDetails}
               onChange={(e) => setPayoutDetails(e.target.value)}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-emerald-500"
