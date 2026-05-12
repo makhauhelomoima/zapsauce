@@ -9,7 +9,6 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
-// Generate unique ref code from name
 function generateRefCode(name: string) {
   const clean = name.toLowerCase().replace(/[^a-z0-9]/g, '')
   const random = Math.floor(Math.random() * 1000)
@@ -32,7 +31,6 @@ export default function AffiliateSignup() {
     setLoading(true)
     setError('')
 
-    // 1. Create auth user
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -50,11 +48,10 @@ export default function AffiliateSignup() {
       return
     }
 
-    // 2. Create affiliate record
     const refCode = generateRefCode(name)
     const { error: insertError } = await supabase
-      .from('affiliates')
-      .insert([{
+     .from('affiliates')
+     .insert([{
         email,
         name,
         ref_code: refCode,
@@ -72,8 +69,7 @@ export default function AffiliateSignup() {
 
     setSuccess(true)
     setLoading(false)
-    
-    // Redirect to portal after 2 seconds
+
     setTimeout(() => {
       router.push('/portal')
     }, 2000)
@@ -85,7 +81,7 @@ export default function AffiliateSignup() {
         <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full text-center">
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-3xl font-bold text-emerald-950 mb-2">Welcome to the Empire!</h1>
-          <p className="text-emerald-700 mb-6">Your affiliate account is ready. Redirecting to your portal...</p>
+          <p className="text-emerald-700 mb-6">Your affiliate account is ready. Redirecting...</p>
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600 mx-auto"></div>
         </div>
       </div>
@@ -153,21 +149,16 @@ export default function AffiliateSignup() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              {payoutMethod === 'mpesa' ? 'M-Pesa Number' : 'Bank Name + Account Number'}
+              {payoutMethod === 'mpesa'? 'M-Pesa Number' : 'Bank Name + Account Number'}
             </label>
             <input
               type="text"
               required
-              placeholder={payoutMethod === 'mpesa' ? '266 5703 1600' : 'Lesotho Post Bank 1036202900018'}
+              placeholder={payoutMethod === 'mpesa'? '266 5703 1600' : 'Bank 123456789'}
               value={payoutDetails}
               onChange={(e) => setPayoutDetails(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-emerald-500"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-emerald-500"
             />
-            <p className="text-xs text-gray-500 mt-1">
-              {payoutMethod === 'mpesa' 
-                ? 'Enter your M-Pesa registered number' 
-                : 'Example: Standard Bank 123456789'}
-            </p>
           </div>
 
           {error && (
@@ -179,9 +170,9 @@ export default function AffiliateSignup() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold hover:bg-emerald-700 disabled:opacity-50"
           >
-            {loading ? 'Creating Account...' : 'Start Earning →'}
+            {loading? 'Creating Account...' : 'Start Earning →'}
           </button>
         </form>
 
@@ -192,16 +183,6 @@ export default function AffiliateSignup() {
               Login here
             </Link>
           </p>
-        </div>
-
-        <div className="mt-4 bg-emerald-50 p-4 rounded-lg">
-          <p className="text-xs text-emerald-800 font-medium">💰 How you earn:</p>
-          <ul className="text-xs text-emerald-700 mt-1 space-y-1">
-            <li>• M45 commission per ORIGIN jar sold</li>
-            <li>• M60 commission per FIREBALL bottle sold</li>
-            <li>• Weekly payouts every Friday, minimum M225</li>
-            <li>• Your unique link tracks all sales automatically</li>
-          </ul>
         </div>
       </div>
     </div>
