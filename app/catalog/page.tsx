@@ -117,7 +117,7 @@ export default function CatalogPage() {
             Catalog
           </h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Handcrafted in Lesotho. Bold flavors. Zero compromise.
+            Handcrafted in Lesotho. Bold flavors. Zero Compromise.
           </p>
         </div>
       </section>
