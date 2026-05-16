@@ -1,228 +1,121 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { createClientComponentClient } from '@supabase/auth-helpers/nextjs'
 import { useRouter } from 'next/navigation'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
-
-type Affiliate = {
-  id: string
-  name: string
-  email: string
-  ref_code: string
-  payout_method: string
-  payout_details: string
-  total_earned: number
-  total_paid: number
-  created_at: string
-}
 
 type Order = {
   id: string
   customer_name: string
-  customer_email: string
-  product_name: string
+  product: string
   amount: number
-  ref_code: string
-  commission_owed: number
-  paid: boolean
-  delivered: boolean
+  status: string
   created_at: string
 }
 
-export default function AdminDashboard() {
-  const [affiliates, setAffiliates] = useState<Affiliate[]>([])
-  const [orders, setOrders] = useState<Order[]>([])
-  const [loading, setLoading] = useState(true)
-  const [markingPaid, setMarkingPaid] = useState<string | null>(null)
+export default function AdminPage() {
+  const supabase = createClientComponentClient()
   const router = useRouter()
+  const [loading, setLoading] = useState(true)
+  const [orders, setOrders] = useState<Order[]>([])
+  const [userEmail, setUserEmail] = useState('')
 
   useEffect(() => {
-    async function loadData() {
-      const { data: { session } } = await supabase.auth.getSession()
-
-      if (!session || session.user.email!== 'makhauhelomoima@gmail.com') {
+    async function checkAuth() {
+      const { data: { user } = await supabase.auth.getUser()
+      
+      if (!user) {
         router.push('/login')
         return
       }
 
-      const { data: affiliateData } = await supabase
-       .from('affiliates')
-       .select('*')
-       .order('total_earned', { ascending: false })
+      setUserEmail(user.email || '')
 
-      const { data: orderData } = await supabase
-       .from('orders')
-       .select('*')
-       .order('created_at', { ascending: false })
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
 
-      setAffiliates(affiliateData || [])
-      setOrders(orderData || [])
+      if (profile?.role !== 'admin') {
+        router.push('/customer')
+        return
+      }
+
+      // Load orders
+      const { data: ordersData } = await supabase
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false })
+      
+      setOrders(ordersData || [])
       setLoading(false)
     }
+    checkAuth()
+  }, [router, supabase])
 
-    loadData()
-  }, [router])
-
-  async function markOrderPaid(orderId: string) {
-    setMarkingPaid(orderId)
-    const { error } = await supabase
-     .from('orders')
-     .update({ paid: true })
-     .eq('id', orderId)
-
-    if (!error) {
-      // Refresh data
-      const { data: orderData } = await supabase
-       .from('orders')
-       .select('*')
-       .order('created_at', { ascending: false })
-
-      const { data: affiliateData } = await supabase
-       .from('affiliates')
-       .select('*')
-       .order('total_earned', { ascending: false })
-
-      setOrders(orderData || [])
-      setAffiliates(affiliateData || [])
-    }
-    setMarkingPaid(null)
+  async function handleLogout() {
+    await supabase.auth.signOut()
+    router.push('/login')
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-400"></div>
-      </div>
-    )
-  }
-
-  const totalRevenue = orders.reduce((sum, o) => sum + o.amount, 0)
-  const totalCommissionOwed = affiliates.reduce((sum, a) => sum + (a.total_earned - a.total_paid), 0)
-  const unpaidOrders = orders.filter(o =>!o.paid).length
+  if (loading) return (
+    <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
+      Loading Admin Dashboard...
+    </div>
+  )
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-emerald-400 mb-2">Zap Sauce™ Empire HQ 👑</h1>
-          <p className="text-gray-400">Welcome back, Queen Makhauhelo</p>
+    <div className="min-h-screen bg-gray-950 text-white">
+      <nav className="border-b border-gray-800 px-6 py-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold">⚡ Zap Sauce™ Admin</h1>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-gray-400">{userEmail}</span>
+          <button onClick={handleLogout} className="text-sm bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700">
+            Logout
+          </button>
         </div>
+      </nav>
 
-        {/* STATS */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-gray-800 p-6 rounded-xl">
-            <p className="text-sm text-gray-400">Total Revenue</p>
-            <p className="text-3xl font-bold text-emerald-400">M{totalRevenue.toFixed(2)}</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-xl">
-            <p className="text-sm text-gray-400">Commission Owed</p>
-            <p className="text-3xl font-bold text-amber-400">M{totalCommissionOwed.toFixed(2)}</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-xl">
-            <p className="text-sm text-gray-400">Affiliates</p>
-            <p className="text-3xl font-bold text-blue-400">{affiliates.length}</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-xl">
-            <p className="text-sm text-gray-400">Unpaid Orders</p>
-            <p className="text-3xl font-bold text-red-400">{unpaidOrders}</p>
-          </div>
-        </div>
-
-        {/* AFFILIATES TABLE */}
-        <div className="bg-gray-800 p-6 rounded-xl mb-8">
-          <h2 className="text-2xl font-bold mb-4 text-emerald-400">Affiliate Army</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-700">
-                  <th className="text-left p-3">Name</th>
-                  <th className="text-left p-3">Email</th>
-                  <th className="text-left p-3">Ref Code</th>
-                  <th className="text-left p-3">Payout</th>
-                  <th className="text-right p-3">Earned</th>
-                  <th className="text-right p-3">Paid</th>
-                  <th className="text-right p-3">Owed</th>
+      <main className="max-w-6xl mx-auto px-6 py-8">
+        <h2 className="text-3xl font-bold mb-6 text-amber-400">Orders</h2>
+        
+        <div className="bg-gray-900 rounded-2xl border-gray-800 overflow-hidden">
+          <table className="w-full text-sm">
+            <thead className="bg-gray-800">
+              <tr>
+                <th className="px-6 py-4 text-left">Customer</th>
+                <th className="px-6 py-4 text-left">Product</th>
+                <th className="px-6 py-4 text-left">Amount</th>
+                <th className="px-6 py-4 text-left">Status</th>
+                <th className="px-6 py-4 text-left">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map(order => (
+                <tr key={order.id} className="border-t border-gray-800">
+                  <td className="px-6 py-4">{order.customer_name}</td>
+                  <td className="px-6 py-4">{order.product}</td>
+                  <td className="px-6 py-4">M{order.amount}</td>
+                  <td className="px-6 py-4">
+                    <span className={`px-3 py-1 rounded-full text-xs ${
+                      order.status === 'paid' ? 'bg-emerald-600' : 'bg-amber-600'
+                    }`}>
+                      {order.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">{new Date(order.created_at).toLocaleDateString()}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {affiliates.map((a) => (
-                  <tr key={a.id} className="border-b border-gray-700 hover:bg-gray-750">
-                    <td className="p-3 font-medium">{a.name}</td>
-                    <td className="p-3 text-gray-400">{a.email}</td>
-                    <td className="p-3 text-emerald-400">{a.ref_code}</td>
-                    <td className="p-3">
-                      <span className="text-xs bg-gray-700 px-2 py-1 rounded">
-                        {a.payout_method?.toUpperCase()}
-                      </span>
-                      <p className="text-xs text-gray-500 mt-1">{a.payout_details}</p>
-                    </td>
-                    <td className="p-3 text-right">M{a.total_earned.toFixed(2)}</td>
-                    <td className="p-3 text-right text-gray-400">M{a.total_paid.toFixed(2)}</td>
-                    <td className="p-3 text-right font-bold text-amber-400">
-                      M{(a.total_earned - a.total_paid).toFixed(2)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
+          
+          {orders.length === 0 && (
+            <div className="text-center py-12 text-gray-500">
+              No orders yet. Empire is waiting.
+            </div>
+          )}
         </div>
-
-        {/* ORDERS TABLE */}
-        <div className="bg-gray-800 p-6 rounded-xl">
-          <h2 className="text-2xl font-bold mb-4 text-emerald-400">All Orders</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-700">
-                  <th className="text-left p-3">Date</th>
-                  <th className="text-left p-3">Customer</th>
-                  <th className="text-left p-3">Product</th>
-                  <th className="text-left p-3">Ref</th>
-                  <th className="text-right p-3">Amount</th>
-                  <th className="text-right p-3">Commission</th>
-                  <th className="text-center p-3">Status</th>
-                  <th className="text-center p-3">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((o) => (
-                  <tr key={o.id} className="border-b border-gray-700 hover:bg-gray-750">
-                    <td className="p-3">{new Date(o.created_at).toLocaleDateString()}</td>
-                    <td className="p-3">{o.customer_name || 'N/A'}</td>
-                    <td className="p-3">{o.product_name}</td>
-                    <td className="p-3 text-emerald-400">{o.ref_code || 'Direct'}</td>
-                    <td className="p-3 text-right">M{o.amount.toFixed(2)}</td>
-                    <td className="p-3 text-right text-amber-400">M{o.commission_owed.toFixed(2)}</td>
-                    <td className="p-3 text-center">
-                      {o.paid? (
-                        <span className="text-green-400">✅ Paid</span>
-                      ) : (
-                        <span className="text-yellow-400">⏳ Pending</span>
-                      )}
-                    </td>
-                    <td className="p-3 text-center">
-                      {!o.paid && (
-                        <button
-                          onClick={() => markOrderPaid(o.id)}
-                          disabled={markingPaid === o.id}
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded text-xs font-bold disabled:opacity-50"
-                        >
-                          {markingPaid === o.id? '...' : 'Mark Paid'}
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      </main>
     </div>
   )
 }
